@@ -23,6 +23,9 @@ vis <- function() {
   plotpanel <- tabPanel("Plot",
                         plotOutput("dist_plot"))
 
+  # Properties
+  proppanel <- tabPanel("Properties")
+
 
   ## Assemble UI
   ui <- fluidPage(
@@ -174,6 +177,9 @@ vis <- function() {
     #   else
     #     cat("no scenario selected")
     # })
+
+    ## --- Properties Tab --- ##
+
   }
 
   shinyApp(ui, server)
