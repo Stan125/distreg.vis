@@ -2,10 +2,12 @@
 % Please edit documentation in R/plot_dist.R
 \name{plot_dist}
 \alias{plot_dist}
-\title{Function to plot the predicted distributions (with ggplot2)}
+\title{Function to plot the predicted distributions (with ggplot2) with
+the intercept as another column of the dataframe}
 \usage{
-plot_dist(model, newdata, intercept = TRUE)
+plot_dist(model, newdata)
 }
 \description{
-Function to plot the predicted distributions (with ggplot2)
+Function to plot the predicted distributions (with ggplot2) with
+the intercept as another column of the dataframe
 }

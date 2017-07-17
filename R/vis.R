@@ -21,6 +21,7 @@ vis <- function() {
 
   # Plot
   plotpanel <- tabPanel("Plot",
+                        #verbatimTextOutput("testprint"))
                         plotOutput("dist_plot"))
 
   # Properties
@@ -114,7 +115,7 @@ vis <- function() {
                                       sep = "")
         }
 
-        # Create indercept UI elements
+        # Create intercept UI elements
         ui_list[[ncol(m_indep) + 1]] <-
           checkboxInput("intercept", "Include Intercept?",
                         value = TRUE)
@@ -142,7 +143,8 @@ vis <- function() {
         for (i in 1:ncol(n_indep))
           dat <- c(dat, input[[paste0("var", i)]])
         dat <- as.data.frame(t(as.matrix(dat)))
-        colnames(dat) <- colnames(n_indep)
+        dat <- cbind(dat, intercept = input$intercept)
+        colnames(dat) <- c(colnames(n_indep), "intercept")
         dat
       } else {
         NULL
@@ -162,7 +164,6 @@ vis <- function() {
       pred$data <- NULL
     })
 
-
     ## --- Plot Tab --- ##
     output$dist_plot <- renderPlot({
       if (!is.null(pred$data))
@@ -170,13 +171,13 @@ vis <- function() {
       else
         NULL
     })
-    # output$testprint <- renderPrint({
-    #
-    #   if (!is.null(pred$data))
-    #     pred$data
-    #   else
-    #     cat("no scenario selected")
-    # })
+    output$testprint <- renderPrint({
+
+      if (!is.null(pred$data))
+        pred$data
+      else
+        cat("no scenario selected")
+    })
 
     ## --- Properties Tab --- ##
 

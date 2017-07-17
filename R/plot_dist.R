@@ -4,13 +4,40 @@ limits <- function(x, times_sd = 3)
   return(c(x[1] - times_sd * x[2],
            x[1] + times_sd * x[2]))
 
-#' Function to plot the predicted distributions (with ggplot2)
+#' Function to plot the predicted distributions (with ggplot2) with
+#' the intercept as another column of the dataframe
 #'
 #' @import ggplot2
-plot_dist <- function(model, newdata, intercept = TRUE) {
-  # Get predictions
-  p_m <- as.data.frame(predict(model, newdata, intercept = intercept,
-                 type = "parameter"))
+plot_dist <- function(model, newdata) {
+
+  # Stop if no intercept
+  if (is.null(newdata$intercept))
+    stop("Intercept not specified")
+
+  # Row names of newdata
+  row.names(newdata) <- paste0("P", row.names(newdata))
+
+  # Two df's with and without intercept
+  p_m_i <- data.frame()
+  p_m_ni <- data.frame()
+
+  # Get predictions for obs with intercept
+  if (sum(newdata$intercept) != 0) {
+    tempdata <- subset(newdata, intercept == TRUE)
+    p_m_i <- as.data.frame(predict(model, tempdata, type = "parameter",
+                                   intercept = TRUE))
+    row.names(p_m_i) <- row.names(tempdata)
+  }
+  # Get preds for obs without intercept
+  if (sum(newdata$intercept) != nrow(newdata)) {
+    tempdata <- subset(newdata, intercept == FALSE)
+    p_m_ni <- as.data.frame(predict(model, tempdata, type = "parameter",
+                                    intercept = FALSE))
+    row.names(p_m_ni) <- row.names(tempdata)
+  }
+
+  # Put both together
+  p_m <- rbind(p_m_i, p_m_ni)
 
   # Get family and function for pdf
   fam_gen <- family(model)
