@@ -7,7 +7,7 @@ Maintainer: Stanislaus Stadlmann <stanislaus@stadlmann.cm>
 Depends: 
         shiny (>= 1.0.3), 
         R (>= 3.3.0), 
-        bamlss (>= 0.1-3)
+        bamlss (>= 0.1-2)
 Imports: 
         ggplot2 (>= 2.2.1),
 Description: bamlss.vis calls a Shiny app where one can compare different predictions depending on varying covariate values.
