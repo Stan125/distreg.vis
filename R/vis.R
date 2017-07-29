@@ -106,27 +106,32 @@ vis <- function() {
         m_indep <- m_data()[, -1]
         cnames <- colnames(m_indep)
         ui_list <- list()
+
+        # Some Space
+        ui_list[[1]] <- br()
+
+        # Action Button
+        ui_list[[2]] <- actionButton("scen_act", "Create Scenario!")
+
+        # Delete all Scenarios
+        ui_list[[3]] <- actionButton("scen_clear", "Clear Scenarios")
+
+        # More space
+        ui_list[[4]] <- br()
+
+        # Create intercept UI elements
+        ui_list[[5]] <- checkboxInput("intercept", "Include Intercept?",
+                                      value = TRUE)
+
+        # Create coefficient elements
         for (i in 1:ncol(m_indep)) {
-          ui_list[[i]] <- sliderInput(inputId = paste0("var", i),
+          ui_list[[i + 5]] <- sliderInput(inputId = paste0("var", i),
                                       label = cnames[i],
                                       min = round(min(m_indep[, i]), 2),
                                       max = round(max(m_indep[, i]), 2),
                                       value = round(mean(m_indep[, i]), 2),
                                       sep = "")
         }
-
-        # Create intercept UI elements
-        ui_list[[ncol(m_indep) + 1]] <-
-          checkboxInput("intercept", "Include Intercept?",
-                        value = TRUE)
-
-        # Action Button
-        ui_list[[ncol(m_indep) + 2]] <-
-          actionButton("scen_act", "Create Scenario!")
-
-        # Delete all Scenarios
-        ui_list[[ncol(m_indep) + 3]] <-
-          actionButton("scen_clear", "Clear Scenarios")
 
         # Return the list to uis
         ui_list
