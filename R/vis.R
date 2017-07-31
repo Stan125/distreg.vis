@@ -125,12 +125,19 @@ vis <- function() {
 
         # Create coefficient elements
         for (i in 1:ncol(m_indep)) {
-          ui_list[[i + 5]] <- sliderInput(inputId = paste0("var", i),
-                                      label = cnames[i],
-                                      min = round(min(m_indep[, i]), 2),
-                                      max = round(max(m_indep[, i]), 2),
-                                      value = round(mean(m_indep[, i]), 2),
-                                      sep = "")
+          if (any(is.numeric(m_indep[, i]))) {
+            ui_list[[i + 5]] <- sliderInput(inputId = paste0("var", i),
+                                            label = cnames[i],
+                                            min = round(min(m_indep[, i]), 2),
+                                            max = round(max(m_indep[, i]), 2),
+                                            value = round(mean(m_indep[, i]), 2),
+                                            sep = "")
+          } else if (any(is.factor(m_indep[, i]))) {
+            ui_list[[i + 5]] <- selectInput(inputId = paste0("var", i),
+                                            label = cnames[i],
+                                            choices = levels(m_indep[, i]),
+                                            selected = levels(m_indep[, i])[1])
+          }
         }
 
         # Return the list to uis
@@ -143,13 +150,22 @@ vis <- function() {
     # This function catches the current selected data
     current_data <- reactive({
       if (!is.null(m())) {
-        n_indep <- m_data()[, -1]
-        dat <- c()
-        for (i in 1:ncol(n_indep))
-          dat <- c(dat, input[[paste0("var", i)]])
-        dat <- as.data.frame(t(as.matrix(dat)))
+        indep <- m_data()[, -1]
+
+        # Create empty dataframe
+        dat <- indep[NULL, ]
+
+        # Get current variable values
+        for (i in 1:ncol(indep))
+          dat[1, i] <- input[[paste0("var", i)]]
+
+        # Convert categorical variables to factors with right levels
+        dat <- fac_equ(indep, dat)
+
+        # Add intercept
         dat <- cbind(dat, intercept = input$intercept)
-        colnames(dat) <- c(colnames(n_indep), "intercept")
+
+        # Show DF
         dat
       } else {
         NULL
@@ -165,6 +181,7 @@ vis <- function() {
       else if (!is.null(pred$data))
         pred$data <- rbind(pred$data, current_data())
     })
+
     observeEvent(input$scen_clear, {
       pred$data <- NULL
     })
