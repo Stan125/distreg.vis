@@ -16,13 +16,19 @@ vis <- function() {
              uiOutput("family_ui"),
              uiOutput("equations_ui"))
   scenariopanel <-
-    tabPanel("Scenarios",
+    tabPanel("Scenarios", value = 5,
              uiOutput("scenarios_ui"))
 
   # Plot
   plotpanel <- tabPanel("Plot",
                         #verbatimTextOutput("testprint"))
-                        plotOutput("dist_plot"))
+                        fluidRow(
+                          column(width = 9,
+                                 plotOutput("dist_plot")),
+                          column(width = 3, br(),
+                                 uiOutput("brewer"))
+                        )
+  )
 
   # Properties
   proppanel <- tabPanel("Properties")
@@ -36,7 +42,7 @@ vis <- function() {
     # Sidebar
     sidebarLayout(
       sidebarPanel(
-        tabsetPanel(type = "pills",
+        tabsetPanel(type = "pills", id = "pillpanel",
                     overviewpanel,
                     scenariopanel
 
@@ -187,12 +193,25 @@ vis <- function() {
     })
 
     ## --- Plot Tab --- ##
+
+    ## Plot is rendered here
     output$dist_plot <- renderPlot({
       if (!is.null(pred$data))
-        plot_dist(m(), pred$data)
+        plot_dist(m(), pred$data, palette = input$pal_choices)
       else
         NULL
     })
+
+    ## Color Choices are rendered here
+    output$brewer <- renderUI({
+      if (!is.null(m()) & input$pillpanel == 5)
+        selectInput("pal_choices", label = "Choose your colour palette",
+                    choices = c("default", "Accent", "Dark2", "Paired",
+                                "Pastel1", "Pastel2", "Set1", "Set2",
+                                "Set3"))
+    })
+
+
     output$testprint <- renderPrint({
 
       if (!is.null(pred$data))

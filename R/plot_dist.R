@@ -8,7 +8,7 @@ limits <- function(x, times_sd = 3)
 #' the intercept as another column of the dataframe
 #'
 #' @import ggplot2
-plot_dist <- function(model, newdata) {
+plot_dist <- function(model, newdata, palette = "default") {
 
   # Stop if no intercept
   if (is.null(newdata$intercept))
@@ -63,6 +63,10 @@ plot_dist <- function(model, newdata) {
 
   # Different theme
   ground <- ground + theme_classic()
+
+  # Colour Palettes
+  if (palette != "default")
+    ground <- ground + scale_fill_brewer(palette = palette)
 
   # Make legend title
   ground$labels$fill <- "Predictions"
