@@ -61,6 +61,9 @@ plot_dist <- function(model, newdata) {
                     geom = "area", aes_(fill = paste("P", i)), alpha = 0.7)
   }
 
+  # Different theme
+  ground <- ground + theme_classic()
+
   # Make legend title
   ground$labels$fill <- "Predictions"
 
