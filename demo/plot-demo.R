@@ -10,9 +10,15 @@ art_data <- GAMart()
 model_num <- bamlss(list(num ~ s(x1) + s(x2) + s(x3),
                          sigma ~ x1 + x2 + x3), data = art_data)
 
-# Predictions:
+# Predictions: pdf
 p <- bamlss.vis:::plot_dist(model_num, sample_n(art_data, 5) %>%
-                              mutate(intercept = TRUE))
+                              mutate(intercept = TRUE), type = "pdf")
+# Base Plot
+p
+
+# Predictions: cdf
+p <- bamlss.vis:::plot_dist(model_num, sample_n(art_data, 5) %>%
+                              mutate(intercept = TRUE), type = "cdf")
 # Base Plot
 p
 

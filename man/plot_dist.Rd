@@ -5,7 +5,7 @@
 \title{Function to plot the predicted distributions (with ggplot2) with
 the intercept as another column of the dataframe}
 \usage{
-plot_dist(model, newdata, palette = "default")
+plot_dist(model, newdata, palette = "default", type = "pdf")
 }
 \description{
 Function to plot the predicted distributions (with ggplot2) with

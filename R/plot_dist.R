@@ -8,7 +8,8 @@ limits <- function(x, times_sd = 3)
 #' the intercept as another column of the dataframe
 #'
 #' @import ggplot2
-plot_dist <- function(model, newdata, palette = "default") {
+plot_dist <- function(model, newdata, palette = "default",
+                      type = "pdf") {
 
   # Stop if no intercept
   if (is.null(newdata$intercept))
@@ -43,22 +44,38 @@ plot_dist <- function(model, newdata, palette = "default") {
   fam_gen <- family(model)
   fam <- fam_gen$family
   pdf <- fam_gen$d
+  cdf <- fam_gen$p
 
   # Get plot limits
   lims <- apply(p_m, MARGIN = 1, FUN = limits)
   lims <- data.frame(x = c(min(lims), max(lims)))
 
-  # Assemble plot
-  ground <- ggplot(data = lims, aes(x)) +
-    ggtitle("Predicted distribution(s)") +
-    labs(x = "y", y = "f(y)")
+  if (type == "cdf") {
+    # Assemble plot
+    ground <- ggplot(data = data.frame(y = c(0, 1), x = lims), aes(x, y)) +
+      ggtitle("Predicted distribution(s)") +
+      labs(x = "y", y = "F(y)")
 
-  # Put functions
-  for (i in 1:nrow(p_m)) {
-    args <- as.list(p_m[i, ])
-    ground <- ground +
-      stat_function(fun = pdf, args = list(par = as.list(p_m[i, ])),
-                    geom = "area", aes_(fill = paste("P", i)), alpha = 0.7)
+    # Add functions
+    for (i in 1:nrow(p_m)) {
+      args <- as.list(p_m[i, ])
+      ground <- ground +
+        stat_function(fun = cdf, args = list(par = as.list(p_m[i, ])),
+                      geom = "line", aes_(col = paste("P", i)))
+    }
+  } else if (type == "pdf") {
+    # Assemble plot
+    ground <- ggplot(data = lims, aes(x)) +
+      ggtitle("Predicted distribution(s)") +
+      labs(x = "y", y = "f(x)")
+
+    # Add functions
+    for (i in 1:nrow(p_m)) {
+      args <- as.list(p_m[i, ])
+      ground <- ground +
+        stat_function(fun = pdf, args = list(par = as.list(p_m[i, ])),
+                      geom = "area", aes_(fill = paste("P", i)), alpha = 0.7)
+    }
   }
 
   # Different theme
@@ -69,7 +86,10 @@ plot_dist <- function(model, newdata, palette = "default") {
     ground <- ground + scale_fill_brewer(palette = palette)
 
   # Make legend title
-  ground$labels$fill <- "Predictions"
+  if (type == "pdf")
+    ground$labels$fill <- "Predictions"
+  else if (type == "cdf")
+    ground$labels$colour <- "Predictions"
 
   # Return it
   return(ground)

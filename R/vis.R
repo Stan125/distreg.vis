@@ -26,7 +26,7 @@ vis <- function() {
                           column(width = 9,
                                  plotOutput("dist_plot")),
                           column(width = 3, br(),
-                                 uiOutput("brewer"))
+                                 uiOutput("plotbar"))
                         )
   )
 
@@ -197,20 +197,31 @@ vis <- function() {
     ## Plot is rendered here
     output$dist_plot <- renderPlot({
       if (!is.null(pred$data))
-        plot_dist(m(), pred$data, palette = input$pal_choices)
+        plot_dist(m(), pred$data, palette = input$pal_choices,
+                  type = input$type_choices)
       else
         NULL
     })
 
-    ## Color Choices are rendered here
-    output$brewer <- renderUI({
-      if (!is.null(m()) & input$pillpanel == 5)
-        selectInput("pal_choices", label = "Choose your colour palette",
-                    choices = c("default", "Accent", "Dark2", "Paired",
-                                "Pastel1", "Pastel2", "Set1", "Set2",
-                                "Set3"))
-    })
+    ## Color Choices / pdf/cdf choice are rendered here
+    output$plotbar <- renderUI({
+      if (!is.null(m()) & input$pillpanel == 5) {
+        ui_list <- list()
+        # Palette Choices
+        ui_list[[1]] <-
+          selectInput("pal_choices", label = "Colour Palette",
+                      choices = c("default", "Accent", "Dark2", "Paired",
+                                  "Pastel1", "Pastel2", "Set1", "Set2",
+                                  "Set3"))
 
+        # CDF/PDF Choice
+        ui_list[[2]] <-
+          selectInput("type_choices", label = "PDF or CDF?",
+                      choices = c("pdf", "cdf"))
+
+        ui_list
+      }
+    })
 
     output$testprint <- renderPrint({
 
