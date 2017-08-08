@@ -15,8 +15,8 @@ plot_dist <- function(model, newdata, palette = "default",
   if (is.null(newdata$intercept))
     stop("Intercept not specified")
 
-  # Row names of newdata
-  row.names(newdata) <- paste0("P", row.names(newdata))
+  # Omit NA's
+  newdata <- na.omit(newdata)
 
   # Two df's with and without intercept
   p_m_i <- data.frame()
@@ -75,7 +75,7 @@ plot_dist <- function(model, newdata, palette = "default",
       args <- as.list(p_m[i, ])
       ground <- ground +
         stat_function(fun = pdf, args = list(par = as.list(p_m[i, ])),
-                      geom = "area", aes_(fill = paste0("P", i)), alpha = 0.7)
+                      geom = "area", aes_(fill = row.names(p_m[i, ])), alpha = 0.7)
     }
   }
 
