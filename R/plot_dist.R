@@ -39,6 +39,7 @@ plot_dist <- function(model, newdata, palette = "default",
 
   # Put both together
   p_m <- rbind(p_m_i, p_m_ni)
+  p_m <- p_m[order(row.names(p_m)), ]
 
   # Get family and function for pdf
   fam_gen <- family(model)
@@ -74,7 +75,7 @@ plot_dist <- function(model, newdata, palette = "default",
       args <- as.list(p_m[i, ])
       ground <- ground +
         stat_function(fun = pdf, args = list(par = as.list(p_m[i, ])),
-                      geom = "area", aes_(fill = paste("P", i)), alpha = 0.7)
+                      geom = "area", aes_(fill = paste0("P", i)), alpha = 0.7)
     }
   }
 

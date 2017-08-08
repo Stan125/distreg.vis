@@ -218,6 +218,7 @@ vis <- function() {
     observe({
       if (!is.null(input$predtable)) {
         DF <- hot_to_r(input$predtable)
+        row.names(DF) <- paste0("P", 1:nrow(DF))
         pred$data <- DF
       }
     })
