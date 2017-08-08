@@ -1,6 +1,7 @@
 #' bamlss.vis function
 #'
 #' @import shiny
+#' @import rhandsontable
 #' @export
 
 ### --- Shiny App --- ###
@@ -15,9 +16,16 @@ vis <- function() {
                          choices = c("",search_ba())),
              uiOutput("family_ui"),
              uiOutput("equations_ui"))
+
   scenariopanel <-
     tabPanel("Scenarios", value = 5,
              uiOutput("scenarios_ui"))
+
+  scenariodatapanel <-
+    tabPanel("Scenario Data", value = 6,
+             strong("Edit scenario data here"),
+             br(), br(),
+             uiOutput("scenariodata_ui"))
 
   # Plot
   plotpanel <- tabPanel("Plot",
@@ -44,7 +52,8 @@ vis <- function() {
       sidebarPanel(
         tabsetPanel(type = "pills", id = "pillpanel",
                     overviewpanel,
-                    scenariopanel
+                    scenariopanel,
+                    scenariodatapanel
 
         )
       ),
@@ -151,6 +160,20 @@ vis <- function() {
       }
     })
 
+    ## --- Scenario data Tab --- ##
+    output$scenariodata_ui <- renderUI({
+      rHandsontableOutput(outputId = "predtable")
+    })
+
+    output$predtable <- renderRHandsontable({
+      if (!is.null(pred$data)) {
+        DF <- pred$data
+        rhandsontable(DF, width = 400)
+      } else {
+        NULL
+      }
+    })
+
     ## --- Newdata --- ##
 
     # This function catches the current selected data
@@ -192,6 +215,13 @@ vis <- function() {
       pred$data <- NULL
     })
 
+    observe({
+      if (!is.null(input$predtable)) {
+        DF <- hot_to_r(input$predtable)
+        pred$data <- DF
+      }
+    })
+
     ## --- Plot Tab --- ##
 
     ## Plot is rendered here
@@ -205,7 +235,7 @@ vis <- function() {
 
     ## Color Choices / pdf/cdf choice are rendered here
     output$plotbar <- renderUI({
-      if (!is.null(m()) & input$pillpanel == 5) {
+      if (!is.null(m()) & any(input$pillpanel == 5, input$pillpanel == 6)) {
         ui_list <- list()
         # Palette Choices
         ui_list[[1]] <-
@@ -223,13 +253,12 @@ vis <- function() {
       }
     })
 
-    output$testprint <- renderPrint({
-
-      if (!is.null(pred$data))
-        pred$data
-      else
-        cat("no scenario selected")
-    })
+    # output$testprint <- renderPrint({
+    #   if (!is.null(pred$data))
+    #     pred$data
+    #   else
+    #     cat("no scenario selected")
+    # })
 
     ## --- Properties Tab --- ##
 

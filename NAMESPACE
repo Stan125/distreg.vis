@@ -2,4 +2,5 @@
 
 export(vis)
 import(ggplot2)
+import(rhandsontable)
 import(shiny)
