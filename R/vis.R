@@ -278,11 +278,11 @@ vis <- function() {
     # UI for expectation/variance dataframe
     output$exvxdf_ui <- renderUI({
       if (!is.null(m()))
-        dataTableOutput("exvxdf")
+        tableOutput("exvxdf")
     })
 
     # Server-Rendering of DF
-    output$exvxdf <- renderDataTable({
+    output$exvxdf <- renderTable({
       if (!is.null(m())) {
         fam <- family(m())$family
         moments <- apply(cur_pred(), MARGIN = 1,
@@ -290,7 +290,7 @@ vis <- function() {
         moments <- do.call(rbind, moments)
         moments
       }
-    })
+    }, rownames = TRUE)
 
   }
   shinyApp(ui, server)
