@@ -39,7 +39,7 @@ vis <- function() {
   )
 
   # Properties
-  proppanel <- tabPanel("Properties")
+  proppanel <- tabPanel("Properties", uiOutput("exvxdf_ui"))
 
 
   ## Assemble UI
@@ -60,7 +60,7 @@ vis <- function() {
       mainPanel(
         tabsetPanel(type = "tabs",
                     plotpanel,
-                    tabPanel("Properties"))
+                    proppanel)
       )
     )
   )
@@ -160,20 +160,6 @@ vis <- function() {
       }
     })
 
-    ## --- Scenario data Tab --- ##
-    output$scenariodata_ui <- renderUI({
-      rHandsontableOutput(outputId = "predtable")
-    })
-
-    output$predtable <- renderRHandsontable({
-      if (!is.null(pred$data)) {
-        DF <- pred$data
-        rhandsontable(DF, width = 400)
-      } else {
-        NULL
-      }
-    })
-
     ## --- Newdata --- ##
 
     # This function catches the current selected data
@@ -201,7 +187,7 @@ vis <- function() {
       }
     })
 
-    # This function updates the prediction each time the button is clicked
+    # This function updates the prediction data each time the button is clicked
     pred <- reactiveValues(data = NULL)
 
     observeEvent(input$scen_act, {
@@ -215,6 +201,24 @@ vis <- function() {
       pred$data <- NULL
     })
 
+    ## --- Scenario data Tab --- ##
+
+    # This function displays the UI of the handsontable
+    output$scenariodata_ui <- renderUI({
+      rHandsontableOutput(outputId = "predtable")
+    })
+
+    # This function renders the handsontable
+    output$predtable <- renderRHandsontable({
+      if (!is.null(pred$data)) {
+        DF <- pred$data
+        rhandsontable(DF, width = 400)
+      } else {
+        NULL
+      }
+    })
+
+    # This function updates the prediction data when hot changes
     observe({
       if (!is.null(input$predtable)) {
         DF <- hot_to_r(input$predtable)
@@ -223,12 +227,20 @@ vis <- function() {
       }
     })
 
+    ## --- Current predictions --- ##
+
+    # This function always catches the current predictions
+    cur_pred <- reactive({
+      if (!is.null(pred$data))
+        preds(m(), pred$data)
+    })
+
     ## --- Plot Tab --- ##
 
     ## Plot is rendered here
     output$dist_plot <- renderPlot({
       if (!is.null(pred$data))
-        plot_dist(m(), pred$data, palette = input$pal_choices,
+        plot_dist(m(), cur_pred(), palette = input$pal_choices,
                   type = input$type_choices)
       else
         NULL
@@ -263,7 +275,23 @@ vis <- function() {
 
     ## --- Properties Tab --- ##
 
-  }
+    # UI for expectation/variance dataframe
+    output$exvxdf_ui <- renderUI({
+      if (!is.null(m()))
+        dataTableOutput("exvxdf")
+    })
 
+    # Server-Rendering of DF
+    output$exvxdf <- renderDataTable({
+      if (!is.null(m())) {
+        fam <- family(m())$family
+        moments <- apply(cur_pred(), MARGIN = 1,
+                         FUN = moments, family = fam)
+        moments <- do.call(rbind, moments)
+        moments
+      }
+    })
+
+  }
   shinyApp(ui, server)
 }

@@ -8,11 +8,11 @@ limits <- function(x, times_sd = 3)
 #' the intercept as another column of the dataframe
 #'
 #' @import ggplot2
-plot_dist <- function(model, newdata, palette = "default",
+plot_dist <- function(model, predictions, palette = "default",
                       type = "pdf") {
 
-  # Get predictions for newdata
-  p_m <- preds(model, newdata)
+  # Convert predictions to p_m
+  p_m <- predictions
 
   # Get family and function for pdf
   fam_gen <- family(model)
