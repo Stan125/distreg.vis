@@ -33,5 +33,8 @@ preds <- function(model, newdata) {
   p_m <- p_m[order(row.names(p_m)), ]
 
   # Return it here
-  return(p_m)
+  if (family(model)$family == "binomial") # always get a data.frame, even in 1d
+    return(data.frame(pi = p_m))
+  else
+    return(p_m)
 }

@@ -7,7 +7,7 @@ limits <- function(predictions, family, times_sd = 3) {
     return(data.frame(x = c(0, 1)))
   } else {
     # Moments
-    moments <- as.data.frame(bamlss.vis:::moments(predictions, family))
+    moments <- as.data.frame(moments(predictions, family))
 
     # Limits for each 2 moments
     lims <- apply(moments, 1, function(x)
@@ -37,7 +37,7 @@ plot_dist <- function(model, predictions, palette = "default",
   cdf <- fam_gen$p
 
   # Get plot limits
-  lims <- limits(p_m, fam)
+  lims <- bamlss.vis:::limits(p_m, fam)
 
   if (type == "cdf") {
     # Assemble plot
@@ -47,10 +47,10 @@ plot_dist <- function(model, predictions, palette = "default",
 
     # Add functions
     for (i in 1:nrow(p_m)) {
-      args <- as.list(p_m[i, ])
+      args <- p_m[i, , drop = FALSE]
       ground <- ground +
-        stat_function(fun = cdf, args = list(par = as.list(p_m[i, ])),
-                      geom = "line", aes_(col = row.names(p_m[i, ])))
+        stat_function(fun = cdf, args = list(par = as.list(args)),
+                      geom = "line", aes_(col = row.names(args)))
     }
   } else if (type == "pdf") {
     # Assemble plot
@@ -60,10 +60,10 @@ plot_dist <- function(model, predictions, palette = "default",
 
     # Add functions
     for (i in 1:nrow(p_m)) {
-      args <- as.list(p_m[i, ])
+      args <- p_m[i, , drop = FALSE]
       ground <- ground +
-        stat_function(fun = pdf, args = list(par = as.list(p_m[i, ])),
-                      geom = "area", aes_(fill = row.names(p_m[i, ])), alpha = 0.7)
+        stat_function(fun = pdf, args = list(par = as.list(args)),
+                      geom = "area", aes_(fill = row.names(args)), alpha = 0.7)
     }
   }
 
