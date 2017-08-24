@@ -8,6 +8,7 @@ limits <- function(x, times_sd = 3)
 #' the intercept as another column of the dataframe
 #'
 #' @import ggplot2
+#' @export
 plot_dist <- function(model, predictions, palette = "default",
                       type = "pdf") {
 
@@ -35,13 +36,13 @@ plot_dist <- function(model, predictions, palette = "default",
       args <- as.list(p_m[i, ])
       ground <- ground +
         stat_function(fun = cdf, args = list(par = as.list(p_m[i, ])),
-                      geom = "line", aes_(col = paste("P", i)))
+                      geom = "line", aes_(col = row.names(p_m[i, ])))
     }
   } else if (type == "pdf") {
     # Assemble plot
     ground <- ggplot(data = lims, aes(x)) +
       ggtitle("Predicted distribution(s)") +
-      labs(x = "y", y = "f(x)")
+      labs(x = "y", y = "f(y)")
 
     # Add functions
     for (i in 1:nrow(p_m)) {
