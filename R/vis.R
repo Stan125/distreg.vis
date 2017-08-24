@@ -191,10 +191,13 @@ vis <- function() {
     pred <- reactiveValues(data = NULL)
 
     observeEvent(input$scen_act, {
-      if (is.null(pred$data))
+      if (is.null(pred$data)) {
         pred$data <- current_data()
-      else if (!is.null(pred$data))
+      }
+      else if (!is.null(pred$data)) {
         pred$data <- rbind(pred$data, current_data())
+        row.names(pred$data) <- paste0("P", 1:nrow(pred$data))
+      }
     })
 
     observeEvent(input$scen_clear, {
