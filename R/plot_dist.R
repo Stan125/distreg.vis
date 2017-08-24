@@ -1,8 +1,23 @@
-#' Get plot limits for a predicted distribution
+#' Internal: Get plot limits for a predicted distribution.
 #'
-limits <- function(x, times_sd = 3)
-  return(c(x[1] - times_sd * x[2],
-           x[1] + times_sd * x[2]))
+#' Returns a data.frame
+#'
+limits <- function(predictions, family, times_sd = 3) {
+  if (family == "beta") { # beta can only be from 0 to 1
+    return(data.frame(x = c(0, 1)))
+  } else {
+    # Moments
+    moments <- as.data.frame(bamlss.vis:::moments(predictions, family))
+
+    # Limits for each 2 moments
+    lims <- apply(moments, 1, function(x)
+      return(c(x[1] - times_sd * sqrt(x[2]),
+               x[1] + times_sd * sqrt(x[2]))))
+
+    return(data.frame(x = c(min(lims), max(lims))))
+  }
+}
+
 
 #' Function to plot the predicted distributions (with ggplot2) with
 #' the intercept as another column of the dataframe
@@ -22,8 +37,7 @@ plot_dist <- function(model, predictions, palette = "default",
   cdf <- fam_gen$p
 
   # Get plot limits
-  lims <- apply(p_m, MARGIN = 1, FUN = limits)
-  lims <- data.frame(x = c(min(lims), max(lims)))
+  lims <- limits(p_m, fam)
 
   if (type == "cdf") {
     # Assemble plot

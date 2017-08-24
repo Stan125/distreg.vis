@@ -2,10 +2,10 @@
 % Please edit documentation in R/plot_dist.R
 \name{limits}
 \alias{limits}
-\title{Get plot limits for a predicted distribution}
+\title{Internal: Get plot limits for a predicted distribution.}
 \usage{
-limits(x, times_sd = 3)
+limits(predictions, family, times_sd = 3)
 }
 \description{
-Get plot limits for a predicted distribution
+Returns a data.frame
 }

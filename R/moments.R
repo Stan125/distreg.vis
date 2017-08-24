@@ -12,6 +12,7 @@ moments <- function(par, family) {
     vx <- (a * b) / (((a + b)^2) * (a + b + 1))
     moments <- list(ex = ex, vx = vx)
   } else if (family == "binomial") {
+    par <- list(pi = unlist(par))
     moments <- list(ex = par$pi, vx = par$pi * (1 - par$pi))
   } else if (family == "cnorm") {
     mu <- par$mu
