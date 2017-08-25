@@ -10,7 +10,8 @@ Depends:
         bamlss (>= 0.1-2)
 Imports: 
         ggplot2 (>= 2.2.1),
-        rhandsontable (>= 0.3.4)
+        rhandsontable (>= 0.3.4),
+        tidyr (>= 0.6.3)
 Description: bamlss.vis calls a Shiny app where one can compare different predictions depending on varying covariate values.
 License: GPL-2
 LazyData: TRUE
