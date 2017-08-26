@@ -29,7 +29,7 @@ moments <- function(par, family) {
     moments <- list(ex = a * s, vx = a * s^2)
   } else if (family == "poisson") {
     moments <- list(ex = par$lambda, vx = par$lambda)
-  } else if (family == "gpareto") {
+  } else if (family == "Generalized Pareto") {
     ex <- par$sigma / (1 - par$xi)
     vx <- (par$sigma^2) / (1 - par$xi)^2 * (1 - 2 * par$xi)
     moments <- list(ex = ex, vx = vx)
