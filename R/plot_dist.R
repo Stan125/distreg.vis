@@ -21,7 +21,7 @@ plot_dist <- function(model, predictions, palette = "default",
   if (bamlss.vis:::is.continuous(fam))
     plot <- pdfcdf_continuous(lims, funs_list, type, p_m, palette)
   else if (!bamlss.vis:::is.continuous(fam))
-    plot <- pdfcdf_discrete(p_m, palette, fam)
+    plot <- pdfcdf_discrete(p_m, palette, fam, type)
 
   # Return it
   return(plot)
@@ -114,22 +114,45 @@ pdfcdf_continuous <- function(lims, funs, type, p_m, palette) {
 #' Returns a plot
 #' @import ggplot2
 
-pdfcdf_discrete <- function(p_m, palette, family) {
+pdfcdf_discrete <- function(p_m, palette, family, type) {
+
   # Transform discrete predictions
-  pred_df <- disc_trans(p_m, family)
+  pred_df <- disc_trans(p_m, family, type)
 
-  # Assemble plot
-  ground <- ggplot(data = pred_df, aes(rownames, value, fill = type)) +
-    ggtitle("Predicted distribution(s)") +
-    labs(x = "Predictions", y = "Probability distribution") +
-    geom_bar(stat = "identity")
+  if (type == "pdf") {
+    # Assemble plot
+    ground <- ggplot(data = pred_df, aes(rownames, value, fill = type)) +
+      ggtitle("Predicted distribution(s)") +
+      labs(x = "Predictions", y = "Probability") +
+      geom_bar(stat = "identity")
 
-  # Classic theme
-  ground <- ground + theme_classic()
+    # Classic theme
+    ground <- ground + theme_classic()
 
-  # Palette
-  if (palette != "default")
-    ground <- ground + scale_fill_brewer(palette = palette)
+    # Palette
+    if (palette != "default")
+      ground <- ground + scale_fill_brewer(palette = palette)
+
+    # Legend label
+    ground$labels$fill <- "Probabilities"
+
+  } else if (type == "cdf") {
+    # Assemble plot
+    ground <- ggplot(tf_df, aes(type, value, col = rownames)) +
+      geom_step(linetype = 2) +
+      labs(x = "Outcomes", y = "Cumulative probability") +
+      ggtitle("Predicted distribution(s)")
+
+    # Classic theme
+    ground <- ground + theme_classic()
+
+    # Palette
+    if (palette != "default")
+      ground <- ground + scale_fill_brewer(palette = palette)
+
+    # Legend label
+    ground$labels$colour <- "Predictions"
+  }
 
   # Return plot
   return(ground)
@@ -139,12 +162,24 @@ pdfcdf_discrete <- function(p_m, palette, family) {
 #'
 #' @importFrom tidyr gather
 
-disc_trans <- function(predictions, family) {
+disc_trans <- function(predictions, family, type) {
   if (family == "binomial") {
-    predictions$pi_inv <- 1 - predictions$pi
-    predictions$rownames <- row.names(predictions)
-    colnames(predictions) <- c("P(X = 0)", "P(X = 1)", "rownames")
-    tf_df <- gather(predictions, "type", "value", -rownames)
+    if (type == "pdf") {
+      predictions$pi_inv <- 1 - predictions$pi
+      predictions$rownames <- row.names(predictions)
+      colnames(predictions) <- c("P(X = 0)", "P(X = 1)", "rownames")
+      tf_df <- gather(predictions, "type", "value", -rownames)
+    } else if (type == "cdf") {
+      predictions$pi_inv <- 1
+      predictions$rownames <- row.names(predictions)
+      colnames(predictions) <- c("0", "1", "rownames")
+      tf_df <- gather(predictions, "type", "value", -rownames)
+      tf_df <- rbind(tf_df, data.frame(rownames = unique(tf_df$rownames),
+                                       type = rep(-1e-100, (nrow(tf_df)/ 2)), # this is because starting point has to be left by just a little margin for plot...
+                                       value = rep(0, (nrow(tf_df)/ 2))))
+      tf_df$type <- as.numeric(tf_df$type)
+    }
+
   } else if (family == "poisson") {
     # do this
   } else if (family == "multinomial") {

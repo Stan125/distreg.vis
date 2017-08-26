@@ -3,6 +3,7 @@
 library(bamlss.vis)
 library(dplyr)
 library(ggplot2)
+library(gridExtra)
 
 # Set Seed
 set.seed(1408)
@@ -52,7 +53,11 @@ binomial_p <- bamlss.vis:::preds(binomial_model, sample_n(binomial_data, 5) %>%
 
 
 ## --- Plots --- ###
-plot_dist(beta_model, beta_p)
-plot_dist(binomial_model, binomial_p)
+beta_plots <- list(plot_dist(beta_model, beta_p),
+                   plot_dist(beta_model, beta_p, type = "cdf"))
+binomial_plots <- list(plot_dist(binomial_model, binomial_p),
+                       plot_dist(binomial_model, binomial_p, type = "cdf"))
 
-
+## --- Show da plots --- ###
+grid.arrange(grobs = beta_plots) # beta
+grid.arrange(grobs = binomial_plots) # binomial
