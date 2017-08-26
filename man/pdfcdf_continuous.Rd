@@ -4,7 +4,7 @@
 \alias{pdfcdf_continuous}
 \title{Internal: Create the pdf/cdf for continuous covariates}
 \usage{
-pdfcdf_continuous(limits, funs, p_m, palette)
+pdfcdf_continuous(lims, funs, type, p_m, palette)
 }
 \description{
 Returns a plot

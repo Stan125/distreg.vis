@@ -1,7 +1,7 @@
 #' Internal: Function to check whether a family is continuous or not
 #'
 is.continuous <- function(family) {
-  continuous_families <- c("beta", "binomial", "cox", "cnorm", "gaussian",
+  continuous_families <- c("beta", "cox", "cnorm", "gaussian",
                            "gaussian2", "Gaussian", "gamma", "mvnorm",
                            "mvnormAR1", "gpareto")
   discrete_families <- c("poisson", "binomial", "multinomial")

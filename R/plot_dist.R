@@ -10,7 +10,7 @@ plot_dist <- function(model, predictions, palette = "default",
   p_m <- predictions
 
   # Get family and function for pdf
-  fam_gen <- family(model)$family
+  fam_gen <- family(model)
   fam <- fam_gen$family
   funs_list <- list(pdf = fam_gen$d, cdf = fam_gen$p)
 
@@ -19,7 +19,7 @@ plot_dist <- function(model, predictions, palette = "default",
 
   # Different plots depending on type of distribution
   if (bamlss.vis:::is.continuous(fam))
-    plot <- pdfcdf_continuous(limits, funs_list, p_m, palette)
+    plot <- pdfcdf_continuous(lims, funs_list, type, p_m, palette)
   else if (!bamlss.vis:::is.continuous(fam))
     plot <- pdfcdf_discrete(p_m, palette, fam)
 
@@ -62,7 +62,7 @@ limits <- function(predictions, family, times_sd = 3) {
 #' Returns a plot
 #' @import ggplot2
 
-pdfcdf_continuous <- function(limits, funs, p_m, palette) {
+pdfcdf_continuous <- function(lims, funs, type, p_m, palette) {
   if (type == "cdf") {
     # Assemble plot
     ground <- ggplot(data = data.frame(y = c(0, 1), x = lims), aes(x, y)) +
@@ -99,10 +99,11 @@ pdfcdf_continuous <- function(limits, funs, p_m, palette) {
     ground <- ground + scale_fill_brewer(palette = palette)
 
   # Make legend title
-  if (type == "pdf")
+  if (type == "pdf") {
     ground$labels$fill <- "Predictions"
-  else if (type == "cdf")
+  } else if (type == "cdf") {
     ground$labels$colour <- "Predictions"
+  }
 
   # Return plot
   return(ground)
@@ -123,8 +124,12 @@ pdfcdf_discrete <- function(p_m, palette, family) {
     labs(x = "Predictions", y = "Probability distribution") +
     geom_bar(stat = "identity")
 
+  # Classic theme
+  ground <- ground + theme_classic()
+
   # Palette
-  ground <- ground + scale_fill_brewer(palette = palette)
+  if (palette != "default")
+    ground <- ground + scale_fill_brewer(palette = palette)
 
   # Return plot
   return(ground)
