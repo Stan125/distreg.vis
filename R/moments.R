@@ -26,7 +26,7 @@ moments <- function(par, family) {
   } else if (family == "gamma") {
     a <- par$sigma
     s <- par$mu / par$sigma
-    moments <- list(ex = a * s, vx = k * s^2)
+    moments <- list(ex = a * s, vx = a * s^2)
   } else if (family == "poisson") {
     moments <- list(ex = par$lambda, vx = par$lambda)
   } else if (family == "gpareto") {
