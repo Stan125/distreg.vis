@@ -123,10 +123,21 @@ pdfcdf_discrete <- function(p_m, palette, family, type) {
 
   if (type == "pdf") {
     # Assemble plot
-    ground <- ggplot(data = pred_df, aes(rownames, value, fill = type)) +
-      ggtitle("Predicted distribution(s)") +
-      labs(x = "Predictions", y = "Probability") +
-      geom_bar(stat = "identity")
+    if (family == "binomial") {
+      ground <- ggplot(pred_df, aes(rownames, value, fill = type)) +
+        ggtitle("Predicted distribution(s)") +
+        labs(x = "Predictions", y = "f(x)") +
+        geom_bar(stat = "identity")
+
+      # Legend label
+      ground$labels$fill <- "x"
+    } else {
+      ground <- ggplot(pred_df, aes(type, value, fill = rownames)) +
+        geom_bar(stat = "identity", position = position_dodge()) +
+        labs(x = "y", y = "F(y)") +
+        ggtitle("Predicted distributions(s)")
+    }
+
 
     # Classic theme
     ground <- ground + theme_classic()
@@ -135,14 +146,11 @@ pdfcdf_discrete <- function(p_m, palette, family, type) {
     if (palette != "default")
       ground <- ground + scale_fill_brewer(palette = palette)
 
-    # Legend label
-    ground$labels$fill <- "Probabilities"
-
   } else if (type == "cdf") {
     # Assemble plot
     ground <- ggplot(pred_df, aes(type, value, col = rownames)) +
       geom_step(linetype = 2) +
-      labs(x = "Outcomes", y = "Cumulative probability") +
+      labs(x = "x", y = "F(x)") +
       ggtitle("Predicted distribution(s)")
 
     # Classic theme
@@ -181,9 +189,23 @@ disc_trans <- function(predictions, family, type) {
                                        value = rep(0, (nrow(tf_df)/ 2))))
       tf_df$type <- as.numeric(tf_df$type)
     }
-
   } else if (family == "poisson") {
-    # do this
+    if (type == "pdf"){
+      limits <- 0:((max(predictions$lambda)*2) + 3) # what lim should preds be?
+      tf_df <- apply(predictions, 1, FUN = function(x) return(dpois(limits, x)))
+      tf_df <- cbind(tf_df, limits)
+      colnames(tf_df) <- c(row.names(predictions), "type")
+      tf_df <- gather(as.data.frame(tf_df), key = "rownames", "value", -type)
+    } else if (type == "cdf") {
+      limits <- 0:((max(predictions$lambda)*2) + 3) # what lim should preds be?
+      tf_df <- apply(predictions, 1, FUN = function(x) return(ppois(limits, x)))
+      tf_df <- cbind(tf_df, limits)
+      colnames(tf_df) <- c(row.names(predictions), "type")
+      tf_df <- gather(as.data.frame(tf_df), key = "rownames", "value", -type)
+      tf_df <- rbind(data.frame(type = 0, rownames = row.names(predictions),
+                     value = -1e-100), #this is because starting point has to be left by just a little margin for plot...
+                     tf_df)
+    }
   } else if (family == "multinomial") {
     # do that
   }

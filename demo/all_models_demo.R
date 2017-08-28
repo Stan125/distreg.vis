@@ -47,6 +47,11 @@ gpareto_data <- data.frame(gpareto = gpareto_bamlss()$q(u_data$v1,
                            norm1 = qnorm(u_data$v2, 3, 5),
                            norm2 = qnorm(u_data$v3, 10, 15))
 
+# Poisson distribution, lambda = 3
+poisson_data <- data.frame(poisson = qpois(u_data$v1, 3),
+                           norm1 = qnorm(u_data$v2, 3, 5),
+                           norm2 = qnorm(u_data$v3, 10, 15))
+
 ### --- Models --- ###
 
 # Beta dist model
@@ -71,6 +76,10 @@ gamma_model <- bamlss(list(gamma ~ norm1 + norm2,
 gpareto_model <- bamlss(list(gpareto ~ norm1 + norm2),
                         data = gpareto_data, family = gpareto_bamlss())
 
+# Poisson model
+poisson_model <- bamlss(list(poisson ~ norm1 + norm2),
+                        data = poisson_data, family = poisson_bamlss())
+
 ### --- Predictions --- ###
 
 ## Expl Variable
@@ -93,6 +102,9 @@ gamma_p <- bamlss.vis:::preds(gamma_model, expl)
 # GPareto
 gpareto_p <- bamlss.vis:::preds(gpareto_model, expl)
 
+# Poisson
+poisson_p <- bamlss.vis:::preds(poisson_model, expl)
+
 
 ## --- Plots --- ###
 # Function because I'm lazy
@@ -105,6 +117,7 @@ binomial_plots <- plot_f(binomial_model, binomial_p)
 cnorm_plots <- plot_f(cnorm_model, cnorm_p)
 gamma_plots <- plot_f(gamma_model, gamma_p)
 gpareto_plots <- plot_f(gpareto_model, gpareto_p)
+poisson_plots <-
 
 ## --- Show da plots --- ###
 grid.arrange(grobs = beta_plots) # beta

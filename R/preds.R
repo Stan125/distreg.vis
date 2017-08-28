@@ -35,6 +35,8 @@ preds <- function(model, newdata) {
   # Return it here
   if (family(model)$family == "binomial") # always get a data.frame, even in 1d
     return(data.frame(pi = p_m))
+  else if (family(model)$family == "poisson")
+    return(data.frame(lambda = p_m))
   else
     return(p_m)
 }
