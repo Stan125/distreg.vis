@@ -14,6 +14,10 @@ plot_dist <- function(model, predictions, palette = "default",
   fam <- fam_gen$family
   funs_list <- list(pdf = fam_gen$d, cdf = fam_gen$p)
 
+  # Hacky way to stop the function for multinomial cdf
+  if (fam == "multinomial" & type == "cdf")
+    stop("There is no cdf for the multinomial distribution!")
+
   # Get plot limits
   lims <- bamlss.vis:::limits(p_m, fam)
 
@@ -21,7 +25,7 @@ plot_dist <- function(model, predictions, palette = "default",
   if (bamlss.vis:::is.continuous(fam))
     plot <- pdfcdf_continuous(lims, funs_list, type, p_m, palette)
   else if (!bamlss.vis:::is.continuous(fam))
-    plot <- pdfcdf_discrete(p_m, palette, fam, type)
+    plot <- pdfcdf_discrete(p_m, palette, fam, type, model)
 
   # Return it
   return(plot)
@@ -116,28 +120,17 @@ pdfcdf_continuous <- function(lims, funs, type, p_m, palette) {
 #' Returns a plot
 #' @import ggplot2
 
-pdfcdf_discrete <- function(p_m, palette, family, type) {
+pdfcdf_discrete <- function(p_m, palette, family, type, model) {
 
   # Transform discrete predictions
-  pred_df <- disc_trans(p_m, family, type)
+  pred_df <- disc_trans(p_m, family, type, model)
 
   if (type == "pdf") {
     # Assemble plot
-    if (family == "binomial") {
-      ground <- ggplot(pred_df, aes(rownames, value, fill = type)) +
-        ggtitle("Predicted distribution(s)") +
-        labs(x = "Predictions", y = "f(x)") +
-        geom_bar(stat = "identity")
-
-      # Legend label
-      ground$labels$fill <- "x"
-    } else {
-      ground <- ggplot(pred_df, aes(type, value, fill = rownames)) +
-        geom_bar(stat = "identity", position = position_dodge()) +
-        labs(x = "y", y = "F(y)") +
-        ggtitle("Predicted distributions(s)")
-    }
-
+    ground <- ggplot(pred_df, aes(type, value, fill = rownames)) +
+      geom_bar(stat = "identity", position = position_dodge()) +
+      labs(x = "y", y = "f(y)") +
+      ggtitle("Predicted distributions(s)")
 
     # Classic theme
     ground <- ground + theme_classic()
@@ -145,6 +138,9 @@ pdfcdf_discrete <- function(p_m, palette, family, type) {
     # Palette
     if (palette != "default")
       ground <- ground + scale_fill_brewer(palette = palette)
+
+    # Legend label
+    ground$labels$fill <- "Predictions"
 
   } else if (type == "cdf") {
     # Assemble plot
@@ -172,12 +168,12 @@ pdfcdf_discrete <- function(p_m, palette, family, type) {
 #'
 #' @importFrom tidyr gather
 
-disc_trans <- function(predictions, family, type) {
+disc_trans <- function(predictions, family, type, model) {
   if (family == "binomial") {
     if (type == "pdf") {
       predictions$pi_inv <- 1 - predictions$pi
       predictions$rownames <- row.names(predictions)
-      colnames(predictions) <- c("P(X = 0)", "P(X = 1)", "rownames")
+      colnames(predictions) <- c("0", "1", "rownames")
       tf_df <- gather(predictions, "type", "value", -rownames)
     } else if (type == "cdf") {
       predictions$pi_inv <- 1
@@ -203,11 +199,17 @@ disc_trans <- function(predictions, family, type) {
       colnames(tf_df) <- c(row.names(predictions), "type")
       tf_df <- gather(as.data.frame(tf_df), key = "rownames", "value", -type)
       tf_df <- rbind(data.frame(type = 0, rownames = row.names(predictions),
-                     value = -1e-100), #this is because starting point has to be left by just a little margin for plot...
+                     value = -1e-100), # this is because starting point has to be left by just a little margin for plot...
                      tf_df)
     }
   } else if (family == "multinomial") {
-    # do that
+    if (type == "pdf") {
+      tf_df_start <- mult_trans(predictions, model)
+      tf_df <- tf_df_start
+      tf_df$rownames <- row.names(tf_df)
+      tf_df <- gather(tf_df, "type", "value", -rownames)
+      tf_df$type <- factor(tf_df$type, labels = colnames(tf_df_start))
+    }
   }
   return(tf_df)
 }

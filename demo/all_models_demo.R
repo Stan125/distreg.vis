@@ -16,8 +16,8 @@ u_data <- data.frame(u1 = runif(500),
                      u2 = runif(500),
                      u3 = runif(500))
 u_data <- with(u_data, data.frame(v1 = t2u(u1+u2),
-                                v2 = t2u(u1+u3),
-                                v3 = t2u(u2+u3)))
+                                  v2 = t2u(u1+u3),
+                                  v3 = t2u(u2+u3)))
 
 
 # Beta distribution, alpha = 2, beta = 5
@@ -52,6 +52,20 @@ poisson_data <- data.frame(poisson = qpois(u_data$v1, 3),
                            norm1 = qnorm(u_data$v2, 3, 5),
                            norm2 = qnorm(u_data$v3, 10, 15))
 
+# Multinomial distribution
+probs <- with(u_data, cbind(cbind(v2, v3) %*% c(0, 0),
+                            cbind(v2, v3) %*% rnorm(2),
+                            cbind(v2, v3) %*% rnorm(2),
+                            cbind(v2, v3) %*% rnorm(2)))
+probs <- exp(probs)
+choices <- t(apply(probs, 1, rmultinom, size = 1, n = 1))
+mult_data <- apply(choices, 1, FUN = function(x) which(x == 1))
+multinomial_data <- data.frame(multinomial = factor(mult_data,
+                                                    labels = c("one", "two",
+                                                               "three", "four")),
+                               norm1 = u_data$v1,
+                               norm2 = u_data$v2)
+
 ### --- Models --- ###
 
 # Beta dist model
@@ -80,6 +94,11 @@ gpareto_model <- bamlss(list(gpareto ~ norm1 + norm2),
 poisson_model <- bamlss(list(poisson ~ norm1 + norm2),
                         data = poisson_data, family = poisson_bamlss())
 
+# Multinomial model
+multinomial_model <- bamlss(list(multinomial ~ norm1 + norm2),
+                            data = multinomial_data,
+                            family = multinomial_bamlss())
+
 ### --- Predictions --- ###
 
 ## Expl Variable
@@ -105,6 +124,8 @@ gpareto_p <- bamlss.vis:::preds(gpareto_model, expl)
 # Poisson
 poisson_p <- bamlss.vis:::preds(poisson_model, expl)
 
+# Multinomial model
+multinomial_p <- bamlss.vis:::preds(multinomial_model, expl)
 
 ## --- Plots --- ###
 # Function because I'm lazy
@@ -117,7 +138,8 @@ binomial_plots <- plot_f(binomial_model, binomial_p)
 cnorm_plots <- plot_f(cnorm_model, cnorm_p)
 gamma_plots <- plot_f(gamma_model, gamma_p)
 gpareto_plots <- plot_f(gpareto_model, gpareto_p)
-poisson_plots <-
+poisson_plots <- plot_f(poisson_model, poisson_p)
+multinomial_plots <- plot_dist(multinomial_model, multinomial_p)
 
 ## --- Show da plots --- ###
 grid.arrange(grobs = beta_plots) # beta
@@ -125,3 +147,5 @@ grid.arrange(grobs = binomial_plots) # binomial
 grid.arrange(grobs = cnorm_plots) # cnorm
 grid.arrange(grobs = gamma_plots) # gamma
 grid.arrange(grobs = gpareto_plots) # gpareto
+grid.arrange(grobs = poisson_plots) # poisson
+grid.arrange(multinomial_plots) # multinomial
