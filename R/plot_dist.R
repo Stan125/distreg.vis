@@ -140,7 +140,7 @@ pdfcdf_discrete <- function(p_m, palette, family, type) {
 
   } else if (type == "cdf") {
     # Assemble plot
-    ground <- ggplot(tf_df, aes(type, value, col = rownames)) +
+    ground <- ggplot(pred_df, aes(type, value, col = rownames)) +
       geom_step(linetype = 2) +
       labs(x = "Outcomes", y = "Cumulative probability") +
       ggtitle("Predicted distribution(s)")
