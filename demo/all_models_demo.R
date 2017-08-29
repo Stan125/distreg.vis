@@ -9,94 +9,39 @@ library(gridExtra)
 set.seed(1408)
 
 ## --- Generating data --- ##
-
-## Get three equi-correlated uniform distributions
-t2u <- function(x) ifelse(x<1, x^2, 2-(2-x)^2)/2
-u_data <- data.frame(u1 = runif(500),
-                     u2 = runif(500),
-                     u3 = runif(500))
-u_data <- with(u_data, data.frame(v1 = t2u(u1+u2),
-                                  v2 = t2u(u1+u3),
-                                  v3 = t2u(u2+u3)))
-
-
-# Beta distribution, alpha = 2, beta = 5
-beta_data <- data.frame(beta = qbeta(u_data$v1, 2, 5),
-                        norm1 = qnorm(u_data$v2, 3, 5),
-                        norm2 = qnorm(u_data$v3, 10, 15))
-
-# Binomial distribution, pi = 0.8
-binomial_data <- data.frame(binomial = qbinom(u_data$v1, 1, 0.8),
-                            norm1 = qnorm(u_data$v2, 3, 5),
-                            norm2 = qnorm(u_data$v3, 10, 15))
-
-# Cnorm distribution, mu = 5, sigma = 2
-cnorm_data <- data.frame(cnorm = cnorm_bamlss()$q(u_data$v1,
-                                                  par = list(mu = 5, sigma = 2)),
-                         norm1 = qnorm(u_data$v2, 3, 5),
-                         norm2 = qnorm(u_data$v3, 10, 15))
-
-# Gamma distribution, shape = 9, scale = 0.5
-gamma_data <- data.frame(gamma = qgamma(u_data$v1, shape = 9, scale = 0.5),
-                         norm1 = qnorm(u_data$v2, 3, 5),
-                         norm2 = qnorm(u_data$v3, 10, 15))
-
-# General Pareto distribution, sigma = 1, xi = 0.4
-gpareto_data <- data.frame(gpareto = gpareto_bamlss()$q(u_data$v1,
-                                                        list(sigma = 1, xi = 0.4)),
-                           norm1 = qnorm(u_data$v2, 3, 5),
-                           norm2 = qnorm(u_data$v3, 10, 15))
-
-# Poisson distribution, lambda = 3
-poisson_data <- data.frame(poisson = qpois(u_data$v1, 3),
-                           norm1 = qnorm(u_data$v2, 3, 5),
-                           norm2 = qnorm(u_data$v3, 10, 15))
-
-# Multinomial distribution
-probs <- with(u_data, cbind(cbind(v2, v3) %*% c(0, 0),
-                            cbind(v2, v3) %*% rnorm(2),
-                            cbind(v2, v3) %*% rnorm(2),
-                            cbind(v2, v3) %*% rnorm(2)))
-probs <- exp(probs)
-choices <- t(apply(probs, 1, rmultinom, size = 1, n = 1))
-mult_data <- apply(choices, 1, FUN = function(x) which(x == 1))
-multinomial_data <- data.frame(multinomial = factor(mult_data,
-                                                    labels = c("one", "two",
-                                                               "three", "four")),
-                               norm1 = u_data$v1,
-                               norm2 = u_data$v2)
+data_fam <- model_fam_data()
 
 ### --- Models --- ###
 
 # Beta dist model
 beta_model <- bamlss(list(beta ~ norm1 + norm2,
                           sigma2 ~ norm1 + norm2),
-                     data = beta_data, family = beta_bamlss())
+                     data = data_fam, family = beta_bamlss())
 
 # Binomial model
 binomial_model <- bamlss(list(binomial ~ norm1 + norm2),
-                         data = binomial_data, family = binomial_bamlss())
+                         data = data_fam, family = binomial_bamlss())
 
 # Cnorm model
 cnorm_model <- bamlss(list(cnorm ~ norm1 + norm2),
-                      data = cnorm_data, family = cnorm_bamlss())
+                      data = data_fam, family = cnorm_bamlss())
 
 # Gamma model
 gamma_model <- bamlss(list(gamma ~ norm1 + norm2,
                            sigma ~ norm1 + norm2),
-                      data = gamma_data, family = gamma_bamlss())
+                      data = data_fam, family = gamma_bamlss())
 
 # GPareto model
 gpareto_model <- bamlss(list(gpareto ~ norm1 + norm2),
-                        data = gpareto_data, family = gpareto_bamlss())
+                        data = data_fam, family = gpareto_bamlss())
 
 # Poisson model
 poisson_model <- bamlss(list(poisson ~ norm1 + norm2),
-                        data = poisson_data, family = poisson_bamlss())
+                        data = data_fam, family = poisson_bamlss())
 
 # Multinomial model
 multinomial_model <- bamlss(list(multinomial ~ norm1 + norm2),
-                            data = multinomial_data,
+                            data = data_fam,
                             family = multinomial_bamlss())
 
 ### --- Predictions --- ###
