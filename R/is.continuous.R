@@ -2,7 +2,7 @@
 #'
 is.continuous <- function(family) {
   continuous_families <- c("beta", "cox", "cnorm", "gaussian",
-                           "gaussian2", "Gaussian", "gamma", "mvnorm",
+                           "gaussian2", "gamma", "mvnorm",
                            "mvnormAR1", "Generalized Pareto")
   discrete_families <- c("poisson", "binomial", "multinomial")
   if (family %in% continuous_families)

@@ -3,8 +3,10 @@
 
 moments <- function(par, family) {
   par <- as.list(par)
-  if (any(tolower(family) == "gaussian", family == "gaussian2")) {
+  if (family == "gaussian") {
     moments <- data.frame(ex = par$mu, vx = (par$sigma^2))
+  } else if (family == "gaussian2") {
+    moments <- data.frame(ex = par$mu, vx = par$sigma2)
   } else if (family == "beta") {
     a <- par$mu * (1 - par$sigma2) / (par$sigma2)
     b <- a * (1 - par$mu) / par$mu
