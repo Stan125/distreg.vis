@@ -47,7 +47,7 @@ multinomial_model <- bamlss(list(multinomial ~ norm1 + norm2),
 ### --- Predictions --- ###
 
 ## Expl Variable
-expl <- sample_n(beta_data, 5) %>%
+expl <- sample_n(data_fam, 5) %>%
   select(norm1:norm2) %>%
   mutate(intercept = TRUE)
 
