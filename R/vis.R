@@ -204,6 +204,11 @@ vis <- function() {
       pred$data <- NULL
     })
 
+    # This function clears the current pred$data when a new model is selected
+    observeEvent(m(), {
+      pred$data <- NULL
+    })
+
     ## --- Scenario data Tab --- ##
 
     # This function displays the UI of the handsontable
