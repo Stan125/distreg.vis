@@ -2,6 +2,7 @@
 
 export(model_fam_data)
 export(plot_dist)
+export(preds)
 export(vis)
 import(bamlss)
 import(ggplot2)

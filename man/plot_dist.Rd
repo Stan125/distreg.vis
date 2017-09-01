@@ -2,12 +2,45 @@
 % Please edit documentation in R/plot_dist.R
 \name{plot_dist}
 \alias{plot_dist}
-\title{Function to plot the predicted distributions (with ggplot2) with
-the intercept as another column of the dataframe}
+\title{Plot predicted bamlss distribution families with ggplot2}
 \usage{
 plot_dist(model, predictions, palette = "default", type = "pdf")
 }
+\arguments{
+\item{model}{A fitted bamlss object.}
+
+\item{predictions}{A data.frame with rows for every model prediction and
+columns for every predicted parameter of the distribution. Is easily obtained
+with the \code{bamlss.vis} function \code{\link{preds}}.}
+
+\item{palette}{The colour palette used for colouring the plot. You can use
+any of the ones supplied in \code{\link{scale_fill_brewer}} though I
+suggest you use one of the qualitative ones: Accent, Dark2, etc.}
+
+\item{type}{Do you want the probability distribution function ("pdf") or
+the cumulative distribution function ("cdf")?}
+}
+\value{
+A ggplot2 object.
+}
 \description{
-Function to plot the predicted distributions (with ggplot2) with
-the intercept as another column of the dataframe
+This function plots the parameters of a predicted distribution (e.g.
+  obtained through \code{\link{preds}}) with ggplot2. You can use all
+  implemented families in bamlss except two-dimensional distributions and
+  the cox family.
+}
+\examples{
+# Generating data
+data_fam <- model_fam_data()
+# Compute model
+beta_model <- bamlss(list(beta ~ norm1 + norm2,
+  sigma2 ~ norm1 + norm2),
+  data = data_fam, family = beta_bamlss())
+# Get 3 predictions
+pred_df <- data_fam[sample(1:nrow(data_fam), 3), c("norm1", "norm2")]
+param_preds <- preds(beta_model, pred_df)
+# Create pdf, cdf plots
+plot_dist(beta_model, param_preds)
+plot_dist(beta_model, param_preds, type = "cdf")
+plot_dist(beta_model, param_preds, palette = "Dark2")
 }

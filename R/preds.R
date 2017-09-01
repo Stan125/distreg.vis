@@ -1,5 +1,6 @@
 #' Handle predictions in bamlss case (including intercept as variable)
 #'
+#' @export
 
 preds <- function(model, newdata) {
   # Stop if no intercept
