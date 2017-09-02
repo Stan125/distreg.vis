@@ -2,10 +2,36 @@
 % Please edit documentation in R/preds.R
 \name{preds}
 \alias{preds}
-\title{Handle predictions in bamlss case (including intercept as variable)}
+\title{Predict distributional parameters of a bamlss family with a bamlss model}
 \usage{
 preds(model, newdata)
 }
+\arguments{
+\item{model}{A fitted bamlss model object, created with \code{\link{bamlss}}.}
+
+\item{newdata}{A data.frame with explanatory variables as columns,
+and rows with the combinations you want to do predictions for. Furthermore,
+whether or not to include the intercept has to be specified via a logical
+variable \code{intercept}.}
+}
+\value{
+A data.frame with one column for every distributional parameter
+  and a row for every covariate combination that should be predicted.
+}
 \description{
-Handle predictions in bamlss case (including intercept as variable)
+This function takes a fitted model and a dataframe with explanatory
+variables and a column for the intercept to compute predicted parameters
+for the specified distribution.
+}
+\examples{
+# Generating data
+data_fam <- model_fam_data()
+# Fit model
+beta_model <- bamlss(list(beta ~ norm1 + norm2,
+  sigma2 ~ norm1 + norm2),
+  data = data_fam, family = beta_bamlss())
+# Get 3 predictions
+pred_df <- data_fam[sample(1:nrow(data_fam), 3), c("norm1", "norm2")]
+pred_df <- cbind(pred_df, intercept = rep(TRUE, 3))
+param_preds <- preds(beta_model, pred_df)
 }

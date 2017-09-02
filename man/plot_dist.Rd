@@ -14,7 +14,7 @@ columns for every predicted parameter of the distribution. Is easily obtained
 with the \code{bamlss.vis} function \code{\link{preds}}.}
 
 \item{palette}{The colour palette used for colouring the plot. You can use
-any of the ones supplied in \code{\link{scale_fill_brewer}} though I
+any of the ones supplied in \code{\link[ggplot2]{scale_fill_brewer}} though I
 suggest you use one of the qualitative ones: Accent, Dark2, etc.}
 
 \item{type}{Do you want the probability distribution function ("pdf") or

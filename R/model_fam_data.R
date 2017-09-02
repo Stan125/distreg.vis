@@ -1,6 +1,16 @@
 #' Create a dataset to fit models with all possible families in bamlss
 #'
+#' @details This function creates a three-dimensional uniform distribution (with
+#'   support from 0 to 1) which has a cross-correlation of 0.5. Then the first
+#'   dimension is transformed into numerous other distributions via Inverse
+#'   Transform Sampling \url{https://en.wikipedia.org/wiki/Inverse_transform_sampling}.
+#'    The other two dimensions are transformed into Normal distributions
+#'   (norm1, norm2). This procedure ensures that there is a dependency
+#'   structure of the transformed first distribution and the other two.
+#' @param nrow Number of observations of the exported dataset.
+#' @param seed The seed which should be used, for reproducibility.
 #' @import bamlss
+#' @return A data.frame with columns for differently distributed data.
 #' @export
 
 model_fam_data <- function(nrow = 500, seed = 1408) {

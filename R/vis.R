@@ -1,5 +1,7 @@
 #' bamlss.vis function
 #'
+#' Function to call the bamlss.vis Shiny App which represents the core of this
+#'   package.
 #' @import shiny
 #' @import rhandsontable
 #' @export
