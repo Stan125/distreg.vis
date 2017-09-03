@@ -1,0 +1,4 @@
+Name: BAMLSS Model Visualizer
+Description: Shiny App to interactively display bamlss predictions.
+Binding: vis
+Interactive: true
