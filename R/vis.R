@@ -5,6 +5,7 @@
 #' @import shiny
 #' @import rhandsontable
 #' @import rstudioapi
+#' @importFrom plotly renderPlotly plotlyOutput ggplotly plotly_empty
 #' @export
 
 ### --- Shiny App --- ###
@@ -35,7 +36,7 @@ vis <- function() {
                         #verbatimTextOutput("testprint"))
                         fluidRow(
                           column(width = 9,
-                                 plotOutput("dist_plot")),
+                                 uiOutput("condition_plot")),
                           column(width = 3, br(),
                                  uiOutput("plotbar"))
                         )
@@ -81,8 +82,22 @@ vis <- function() {
 
     # Reactive model data
     m_data <- reactive({
-      if(!is.null(m()))
+      if (!is.null(m()))
         m()$model.frame
+    })
+
+    # Reactive model family
+    fam <- reactive({
+      if (!is.null(m()))
+        family(m())
+    })
+
+    # Got Model and data?
+    gmad <- reactive({
+      if (!is.null(m()) & !is.null(pred$data))
+        TRUE
+      else
+        FALSE
     })
 
     ## --- Overview tab --- ##
@@ -248,13 +263,40 @@ vis <- function() {
 
     ## --- Plot Tab --- ##
 
-    ## Plot is rendered here
-    output$dist_plot <- renderPlot({
-      if (!is.null(pred$data))
-        plot_dist(m(), cur_pred(), palette = input$pal_choices,
-                  type = input$type_choices)
+    ## PLotly is rendered here, condition is checked with conditionalPanel
+    output$plotly <- renderPlotly({
+      if (gmad()) {
+        if (is.2d(fam()$family, fam()$links)) {
+          plot_dist(m(), cur_pred(), palette = input$pal_choices,
+                    type = input$type_choices)
+        }
+      } else {
+        plotly_empty()
+      }
+    })
+
+    ## PLotly is rendered here, condition is checked with conditionalPanel
+    output$plot <- renderPlot({
+      if (gmad())
+        if (!is.2d(fam()$family, fam()$links))
+          plot_dist(m(), cur_pred(), palette = input$pal_choices,
+                    type = input$type_choices)
       else
         NULL
+    })
+
+    ## The Plot Ui element itself is rendered here
+    ## It checks the conditions for plot and then decides if plotly or plot
+    output$condition_plot <- renderUI({
+      if (gmad()) {
+        if (is.2d(fam()$family, fam()$links)) {
+          plotlyOutput("plotly")
+        } else {
+          plotOutput("plot")
+        }
+      } else {
+        NULL
+      }
     })
 
     ## Color Choices / pdf/cdf choice are rendered here

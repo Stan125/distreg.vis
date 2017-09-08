@@ -12,3 +12,14 @@ is.continuous <- function(family) {
   else
     stop("Family not implemented")
 }
+
+#' Internal: Function to check whether the modeled response is bivariate
+#'
+#'
+
+is.2d <- function(family, links) {
+  if (length(links) == 5 & family == ".mvnorm")
+    return(TRUE)
+  else
+    return(FALSE)
+}

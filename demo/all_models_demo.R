@@ -10,6 +10,7 @@ set.seed(1408)
 
 ## --- Generating data --- ##
 data_fam <- model_fam_data()
+art_data <- GAMart()
 
 ### --- Models --- ###
 
@@ -44,11 +45,19 @@ multinomial_model <- bamlss(list(multinomial ~ norm1 + norm2),
                             data = data_fam,
                             family = multinomial_bamlss())
 
+mvnorm_model <- bamlss(list(cbind(num, err) ~ s(x1) + s(x2) + s(x3),
+                            sigma1 ~ x1 + x2 + x3,
+                            sigma2 ~ x1 + x2 + x3), data = art_data,
+                       family = mvnorm_bamlss(k = 2))
+
 ### --- Predictions --- ###
 
 ## Expl Variable
 expl <- sample_n(data_fam, 5) %>%
   select(norm1:norm2) %>%
+  mutate(intercept = TRUE)
+expl_mvnorm <- sample_n(art_data, 5) %>%
+  select(x1:x3) %>%
   mutate(intercept = TRUE)
 
 # Beta
@@ -72,6 +81,9 @@ poisson_p <- bamlss.vis:::preds(poisson_model, expl)
 # Multinomial model
 multinomial_p <- bamlss.vis:::preds(multinomial_model, expl)
 
+# MVnorm model
+mvnorm_p <- bamlss.vis:::preds(mvnorm_model, expl_mvnorm)
+
 ## --- Plots --- ###
 # Function because I'm lazy
 plot_f <- function(model, preds)
@@ -85,6 +97,8 @@ gamma_plots <- plot_f(gamma_model, gamma_p)
 gpareto_plots <- plot_f(gpareto_model, gpareto_p)
 poisson_plots <- plot_f(poisson_model, poisson_p)
 multinomial_plots <- plot_dist(multinomial_model, multinomial_p)
+mvnorm_pdf <- bamlss.vis:::pdfcdf_2d(mvnorm_p, mvnorm_model, type = "pdf")
+mvnorm_cdf <- bamlss.vis:::pdfcdf_2d(mvnorm_p, mvnorm_model, type = "cdf")
 
 ## --- Show da plots --- ###
 grid.arrange(grobs = beta_plots) # beta
@@ -94,3 +108,6 @@ grid.arrange(grobs = gamma_plots) # gamma
 grid.arrange(grobs = gpareto_plots) # gpareto
 grid.arrange(grobs = poisson_plots) # poisson
 grid.arrange(multinomial_plots) # multinomial
+mvnorm_pdf
+mvnorm_cdf
+

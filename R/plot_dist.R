@@ -48,48 +48,19 @@ plot_dist <- function(model, predictions, palette = "default",
     stop("There is no cdf for the multinomial distribution!")
 
   # Get plot limits
-  lims <- bamlss.vis:::limits(p_m, fam)
+  if (!is.2d(fam, fam_gen$links))
+    lims <- bamlss.vis:::limits(p_m, fam)
 
   # Different plots depending on type of distribution
-  if (bamlss.vis:::is.continuous(fam))
+  if (bamlss.vis:::is.2d(fam, fam_gen$links))
+    plot <- pdfcdf_2d(p_m, model, type)
+  else if (bamlss.vis:::is.continuous(fam))
     plot <- pdfcdf_continuous(lims, funs_list, type, p_m, palette)
   else if (!bamlss.vis:::is.continuous(fam))
     plot <- pdfcdf_discrete(p_m, palette, fam, type, model)
 
   # Return it
   return(plot)
-}
-
-#' Internal: Get plot limits for a predicted distribution.
-#'
-#' Returns a data.frame
-
-limits <- function(predictions, family, times_sd = 3) {
-  if (bamlss.vis:::is.continuous(family)) {
-    if (family == "beta") {  # beta can only be from 0 to 1
-      return(data.frame(x = c(0, 1)))
-    } else if (family == "Generalized Pareto") {
-      return(data.frame(x = c(0, 5)))
-    } else {
-      # Moments
-      moments <- as.data.frame(bamlss.vis:::moments(predictions, family))
-
-      # Limits for each 2 moments
-      lims <- apply(moments, 1, function(x)
-        return(c(x[1] - times_sd * sqrt(x[2]),
-                 x[1] + times_sd * sqrt(x[2]))))
-
-      return(data.frame(x = c(min(lims), max(lims))))
-    }
-  } else if (!bamlss.vis:::is.continuous(family)) {
-    if (family == "binomial") {
-      return(data.frame(x = c(0, 1)))
-    } else if (family == "poisson") {
-      # poisson
-    } else if (family == "multinomial") {
-      # multinomial here
-    }
-  }
 }
 
 #' Internal: Create the pdf/cdf for continuous covariates
@@ -193,55 +164,29 @@ pdfcdf_discrete <- function(p_m, palette, family, type, model) {
   return(ground)
 }
 
-#' Internal: Transform discrete predictions into a usable df
+#' Internal: Create 3D pdf/cdf plot
 #'
-#' @importFrom tidyr gather
+#' @importFrom plotly plot_ly add_surface
 
-disc_trans <- function(predictions, family, type, model) {
-  if (family == "binomial") {
-    if (type == "pdf") {
-      predictions$pi_inv <- 1 - predictions$pi
-      predictions$rownames <- row.names(predictions)
-      colnames(predictions) <- c("0", "1", "rownames")
-      tf_df <- gather(predictions, "type", "value", -rownames)
-    } else if (type == "cdf") {
-      predictions$pi_inv <- 1
-      predictions$rownames <- row.names(predictions)
-      colnames(predictions) <- c("0", "1", "rownames")
-      tf_df <- gather(predictions, "type", "value", -rownames)
-      tf_df <- rbind(tf_df, data.frame(rownames = unique(tf_df$rownames),
-                                       type = rep(-1e-100, (nrow(tf_df)/ 2)), # this is because starting point has to be left by just a little margin for plot...
-                                       value = rep(0, (nrow(tf_df)/ 2))))
-      tf_df$type <- as.numeric(tf_df$type)
-    }
-  } else if (family == "poisson") {
-    if (type == "pdf"){
-      limits <- 0:((max(predictions$lambda)*2) + 3) # what lim should preds be?
-      tf_df <- apply(predictions, 1, FUN = function(x) return(dpois(limits, x)))
-      tf_df <- cbind(tf_df, limits)
-      colnames(tf_df) <- c(row.names(predictions), "type")
-      tf_df <- gather(as.data.frame(tf_df), key = "rownames", "value", -type)
-    } else if (type == "cdf") {
-      limits <- 0:((max(predictions$lambda)*2) + 3) # what lim should preds be?
-      tf_df <- apply(predictions, 1, FUN = function(x) return(ppois(limits, x)))
-      tf_df <- cbind(tf_df, limits)
-      colnames(tf_df) <- c(row.names(predictions), "type")
-      tf_df <- gather(as.data.frame(tf_df), key = "rownames", "value", -type)
-      tf_df <- rbind(data.frame(type = 0, rownames = row.names(predictions),
-                     value = -1e-100), # this is because starting point has to be left by just a little margin for plot...
-                     tf_df)
-    }
-  } else if (family == "multinomial") {
-    if (type == "pdf") {
-      tf_df_start <- mult_trans(predictions, model)
-      tf_df <- tf_df_start
-      tf_df$rownames <- row.names(tf_df)
-      tf_df <- gather(tf_df, "type", "value", -rownames)
-      tf_df$type <- factor(tf_df$type, labels = colnames(tf_df_start))
-    }
+pdfcdf_2d <- function(p_m, model, type) {
+  if (type == "pdf") {
+    density_f <- mvnorm_bamlss(k = 2)$d
+    p <- p_m[nrow(p_m), ] # only last predicton will be evaluated
+    xval <- seq(p$mu1 - 3 * p$sigma1, p$mu1 + 3 * p$sigma1, length.out = 100)
+    yval <- seq(p$mu2 - 3 * p$sigma2, p$mu2 + 3 * p$sigma2, length.out = 100)
+    z <- matrix(0, ncol = 100, nrow = 100)
+    for (i in 1:100)
+      for (j in 1:100)
+        z[i, j] <- density_f(cbind(xval[i], yval[j]), par = p)
+    return(plot_ly(x = xval, y = yval, z = z) %>% add_surface())
+  } else if (type == "cdf") {
+    p <- p_m[nrow(p_m), ] # only last prediction will be evaluated
+    xval <- seq(p$mu1 - 3 * p$sigma1, p$mu1 + 3 * p$sigma1, length.out = 100)
+    yval <- seq(p$mu2 - 3 * p$sigma2, p$mu2 + 3 * p$sigma2, length.out = 100)
+    z <- matrix(0, ncol = 100, nrow = 100)
+    for (i in 1:100)
+      for (j in 1:100)
+        z[i, j] <- real_pmvnorm(c(xval[i], yval[j]), par = p)
+    return(plot_ly(x = xval, y = yval, z = z) %>% add_surface())
   }
-  return(tf_df)
 }
-
-
-

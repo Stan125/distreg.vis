@@ -12,7 +12,8 @@ Imports:
         ggplot2 (>= 2.2.1),
         rhandsontable (>= 0.3.4),
         tidyr (>= 0.6.3),
-        rstudioapi (>= 0.6)
+        rstudioapi (>= 0.6),
+        plotly (>= 4.7.0)
 Description: bamlss.vis calls a Shiny app where one can compare different predictions depending on varying covariate values.
 License: GPL-2
 LazyData: TRUE
