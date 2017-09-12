@@ -9,9 +9,8 @@ art_data <- GAMart()
 beta_model <- bamlss(list(beta ~ norm1 + norm2,
                           sigma2 ~ norm1 + norm2),
                      data = data_fam, family = beta_bamlss())
-gamma_model <- bamlss(list(gamma ~ norm1 + norm2,
-                           sigma ~ norm1 + norm2),
-                      data = data_fam, family = gamma_bamlss())
+poisson_model <- bamlss(list(poisson ~ norm1 + norm2),
+                        data = data_fam, family = poisson_bamlss())
 mvnorm_model <- bamlss(list(cbind(num, err) ~ x1 + x2 + x3,
                             sigma1 ~ 1,
                             sigma2 ~ 1), data = art_data,
