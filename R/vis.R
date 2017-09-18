@@ -267,11 +267,15 @@ vis <- function() {
     output$plotly <- renderPlotly({
       if (gmad()) {
         if (is.2d(fam()$family, fam()$links)) {
-          plot_dist(m(), cur_pred(), palette = input$pal_choices,
-                    type = input$type_choices)
+          p <- plot_dist(m(), cur_pred(), palette = input$pal_choices,
+                         type = input$type_choices)
+          p$elementId <- NULL
+          p
         }
       } else {
-        plotly_empty()
+        p <- plotly_empty()
+        p$elementId <- NULL
+        p
       }
     })
 
