@@ -271,15 +271,21 @@ vis <- function() {
                          type = input$type_choices)
           p$elementId <- NULL
           p
+        } else {
+          # This and ...
+          p <- plotly_empty(type = "scatter", mode = "markers")
+          p$elementId <- NULL
+          p
         }
       } else {
-        p <- plotly_empty()
+        # ...this are only to prevent annoying error messages from plotly
+        p <- plotly_empty(type = "scatter", mode = "markers")
         p$elementId <- NULL
         p
       }
     })
 
-    ## PLotly is rendered here, condition is checked with conditionalPanel
+    ## Plot is rendered here, condition is checked with conditionalPanel
     output$plot <- renderPlot({
       if (gmad())
         if (!is.2d(fam()$family, fam()$links))
