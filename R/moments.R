@@ -4,18 +4,18 @@
 moments <- function(par, family) {
   par <- as.list(par)
   if (family == "gaussian") {
-    moments <- data.frame(ex = par$mu, vx = (par$sigma^2))
+    moments <- data.frame(Expected_Value = par$mu, Variance = (par$sigma^2))
   } else if (family == "gaussian2") {
-    moments <- data.frame(ex = par$mu, vx = par$sigma2)
+    moments <- data.frame(Expected_Value = par$mu, Variance = par$sigma2)
   } else if (family == "beta") {
     a <- par$mu * (1 - par$sigma2) / (par$sigma2)
     b <- a * (1 - par$mu) / par$mu
     ex <- (1) / (1 + (b / a))
     vx <- (a * b) / (((a + b)^2) * (a + b + 1))
-    moments <- list(ex = ex, vx = vx)
+    moments <- list(Expected_Value = ex, Variance = vx)
   } else if (family == "binomial") {
     par <- list(pi = unlist(par))
-    moments <- list(ex = par$pi, vx = par$pi * (1 - par$pi))
+    moments <- list(Expected_Value = par$pi, Variance = par$pi * (1 - par$pi))
   } else if (family == "cnorm") {
     mu <- par$mu
     sigma <- par$sigma
@@ -24,17 +24,23 @@ moments <- function(par, family) {
     Y <- dnorm(mu / sigma) / (1 - X)
     Z <- Y^2 - Y * (-mu / sigma)
     vx <- (sigma^2) * (1 - X) * ((1 - Z) + (((-mu/sigma) - Y)^2)* X)
-    moments <- list(ex = ex, vx = vx)
+    moments <- list(Expected_Value = ex, Variance = vx)
   } else if (family == "gamma") {
     a <- par$sigma
     s <- par$mu / par$sigma
-    moments <- list(ex = a * s, vx = a * s^2)
+    moments <- list(Expected_Value = a * s, Variance = a * s^2)
   } else if (family == "poisson") {
-    moments <- list(ex = par$lambda, vx = par$lambda)
+    moments <- list(Expected_Value = par$lambda, Variance = par$lambda)
   } else if (family == "Generalized Pareto") {
     ex <- par$sigma / (1 - par$xi)
     vx <- (par$sigma^2) / (1 - par$xi)^2 * (1 - 2 * par$xi)
-    moments <- list(ex = ex, vx = vx)
+    moments <- list(Expected_Value = ex, Variance = vx)
+  } else if (family == ".mvnorm") {
+    moments <- data.frame(Expected_Value_1 = par$mu1,
+                          Variance_1 = par$sigma1^2,
+                          Expected_Value_2 = par$mu2,
+                          Variance_2 = par$sigma2^2,
+                          Rho_12 = par$rho12)
   } else {
     moments <- NULL
   }
