@@ -256,7 +256,7 @@ vis <- function() {
         combs <- range_checker(m()$model.frame, DF)
         if (!is.null(combs)) { # if not NULL then we have bad combs
           warn_message <- bad_range_warning(combs)
-          showNotification(warn_message, type = "warning")
+          showNotification(warn_message, type = "warning", duration = 10)
         }
 
         # Assign the new DF to pred$data
