@@ -245,10 +245,21 @@ vis <- function() {
     })
 
     # This function updates the prediction data when hot changes
+    # Since 0.4.5 it also checks whether cov combinations are in range
     observe({
       if (!is.null(input$predtable)) {
+        # Convert handsontable to df and give it the original rownames
         DF <- hot_to_r(input$predtable)
         row.names(DF) <- paste0("P", 1:nrow(DF))
+
+        # Check whether newdata is in old data's range
+        combs <- range_checker(m()$model.frame, DF)
+        if (!is.null(combs)) { # if not NULL then we have bad combs
+          warn_message <- bad_range_warning(combs)
+          showNotification(warn_message, type = "warning")
+        }
+
+        # Assign the new DF to pred$data
         pred$data <- DF
       }
     })

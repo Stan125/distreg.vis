@@ -1,7 +1,7 @@
 Package: bamlss.vis
 Type: Package
 Title: Visualize bamlss models in an interactive way.
-Version: 0.4.0
+Version: 0.4.5
 Authors@R: person("Stanislaus", "Stadlmann", email = "stanislaus@stadlmann.cm", role = c("cre", "ctb"))
 Maintainer: Stanislaus Stadlmann <stanislaus@stadlmann.cm>
 Depends: 
@@ -13,7 +13,8 @@ Imports:
         rhandsontable (>= 0.3.4),
         tidyr (>= 0.6.3),
         rstudioapi (>= 0.6),
-        plotly (>= 4.7.0)
+        plotly (>= 4.7.0),
+        magrittr(>= 1.5)
 Description: bamlss.vis calls a Shiny app where one can compare different predictions depending on varying covariate values.
 License: GPL-2
 LazyData: TRUE
