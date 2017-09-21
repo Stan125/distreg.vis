@@ -6,6 +6,7 @@
 #' @import rhandsontable
 #' @import rstudioapi
 #' @importFrom plotly renderPlotly plotlyOutput ggplotly plotly_empty
+#' @importFrom shinyBS bsModal
 #' @export
 
 ### --- Shiny App --- ###
@@ -341,37 +342,45 @@ vis <- function() {
           actionButton("pastecode", icon = icon("code"),
                        label = "Obtain Code!", style = "color:white;
                        background-color:red")
+
+        # Pop-Up for code
+        ui_list[[4]] <-
+          bsModal("popup", "R Code",
+                  "pastecode", size = "large", verbatimTextOutput("code"))
         ui_list
       }
     })
 
     ## What happens when pastecode button is pressed
-    observeEvent(input$pastecode,{
-      # First line of code
-      c_data <- capture.output(dput(pred$data))
-      c_data <- c("covariate_data <- ", c_data)
-      c_data <- paste0(c_data, collapse = "")
+    output$code <- renderText({
+      if (!is.null(input$pastecode)) {
+        if (input$pastecode > 0) {
+          # First line of code
+          c_data <- capture.output(dput(pred$data))
+          c_data <- c("covariate_data <- ", c_data)
+          c_data <- paste0(c_data, collapse = "")
 
-      # Second line of code
-      c_predictions <- call("preds", model = as.name(input$model),
-                            newdata = quote(covariate_data))
-      c_predictions <- paste0("pred_data <- ", deparse(c_predictions))
+          # Second line of code
+          c_predictions <- call("preds", model = as.name(input$model),
+                                newdata = quote(covariate_data))
+          c_predictions <- paste0("pred_data <- ", deparse(c_predictions))
 
-      # Third line of code
-      c_plot <- call("plot_dist", model = as.name(input$model),
-                     predictions = quote(pred_data),
-                     type = input$type_choices)
-      if (!is.null(input$palette))
-        c_plot[["palette"]] <- input$palette
-      c_plot <- deparse(c_plot) # Make call into character
+          # Third line of code
+          c_plot <- call("plot_dist", model = as.name(input$model),
+                         predictions = quote(pred_data),
+                         type = input$type_choices)
+          if (!is.null(input$palette))
+            c_plot[["palette"]] <- input$palette
+          c_plot <- deparse(c_plot) # Make call into character
 
-      # Put everything together
-      command <- paste(c_data, c_predictions, c_plot, sep = "\n")
+          # Put everything together
+          command <- paste(c_data, c_predictions, c_plot, sep = "\n")
 
-      # Send to Console
-      sendToConsole(command, execute = FALSE)
+          # Show it
+          command
+        }
+      }
     })
-
 
     # output$testprint <- renderPrint({
     #   if (!is.null(pred$data))
