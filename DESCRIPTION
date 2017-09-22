@@ -11,7 +11,6 @@ Depends:
 Imports: 
         ggplot2 (>= 2.2.1),
         rhandsontable (>= 0.3.4),
-        shinyBS (>= 0.61),
         plotly (>= 4.7.0),
         magrittr(>= 1.5),
         tidyr (>= 0.6.3)

@@ -6,7 +6,6 @@
 #' @import rhandsontable
 #' @import rstudioapi
 #' @importFrom plotly renderPlotly plotlyOutput ggplotly plotly_empty
-#' @importFrom shinyBS bsModal
 #' @export
 
 ### --- Shiny App --- ###
@@ -343,18 +342,12 @@ vis <- function() {
                        label = "Obtain Code!", style = "color:white;
                        background-color:red")
 
-        # Pop-Up for code
-        ui_list[[4]] <-
-          bsModal("popup", "R Code",
-                  "pastecode", size = "large", verbatimTextOutput("code"))
         ui_list
       }
     })
 
     ## What happens when pastecode button is pressed
-    output$code <- renderText({
-      if (!is.null(input$pastecode)) {
-        if (input$pastecode > 0) {
+    observeEvent(input$pastecode, {
           # First line of code
           c_data <- capture.output(dput(pred$data))
           c_data <- c("covariate_data <- ", c_data)
@@ -373,13 +366,13 @@ vis <- function() {
             c_plot[["palette"]] <- input$palette
           c_plot <- deparse(c_plot) # Make call into character
 
-          # Put everything together
-          command <- paste(c_data, c_predictions, c_plot, sep = "\n")
-
-          # Show it
-          command
-        }
-      }
+          showModal(modalDialog(
+            title = "Obtain your R code",
+            tags$code(c_data), br(),
+            tags$code(c_predictions), br(),
+            tags$code(c_plot),
+            easyClose = TRUE
+          ))
     })
 
     # output$testprint <- renderPrint({
