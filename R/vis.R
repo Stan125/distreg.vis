@@ -324,28 +324,29 @@ vis <- function() {
     output$plotbar <- renderUI({
       if (!is.null(m()) & any(input$pillpanel == 5, input$pillpanel == 6)) {
         ui_list <- list()
-        # Palette Choices
-        ui_list[[1]] <-
-          selectInput("pal_choices", label = "Colour Palette",
-                      choices = c("default", "Accent", "Dark2", "Paired",
-                                  "Pastel1", "Pastel2", "Set1", "Set2",
-                                  "Set3"))
 
         # CDF/PDF Choice
-        ui_list[[2]] <-
+        ui_list[[1]] <-
           selectInput("type_choices", label = "PDF or CDF?",
                       choices = c("pdf", "cdf"))
 
-        # Contour/Image Slider for 3D
         if (is.2d(fam()$family, fam()$links)) {
-          ui_list[[3]] <-
+          # Contour/Image Slider for 3D - only for 2d dists
+          ui_list[[2]] <-
             selectInput("display", label = "3D Plot type",
                         choices = c("perspective", "contour",
                                     "image"))
+        } else {
+          # Palette Choices, inly for 1d dists
+          ui_list[[2]] <-
+            selectInput("pal_choices", label = "Colour Palette",
+                        choices = c("default", "Accent", "Dark2", "Paired",
+                                    "Pastel1", "Pastel2", "Set1", "Set2",
+                                    "Set3"))
         }
 
         # Action Button for console pasting
-        ui_list[[length(ui_list) + 1]] <-
+        ui_list[[3]] <-
           actionButton("pastecode", icon = icon("code"),
                        label = "Obtain Code!", style = "color:white;
                                   background-color:red")
@@ -374,7 +375,7 @@ vis <- function() {
             c_plot[["display"]] <- input$display
           if (!is.null(input$palette)) # Palette if specified
             c_plot[["palette"]] <- input$palette
-          c_plot <- deparse(c_plot) # Make call into character
+          c_plot <- deparse(c_plot, width.cutoff = 100) # Make call into character
 
           showModal(modalDialog(
             title = "Obtain your R code",
