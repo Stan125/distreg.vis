@@ -279,7 +279,7 @@ vis <- function() {
       if (gmad()) {
         if (is.2d(fam()$family, fam()$links)) {
           p <- plot_dist(m(), cur_pred(), palette = input$pal_choices,
-                         type = input$type_choices)
+                         type = input$type_choices, display = input$display)
           p$elementId <- NULL
           p
         } else {
@@ -336,11 +336,19 @@ vis <- function() {
           selectInput("type_choices", label = "PDF or CDF?",
                       choices = c("pdf", "cdf"))
 
+        # Contour/Image Slider for 3D
+        if (is.2d(fam()$family, fam()$links)) {
+          ui_list[[3]] <-
+            selectInput("display", label = "3D Plot type",
+                        choices = c("perspective", "contour",
+                                    "image"))
+        }
+
         # Action Button for console pasting
-        ui_list[[3]] <-
+        ui_list[[length(ui_list) + 1]] <-
           actionButton("pastecode", icon = icon("code"),
                        label = "Obtain Code!", style = "color:white;
-                       background-color:red")
+                                  background-color:red")
 
         ui_list
       }
@@ -362,7 +370,9 @@ vis <- function() {
           c_plot <- call("plot_dist", model = as.name(input$model),
                          predictions = quote(pred_data),
                          type = input$type_choices)
-          if (!is.null(input$palette))
+          if (!is.null(input$display))# Type of 3D plot if specified
+            c_plot[["display"]] <- input$display
+          if (!is.null(input$palette)) # Palette if specified
             c_plot[["palette"]] <- input$palette
           c_plot <- deparse(c_plot) # Make call into character
 

@@ -14,6 +14,10 @@
 #'   suggest you use one of the qualitative ones: Accent, Dark2, etc.
 #' @param type Do you want the probability distribution function ("pdf") or
 #'   the cumulative distribution function ("cdf")?
+#' @param display Only specify this when creating plots for two-dimensional
+#'   distributions. Can be either \code{"perspective"} for a perspective plot,
+#'   \code{"contour"} for a contour plot or \code{"image"} for an
+#'   image plot.
 #' @return A ggplot2 object.
 #' @examples
 #' # Generating data
@@ -33,7 +37,7 @@
 #' @export
 
 plot_dist <- function(model, predictions, palette = "default",
-                      type = "pdf") {
+                      type = "pdf", display = "perspective") {
 
   # Convert predictions to p_m
   p_m <- predictions
@@ -53,7 +57,7 @@ plot_dist <- function(model, predictions, palette = "default",
 
   # Different plots depending on type of distribution
   if (bamlss.vis:::is.2d(fam, fam_gen$links))
-    plot <- pdfcdf_2d(p_m, model, type)
+    plot <- pdfcdf_2d(p_m, model, type, display = display)
   else if (bamlss.vis:::is.continuous(fam))
     plot <- pdfcdf_continuous(lims, funs_list, type, p_m, palette)
   else if (!bamlss.vis:::is.continuous(fam))
@@ -166,27 +170,55 @@ pdfcdf_discrete <- function(p_m, palette, family, type, model) {
 
 #' Internal: Create 3D pdf/cdf plot
 #'
-#' @importFrom plotly plot_ly add_surface
+#' @importFrom plotly plot_ly add_surface layout %>% colorbar
+#' @importFrom magrittr set_colnames
 
-pdfcdf_2d <- function(p_m, model, type) {
+pdfcdf_2d <- function(p_m, model, type, display = "perspective") {
+  # First we look whether cdf or pdf
   if (type == "pdf") {
-    density_f <- mvnorm_bamlss(k = 2)$d
-    p <- p_m[nrow(p_m), ] # only last predicton will be evaluated
-    xval <- seq(p$mu1 - 3 * p$sigma1, p$mu1 + 3 * p$sigma1, length.out = 100)
-    yval <- seq(p$mu2 - 3 * p$sigma2, p$mu2 + 3 * p$sigma2, length.out = 100)
-    z <- matrix(0, ncol = 100, nrow = 100)
+    # Function that generates z values
+    density_f <- mvnorm_bamlss()$d
+    # Description for z values
+    desc <- "f(x, y)"
+  } else if (type == "cdf") {
+    density_f <- real_pmvnorm
+    desc <- "F(x, y)"
+  }
+  # Here possible values are computed
+  p <- p_m[nrow(p_m), ] # only last predicton will be evaluated
+  xval <- seq(p$mu1 - 3 * p$sigma1, p$mu1 + 3 * p$sigma1, length.out = 100)
+  yval <- seq(p$mu2 - 3 * p$sigma2, p$mu2 + 3 * p$sigma2, length.out = 100)
+
+  # Here these values are displayed in different ways
+  if (display != "image") { # We have to first check for image because it uses different data structure (column), which is hella annoying
+    z <- matrix(0, nrow = 100, ncol = 100)
     for (i in 1:100)
       for (j in 1:100)
         z[i, j] <- density_f(cbind(xval[i], yval[j]), par = p)
-    return(plot_ly(x = xval, y = yval, z = z) %>% add_surface())
-  } else if (type == "cdf") {
-    p <- p_m[nrow(p_m), ] # only last prediction will be evaluated
-    xval <- seq(p$mu1 - 3 * p$sigma1, p$mu1 + 3 * p$sigma1, length.out = 100)
-    yval <- seq(p$mu2 - 3 * p$sigma2, p$mu2 + 3 * p$sigma2, length.out = 100)
-    z <- matrix(0, ncol = 100, nrow = 100)
-    for (i in 1:100)
-      for (j in 1:100)
-        z[i, j] <- real_pmvnorm(c(xval[i], yval[j]), par = p)
-    return(plot_ly(x = xval, y = yval, z = z) %>% add_surface())
+    if (display == "perspective") {
+      plot <- plot_ly(x = xval, y = yval, z = z) %>%
+        add_surface() %>%
+        layout(title = "Predicted Distribution",
+               scene = list(xaxis = list(title = "x"),
+                            yaxis = list(title = "y"),
+                            zaxis = list(title = desc)))
+    } else if (display == "contour") {
+      plot <- plot_ly(x = xval, y = yval, z = z, type = "contour") %>%
+        colorbar(title = desc) %>%
+        layout(xaxis = list(title = "x"),
+               yaxis = list(title = "y"),
+               title = "Predicted distribution")
+    }
+  } else if (display == "image") {
+    comb_vals <- expand.grid(xval, yval) %>%
+      set_colnames(c("x", "y"))
+    comb_vals$z <- apply(comb_vals, 1, function(x)
+      return(density_f(matrix(x, ncol = 2), par = p)))
+    plot <- ggplot(comb_vals, aes(x, y, fill = z)) +
+      geom_tile() +
+      ggtitle("Predicted distribution") +
+      theme_classic()
+    plot$labels$fill <- desc
   }
+  return(plot)
 }

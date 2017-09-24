@@ -45,9 +45,9 @@ multinomial_model <- bamlss(list(multinomial ~ norm1 + norm2),
                             data = data_fam,
                             family = multinomial_bamlss())
 
-mvnorm_model <- bamlss(list(cbind(num, err) ~ s(x1) + s(x2) + s(x3),
-                            sigma1 ~ x1 + x2 + x3,
-                            sigma2 ~ x1 + x2 + x3), data = art_data,
+mvnorm_model <- bamlss(list(cbind(num, err) ~ x1 + x2 + x3,
+                            sigma1 ~ 1,
+                            sigma2 ~ 1), data = art_data,
                        family = mvnorm_bamlss(k = 2))
 
 ### --- Predictions --- ###
@@ -99,6 +99,10 @@ poisson_plots <- plot_f(poisson_model, poisson_p)
 multinomial_plots <- plot_dist(multinomial_model, multinomial_p)
 mvnorm_pdf <- bamlss.vis:::pdfcdf_2d(mvnorm_p, mvnorm_model, type = "pdf")
 mvnorm_cdf <- bamlss.vis:::pdfcdf_2d(mvnorm_p, mvnorm_model, type = "cdf")
+mvnorm_pdf_contour <- bamlss.vis:::pdfcdf_2d(mvnorm_p, mvnorm_model,
+                                             type = "pdf", display = "contour")
+mvnorm_pdf_image <- bamlss.vis:::pdfcdf_2d(mvnorm_p, mvnorm_model, type = "pdf",
+                                     display = "image")
 
 ## --- Show da plots --- ###
 grid.arrange(grobs = beta_plots) # beta

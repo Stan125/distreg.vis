@@ -4,7 +4,8 @@
 \alias{plot_dist}
 \title{Plot predicted bamlss distribution families with ggplot2}
 \usage{
-plot_dist(model, predictions, palette = "default", type = "pdf")
+plot_dist(model, predictions, palette = "default", type = "pdf",
+  display = "perspective")
 }
 \arguments{
 \item{model}{A fitted bamlss object.}
@@ -19,6 +20,11 @@ suggest you use one of the qualitative ones: Accent, Dark2, etc.}
 
 \item{type}{Do you want the probability distribution function ("pdf") or
 the cumulative distribution function ("cdf")?}
+
+\item{display}{Only specify this when creating plots for two-dimensional
+distributions. Can be either \code{"perspective"} for a perspective plot,
+\code{"contour"} for a contour plot or \code{"image"} for an
+image plot.}
 }
 \value{
 A ggplot2 object.
