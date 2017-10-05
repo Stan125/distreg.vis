@@ -5,6 +5,8 @@
 #' @import shiny
 #' @import rhandsontable
 #' @importFrom plotly renderPlotly plotlyOutput ggplotly plotly_empty
+#' @importFrom utils capture.output
+#' @importFrom stats family
 #' @export
 
 ### --- Shiny App --- ###

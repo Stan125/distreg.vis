@@ -10,6 +10,7 @@
 #' @param nrow Number of observations of the exported dataset.
 #' @param seed The seed which should be used, for reproducibility.
 #' @import bamlss
+#' @importFrom stats rmultinom qbeta qbinom qgamma runif qpois qnorm
 #' @return A data.frame with columns for differently distributed data.
 #' @export
 

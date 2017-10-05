@@ -1,6 +1,6 @@
 Package: bamlss.vis
 Type: Package
-Title: Visualize bamlss models in an interactive way.
+Title: Visualize bamlss models in an interactive way
 Version: 0.4.5
 Authors@R: person("Stanislaus", "Stadlmann", email = "stanislaus@stadlmann.cm", role = c("cre", "ctb"))
 Maintainer: Stanislaus Stadlmann <stanislaus@stadlmann.cm>
@@ -9,6 +9,7 @@ Depends:
         R (>= 3.3.0), 
         bamlss (>= 0.1-2)
 Imports: 
+        stats,
         ggplot2 (>= 2.2.1),
         rhandsontable (>= 0.3.4),
         plotly (>= 4.7.0),

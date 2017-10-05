@@ -22,6 +22,7 @@
 #' param_preds <- preds(beta_model, pred_df)
 #' @return A data.frame with one column for every distributional parameter
 #'   and a row for every covariate combination that should be predicted.
+#' @importFrom stats na.omit predict
 #' @export
 
 preds <- function(model, newdata) {
@@ -38,14 +39,14 @@ preds <- function(model, newdata) {
 
   # Get predictions for obs with intercept
   if (sum(newdata$intercept) != 0) {
-    tempdata <- subset(newdata, intercept == TRUE)
+    tempdata <- newdata[newdata$intercept == TRUE, ]
     p_m_i <- as.data.frame(predict(model, tempdata, type = "parameter",
                                    intercept = TRUE))
     row.names(p_m_i) <- row.names(tempdata)
   }
   # Get preds for obs without intercept
   if (sum(newdata$intercept) != nrow(newdata)) {
-    tempdata <- subset(newdata, intercept == FALSE)
+    tempdata <- newdata[newdata$intercept == FALSE, ]
     p_m_ni <- as.data.frame(predict(model, tempdata, type = "parameter",
                                     intercept = FALSE))
     row.names(p_m_ni) <- row.names(tempdata)

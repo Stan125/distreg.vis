@@ -2,6 +2,7 @@
 #'   are in the range of original data. Returns true when there is a cov
 #'   comb outside of data.
 #' @importFrom magrittr %>%
+#' @importFrom stats na.omit
 
 range_checker <- function(orig_data, newdata) {
 
@@ -10,7 +11,7 @@ range_checker <- function(orig_data, newdata) {
 
   # If there is an intercept remove it
   if ("intercept" %in% colnames(newdata))
-    newdata <- subset(newdata, select = -c(intercept))
+    newdata <- within(newdata, rm("intercept"))
 
   varnames <- colnames(newdata)
   # Check for every column if one of the values lies outside orig min/max

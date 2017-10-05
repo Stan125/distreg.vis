@@ -5,14 +5,14 @@
 limits <- function(predictions, family, times_sd = 3) {
   if (family == ".mvnorm")
     return(NULL)
-   else if (bamlss.vis:::is.continuous(family)) {
+   else if (is.continuous(family)) {
     if (family == "beta") {  # beta can only be from 0 to 1
       return(data.frame(x = c(0, 1)))
     } else if (family == "Generalized Pareto") {
       return(data.frame(x = c(0, 5)))
     } else {
       # Moments
-      moments <- as.data.frame(bamlss.vis:::moments(predictions, family))
+      moments <- as.data.frame(moments(predictions, family))
 
       # Limits for each 2 moments
       lims <- apply(moments, 1, function(x)
@@ -21,7 +21,7 @@ limits <- function(predictions, family, times_sd = 3) {
 
       return(data.frame(x = c(min(lims), max(lims))))
     }
-  } else if (!bamlss.vis:::is.continuous(family)) {
+  } else if (!is.continuous(family)) {
     if (family == "binomial") {
       return(data.frame(x = c(0, 1)))
     } else if (family == "poisson") {
@@ -36,6 +36,7 @@ limits <- function(predictions, family, times_sd = 3) {
 #' Internal: Transform discrete predictions into a usable df
 #'
 #' @importFrom tidyr gather
+#' @importFrom stats dpois ppois
 
 disc_trans <- function(predictions, family, type, model) {
   if (family == "binomial") {

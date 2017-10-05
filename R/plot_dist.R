@@ -53,14 +53,14 @@ plot_dist <- function(model, predictions, palette = "default",
 
   # Get plot limits
   if (!is.2d(fam, fam_gen$links))
-    lims <- bamlss.vis:::limits(p_m, fam)
+    lims <- limits(p_m, fam)
 
   # Different plots depending on type of distribution
-  if (bamlss.vis:::is.2d(fam, fam_gen$links))
+  if (is.2d(fam, fam_gen$links))
     plot <- pdfcdf_2d(p_m, model, type, display = display)
-  else if (bamlss.vis:::is.continuous(fam))
+  else if (is.continuous(fam))
     plot <- pdfcdf_continuous(lims, funs_list, type, p_m, palette)
-  else if (!bamlss.vis:::is.continuous(fam))
+  else if (!is.continuous(fam))
     plot <- pdfcdf_discrete(p_m, palette, fam, type, model)
 
   # Return it
@@ -131,7 +131,7 @@ pdfcdf_discrete <- function(p_m, palette, family, type, model) {
 
   if (type == "pdf") {
     # Assemble plot
-    ground <- ggplot(pred_df, aes(type, value, fill = rownames)) +
+    ground <- ggplot(pred_df, aes(type, y = value, fill = rownames)) +
       geom_bar(stat = "identity", position = position_dodge()) +
       labs(x = "y", y = "f(y)") +
       ggtitle("Predicted distributions(s)")
