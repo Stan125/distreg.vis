@@ -4,7 +4,6 @@
 #'   package.
 #' @import shiny
 #' @import rhandsontable
-#' @import rstudioapi
 #' @importFrom plotly renderPlotly plotlyOutput ggplotly plotly_empty
 #' @export
 

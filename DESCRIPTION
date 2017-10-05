@@ -13,7 +13,8 @@ Imports:
         rhandsontable (>= 0.3.4),
         plotly (>= 4.7.0),
         magrittr(>= 1.5),
-        tidyr (>= 0.6.3)
+        tidyr (>= 0.6.3),
+        mvtnorm(>= 1.0-6)
 Description: bamlss.vis calls a Shiny app where one can compare different predictions depending on varying covariate values.
 License: GPL-2
 LazyData: TRUE
