@@ -4,10 +4,13 @@
 # Skip on CRAN
 skip_on_cran()
 
+# Install packages if not installed
+if (!require(gridExtra))
+  install.packages("gridExtra")
+
 # Libraries
 library(bamlss.vis)
 library(dplyr)
-library(ggplot2)
 library(gridExtra)
 
 # Set Seed
