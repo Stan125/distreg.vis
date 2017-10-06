@@ -3,4 +3,4 @@
 language: R
 sudo: false
 cache: packages
-Remotes: github::cran/gridExtra
+r_packages: gridExtra
