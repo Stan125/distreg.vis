@@ -6,7 +6,7 @@ skip_on_cran()
 
 # Install packages if not installed
 if (!require(gridExtra))
-  install.packages("gridExtra")
+  install.packages("gridExtra", repos = "http://cran.us.r-project.org")
 
 # Libraries
 library(bamlss.vis)
