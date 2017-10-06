@@ -10,16 +10,17 @@ Depends:
         bamlss (>= 0.1-2)
 Imports: 
         stats,
+        utils,
         ggplot2 (>= 2.2.1),
         rhandsontable (>= 0.3.4),
         plotly (>= 4.7.0),
-        magrittr(>= 1.5),
+        magrittr (>= 1.5),
         tidyr (>= 0.6.3),
-        mvtnorm(>= 1.0-6)
+        mvtnorm (>= 1.0-6)
+Suggests: testthat, gridExtra
 Description: bamlss.vis calls a Shiny app where one can compare different predictions depending on varying covariate values.
 License: GPL-2
 LazyData: TRUE
 URL: https://github.com/Stan125/bamlss.vis
 BugReports: https://github.com/Stan125/bamlss.vis/issues
-Suggests: testthat
 RoxygenNote: 6.0.1
