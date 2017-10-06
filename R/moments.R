@@ -1,6 +1,7 @@
 #' Return First two Moments of a distributions's parameters
 #'
 #' @importFrom stats pnorm dnorm
+#' @export
 
 moments <- function(par, family) {
   rnames <- row.names(par)
