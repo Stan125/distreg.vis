@@ -48,6 +48,10 @@ plot_moments <- function(model, int_var, pred_data) {
     inset(int_var, value = vals_seq) %>%
     inset("id", value = row.names(.))
 
+  # Use another function if you have multinomial family
+  if (family(model)$family == "multinomial")
+    return(plot_multinom_exp(model, int_var, pred_data, m_data))
+
   # Now make predictions and find out expected value and variance
   preds <- pred_data %>%
     subset(select = -c(id, prediction)) %>%
@@ -87,5 +91,35 @@ plot_moments <- function(model, int_var, pred_data) {
                stat = "identity",
                position = position_dodge())
   }
+  return(plot)
+}
+
+
+#' Internal: Plot function as sub-case to plot_moments especially for
+#'   multinomial family
+#'
+#'   @import ggplot2
+#'   @importFrom tidyr gather
+#'   @importFrom magrittr %>% inset extract
+
+plot_multinom_exp <- function(model, int_var, pred_data, m_data) {
+  # Get predictions for each class dep on int_var
+  preds <- pred_data %>%
+    subset(select = -c(id, prediction)) %>%
+    preds(model, newdata = .) %>%
+    bamlss.vis:::mult_trans(., model) %>%
+    inset("id", value = row.names(.))
+  classes <- as.character(unique(m_data[, 1]))
+  preds <- preds %>%
+    merge(y = pred_data, by.x = "id") %>%
+    extract(, c(int_var, classes, "prediction")) %>%
+    tidyr::gather("class", "value", classes)
+  plot <- ggplot(preds, aes(x = norm1, y = value, fill = class)) +
+    geom_area() +
+    facet_wrap(~prediction) +
+    labs(y = "Expected value of class") +
+    ggtitle(paste("Influence of", int_var,
+                  "on expected values of every class' pi_i")) +
+    theme_bw()
   return(plot)
 }

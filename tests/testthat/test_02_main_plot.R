@@ -13,7 +13,7 @@ library(dplyr)
 library(gridExtra)
 
 ### --- Get models and data --- ###
-load("tests/testthat/Models_data.RData")
+load("models_data.RData")
 
 ## --- Prediction --- ##
 

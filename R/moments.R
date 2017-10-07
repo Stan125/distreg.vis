@@ -22,10 +22,9 @@ moments <- function(par, family) {
                           Variance = vx,
                           row.names = rnames)
   } else if (family == "binomial") {
-    par <- list(pi = unlist(par))
     moments <- data.frame(Expected_Value = par$pi,
                           Variance = par$pi * (1 - par$pi),
-                          row.names = rownames)
+                          row.names = rnames)
   } else if (family == "cnorm") {
     mu <- par$mu
     sigma <- par$sigma

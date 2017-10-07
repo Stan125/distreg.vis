@@ -68,6 +68,6 @@ expl_mvnorm <- sample_n(art_data, 5) %>%
 
 
 ### --- Save models --- ###
-save(file = "tests/testthat/models_data.RData",
+save(file = "models_data.RData",
      list = c(ls()[grepl("model|expl", ls())]), "art_data", "data_fam")
 
