@@ -41,26 +41,21 @@ preds <- function(model, newdata) {
   if (sum(newdata$intercept) != 0) {
     tempdata <- newdata[newdata$intercept == TRUE, ]
     p_m_i <- as.data.frame(predict(model, tempdata, type = "parameter",
-                                   intercept = TRUE))
+                                   intercept = TRUE, drop = FALSE))
     row.names(p_m_i) <- row.names(tempdata)
   }
   # Get preds for obs without intercept
   if (sum(newdata$intercept) != nrow(newdata)) {
     tempdata <- newdata[newdata$intercept == FALSE, ]
     p_m_ni <- as.data.frame(predict(model, tempdata, type = "parameter",
-                                    intercept = FALSE))
+                                    intercept = FALSE, drop = FALSE))
     row.names(p_m_ni) <- row.names(tempdata)
   }
 
   # Put both together
   p_m <- rbind(p_m_i, p_m_ni)
-  p_m <- p_m[order(row.names(p_m)), ]
+  p_m <- p_m[order(row.names(p_m)), , drop = FALSE]
 
   # Return it here
-  if (family(model)$family == "binomial") # always get a data.frame, even in 1d
-    return(data.frame(pi = p_m))
-  else if (family(model)$family == "poisson")
-    return(data.frame(lambda = p_m))
-  else
-    return(p_m)
+  return(p_m)
 }
