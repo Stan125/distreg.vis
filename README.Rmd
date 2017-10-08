@@ -1,0 +1,19 @@
+---
+output:
+  md_document:
+    variant: markdown_github
+---
+
+<!-- README.md is generated from README.Rmd. Please edit that file -->
+
+```{r setup, echo=FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  fig.path = "README-"
+)
+```
+
+bamlss.vis
+==============
+[![Build Status](https://api.travis-ci.org/Stan125/bamlss.vis.svg?branch=master)](https://travis-ci.org/Stan125/bamlss.vis)
