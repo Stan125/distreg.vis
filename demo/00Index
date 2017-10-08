@@ -1,2 +1,2 @@
-vis-demo ’Visualises selected models’
-all_models_demo ’Visualises all possible models (except normal distribution) but just creates plots’
+vis-demo   "Visualises selected models"
+all_models_demo   "Visualises all possible models (except normal distribution) but just creates plots"

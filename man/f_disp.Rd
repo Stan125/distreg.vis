@@ -9,3 +9,4 @@ f_disp(model)
 \description{
 Prints the family and link functions of a model in a short way
 }
+\keyword{internal}

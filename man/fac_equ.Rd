@@ -8,5 +8,6 @@ fac_equ(base_df, pred_df)
 }
 \description{
 Function that takes the levels of a df's factors and puts them to a second df
-(used for predictions). Returns a data.frame
+  (used for predictions). Returns a data.frame
 }
+\keyword{internal}

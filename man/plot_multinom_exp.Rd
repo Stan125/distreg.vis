@@ -8,7 +8,7 @@
 plot_multinom_exp(model, int_var, pred_data, m_data)
 }
 \description{
-@import ggplot2
-  @importFrom tidyr gather
-  @importFrom magrittr %>% inset extract
+Internal: Plot function as sub-case to plot_moments especially for
+  multinomial family
 }
+\keyword{internal}

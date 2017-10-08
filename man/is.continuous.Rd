@@ -9,3 +9,4 @@ is.continuous(family)
 \description{
 Internal: Function to check whether a family is continuous or not
 }
+\keyword{internal}

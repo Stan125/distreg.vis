@@ -7,8 +7,14 @@
 plot_moments(model, int_var, pred_data)
 }
 \arguments{
-\item{pred_data}{Predicted data, including the variable of interest,
-which will be ignored.}
+\item{model}{A fitted model on which the plots are based.}
+
+\item{int_var}{The variable for which influences of the moments shall be
+graphically displayed. Has to be in character form.}
+
+\item{pred_data}{Combinations of covariate data, sometimes also known as "newdata",
+including the variable of interest, which will be ignored in later
+processing.}
 }
 \description{
 This function takes a dataframe of predictions with one row per

@@ -10,3 +10,4 @@ mult_trans(predictions, model)
 This function exists solely to transform predictions of the multinomial dist.
 Transforms odds into probabilities to get into each class.
 }
+\keyword{internal}

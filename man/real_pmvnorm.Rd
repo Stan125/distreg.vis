@@ -9,3 +9,4 @@ real_pmvnorm(y, par)
 \description{
 Internal: Real cumulative density function of multivariate normal dist
 }
+\keyword{internal}

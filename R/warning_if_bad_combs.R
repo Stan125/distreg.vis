@@ -3,6 +3,7 @@
 #'   comb outside of data.
 #' @importFrom magrittr %>%
 #' @importFrom stats na.omit
+#' @keywords internal
 
 range_checker <- function(orig_data, newdata) {
 
@@ -34,6 +35,7 @@ range_checker <- function(orig_data, newdata) {
 
 #' Internal: Function that constructs a warning message for the user when
 #'   \code{\link{range_checker}} is TRUE.
+#' @keywords internal
 
 bad_range_warning <- function(outlier_combs) {
   if (length(outlier_combs) == 1)

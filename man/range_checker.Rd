@@ -13,3 +13,4 @@ Internal: Function that checks whether chosen covariate combinations
   are in the range of original data. Returns true when there is a cov
   comb outside of data.
 }
+\keyword{internal}

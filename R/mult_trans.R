@@ -2,6 +2,7 @@
 #'
 #' This function exists solely to transform predictions of the multinomial dist.
 #' Transforms odds into probabilities to get into each class.
+#' @keywords internal
 
 mult_trans <- function(predictions, model) {
   levels <- levels(model$model.frame[, 1])

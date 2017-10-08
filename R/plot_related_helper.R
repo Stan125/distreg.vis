@@ -1,6 +1,7 @@
 #' Internal: Get plot limits for a predicted distribution.
 #'
 #' Returns a data.frame
+#' @keywords internal
 
 limits <- function(predictions, family, times_sd = 3) {
   if (family == ".mvnorm")
@@ -37,6 +38,7 @@ limits <- function(predictions, family, times_sd = 3) {
 #'
 #' @importFrom tidyr gather
 #' @importFrom stats dpois ppois
+#' @keywords internal
 
 disc_trans <- function(predictions, family, type, model) {
   if (family == "binomial") {

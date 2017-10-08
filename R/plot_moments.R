@@ -7,9 +7,12 @@
 #'   variables with the varied interest variables are predicted and plotted
 #'   against the expected value and the variance of the underlying
 #'   distribution
-#'
-#' @param pred_data Predicted data, including the variable of interest,
-#'   which will be ignored.
+#' @param int_var The variable for which influences of the moments shall be
+#'   graphically displayed. Has to be in character form.
+#' @param pred_data Combinations of covariate data, sometimes also known as "newdata",
+#'   including the variable of interest, which will be ignored in later
+#'   processing.
+#' @param model A fitted model on which the plots are based.
 #' @importFrom magrittr %>% extract inset
 #' @import ggplot2
 #' @export
@@ -98,9 +101,10 @@ plot_moments <- function(model, int_var, pred_data) {
 #' Internal: Plot function as sub-case to plot_moments especially for
 #'   multinomial family
 #'
-#'   @import ggplot2
-#'   @importFrom tidyr gather
-#'   @importFrom magrittr %>% inset extract
+#' @import ggplot2
+#' @importFrom tidyr gather
+#' @importFrom magrittr %>% inset extract
+#' @keywords internal
 
 plot_multinom_exp <- function(model, int_var, pred_data, m_data) {
   # Get predictions for each class dep on int_var

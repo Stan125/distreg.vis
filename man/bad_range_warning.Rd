@@ -11,3 +11,4 @@ bad_range_warning(outlier_combs)
 Internal: Function that constructs a warning message for the user when
   \code{\link{range_checker}} is TRUE.
 }
+\keyword{internal}

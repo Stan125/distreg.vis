@@ -9,3 +9,4 @@ is.2d(family, links)
 \description{
 Internal: Function to check whether the modeled response is bivariate
 }
+\keyword{internal}

@@ -9,3 +9,4 @@ pdfcdf_continuous(lims, funs, type, p_m, palette)
 \description{
 Returns a plot
 }
+\keyword{internal}

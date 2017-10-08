@@ -1,6 +1,7 @@
 #' Internal: Real cumulative density function of multivariate normal dist
 #'
 #' @importFrom mvtnorm pmvnorm
+#' @keywords internal
 
 real_pmvnorm <- function(y, par) {
   return(pmvnorm(upper = as.numeric(y), mean = c(par$mu1, par$mu2),

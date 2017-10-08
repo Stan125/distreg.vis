@@ -71,6 +71,7 @@ plot_dist <- function(model, predictions, palette = "default",
 #'
 #' Returns a plot
 #' @import ggplot2
+#' @keywords internal
 
 pdfcdf_continuous <- function(lims, funs, type, p_m, palette) {
   if (type == "cdf") {
@@ -123,6 +124,7 @@ pdfcdf_continuous <- function(lims, funs, type, p_m, palette) {
 #'
 #' Returns a plot
 #' @import ggplot2
+#' @keywords internal
 
 pdfcdf_discrete <- function(p_m, palette, family, type, model) {
 
@@ -172,6 +174,7 @@ pdfcdf_discrete <- function(p_m, palette, family, type, model) {
 #'
 #' @importFrom plotly plot_ly add_surface layout %>% colorbar
 #' @importFrom magrittr set_colnames
+#' @keywords internal
 
 pdfcdf_2d <- function(p_m, model, type, display = "perspective") {
   # First we look whether cdf or pdf

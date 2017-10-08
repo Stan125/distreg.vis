@@ -1,5 +1,6 @@
 #' Internal: Function to check whether a family is continuous or not
 #'
+#' @keywords internal
 is.continuous <- function(family) {
   continuous_families <- c("beta", "cox", "cnorm", "gaussian",
                            "gaussian2", "gamma", "mvnorm",
@@ -15,7 +16,7 @@ is.continuous <- function(family) {
 
 #' Internal: Function to check whether the modeled response is bivariate
 #'
-#'
+#' @keywords internal
 
 is.2d <- function(family, links) {
   if (length(links) == 5 & family == ".mvnorm")

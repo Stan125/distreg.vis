@@ -1,6 +1,7 @@
 #' bamlss Searcher
 #'
 #' Function that searches the WD for a bamlss model
+#' @keywords internal
 
 search_ba <- function() {
   # Get components of Global Environment
@@ -21,7 +22,8 @@ search_ba <- function() {
 #' Factor Equalizer
 #'
 #' Function that takes the levels of a df's factors and puts them to a second df
-#' (used for predictions). Returns a data.frame
+#'   (used for predictions). Returns a data.frame
+#' @keywords internal
 
 fac_equ <- function(base_df, pred_df) {
   # Factor Names

@@ -9,3 +9,4 @@ pdfcdf_2d(p_m, model, type, display = "perspective")
 \description{
 Internal: Create 3D pdf/cdf plot
 }
+\keyword{internal}

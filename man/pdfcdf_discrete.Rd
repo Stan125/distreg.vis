@@ -9,3 +9,4 @@ pdfcdf_discrete(p_m, palette, family, type, model)
 \description{
 Returns a plot
 }
+\keyword{internal}

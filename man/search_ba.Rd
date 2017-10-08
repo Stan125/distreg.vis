@@ -9,3 +9,4 @@ search_ba()
 \description{
 Function that searches the WD for a bamlss model
 }
+\keyword{internal}

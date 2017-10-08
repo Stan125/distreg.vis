@@ -1,6 +1,7 @@
 #' Model distribution family display-er
 #'
 #' Prints the family and link functions of a model in a short way
+#' @keywords internal
 
 f_disp <- function(model) {
   family <- family(model)

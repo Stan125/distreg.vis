@@ -9,3 +9,4 @@ disc_trans(predictions, family, type, model)
 \description{
 Internal: Transform discrete predictions into a usable df
 }
+\keyword{internal}
