@@ -49,6 +49,7 @@ vis <- function() {
 
   ## Assemble UI
   ui <- fluidPage(
+
     # Title
     titlePanel("Visualize your bamlss predictions"),
 
@@ -378,12 +379,14 @@ vis <- function() {
             c_plot[["palette"]] <- input$palette
           c_plot <- deparse(c_plot, width.cutoff = 100) # Make call into character
 
+          code <- paste(c_data, c_predictions, c_plot, sep = "\n")
           showModal(modalDialog(
             title = "Obtain your R code",
-            tags$code(c_data), br(),
-            tags$code(c_predictions), br(),
-            tags$code(c_plot),
-            easyClose = TRUE
+            # Include JS, CSS for syntax highlighting
+            includeScript("inst/srcjs/highlight.pack.js"),
+            includeCSS("inst/srcjs/default.css"),
+            HTML('<script>hljs.initHighlightingOnLoad();</script>'),
+            tags$pre(tags$code(code)), easyClose = TRUE
           ))
     })
 
@@ -405,10 +408,7 @@ vis <- function() {
     # Server-Rendering of DF
     output$exvxdf <- renderTable({
       if (!is.null(m())) {
-        fam <- family(m())$family
-        moments <- apply(cur_pred(), MARGIN = 1,
-                         FUN = moments, family = fam)
-        moments <- do.call(rbind, moments)
+        moments <- moments(cur_pred(), fam()$family)
         moments
       }
     }, rownames = TRUE)
