@@ -60,8 +60,8 @@ multinomial_model <- bamlss(list(multinomial ~ norm1 + norm2),
 
 # MVnorm model
 suppressWarnings({
-  mvnorm_model <- bamlss(list(normal ~ norm1 + norm2,
-                              norm1 ~ norm2 + normal),
+  mvnorm_model <- bamlss(list(normal ~ norm2,
+                              norm1 ~ norm2),
                          data = data_fam,
                          family = mvnorm_bamlss(k = 2))
 })
