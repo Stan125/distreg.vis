@@ -395,10 +395,32 @@ vis <- function() {
 
     ## --- Properties Tab --- ##
 
-    # UI for expectation/variance dataframe
+    # UI for EXVX DF and influence plot
     output$exvxdf_ui <- renderUI({
-      if (!is.null(m()))
-        tableOutput("exvxdf")
+      if (gmad()) {
+        # Plot UI
+        plot_ui <- fluidRow(
+          column(width = 9,
+                 plotOutput("influence_graph")),
+          column(width = 3, br(),
+                 selectInput(inputId = "int_var",
+                             choices = colnames(m_data()[, -c(1)]),
+                             label = "Expl. variable for plotting influence"))
+        )
+        plot_ui_panel <- tabPanel(title = "Influence graph", br(),
+                            plot_ui)
+
+        # Table UI
+        table_ui <- tabPanel(title = "Table",
+                             tableOutput("exvxdf"))
+
+        # Return the panel to display
+        exvx_ui <- list()
+        exvx_ui[[1]] <- br()
+        exvx_ui[[2]] <- tabsetPanel(plot_ui_panel, table_ui, type = "pills")
+        exvx_ui
+      }
+
     })
 
     # Server-Rendering of DF
@@ -408,6 +430,12 @@ vis <- function() {
         moments
       }
     }, rownames = TRUE)
+
+    # Server-Rendering of Influence graph
+    output$influence_graph <- renderPlot({
+      if (gmad())
+        plot_moments(m(), input$int_var, pred$data)
+    })
 
   }
   shinyApp(ui, server)
