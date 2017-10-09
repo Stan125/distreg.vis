@@ -8,6 +8,9 @@ rm(list = ls())
 library(bamlss.vis)
 library(dplyr)
 
+# Warnings are errors
+options(warn = 2)
+
 # Set Seed
 set.seed(1408)
 
@@ -48,10 +51,12 @@ multinomial_model <- bamlss(list(multinomial ~ norm1 + norm2),
                             data = data_fam,
                             family = multinomial_bamlss())
 
-mvnorm_model <- bamlss(list(cbind(num, err) ~ x1 + x2 + x3,
+suppressWarnings({
+  mvnorm_model <- bamlss(list(cbind(num, err) ~ x1 + x2 + x3,
                             sigma1 ~ 1,
                             sigma2 ~ 1), data = art_data,
                        family = mvnorm_bamlss(k = 2))
+})
 
 ### --- Predictions --- ###
 

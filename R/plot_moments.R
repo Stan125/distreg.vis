@@ -14,6 +14,7 @@
 #'   processing.
 #' @param model A fitted model on which the plots are based.
 #' @importFrom magrittr %>% extract inset
+#' @importFrom tidyr gather
 #' @import ggplot2
 #' @export
 
@@ -88,7 +89,7 @@ plot_moments <- function(model, int_var, pred_data) {
   if (coltype == "num") {
     plot <- ground +
       geom_line()
-  } else if (coltype == "car") {
+  } else if (coltype == "cat") {
     plot <- ground +
       geom_bar(aes(fill = prediction),
                stat = "identity",

@@ -25,7 +25,9 @@ expect_error(plot_moments(gpareto_model, int_var = "norm1", expl),
              regexp = NA) # gpareto
 expect_error(plot_moments(multinomial_model, int_var = "norm1", expl),
              regexp = NA) # multinomial
-expect_error(plot_moments(mvnorm_model, int_var = "x2", expl_mvnorm),
-             regexp = NA) # multivariate normal
+suppressWarnings({
+  expect_error(plot_moments(mvnorm_model, int_var = "x2", expl_mvnorm),
+               regexp = NA) # multivariate normal
+})
 expect_error(plot_moments(poisson_model, int_var = "norm1", expl),
              regexp = NA) # poisson

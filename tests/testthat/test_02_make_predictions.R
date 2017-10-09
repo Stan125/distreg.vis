@@ -1,5 +1,8 @@
 ### -- This script checks for correct use of preds() -- ###
 
+## Remove everything
+rm(list = ls())
+
 ## Load package(s) ##
 library(bamlss.vis)
 
@@ -31,7 +34,9 @@ poisson_p <- bamlss.vis:::preds(poisson_model, expl)
 multinomial_p <- bamlss.vis:::preds(multinomial_model, expl)
 
 # MVnorm model
-mvnorm_p <- bamlss.vis:::preds(mvnorm_model, expl_mvnorm)
+suppressWarnings({
+  mvnorm_p <- bamlss.vis:::preds(mvnorm_model, expl_mvnorm)
+})
 
 ## --- Save predictions --- ##
 save(list = ls()[grepl("_p", ls())], file = "predictions.RData")
