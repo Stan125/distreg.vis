@@ -1,9 +1,6 @@
 ## Creates all models, used for test_main_plot and test_moments ##
 # Based on all_models_demo.R
 
-# Skip on CRAN
-skip_on_cran()
-
 # Remove everything
 rm(list = ls())
 
