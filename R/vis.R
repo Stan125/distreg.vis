@@ -382,10 +382,6 @@ vis <- function() {
           code <- paste(c_data, c_predictions, c_plot, sep = "\n")
           showModal(modalDialog(
             title = "Obtain your R code",
-            # Include JS, CSS for syntax highlighting
-            includeScript("inst/srcjs/highlight.pack.js"),
-            includeCSS("inst/srcjs/default.css"),
-            HTML('<script>hljs.initHighlightingOnLoad();</script>'),
             tags$pre(tags$code(code)), easyClose = TRUE
           ))
     })
