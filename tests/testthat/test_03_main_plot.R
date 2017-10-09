@@ -22,6 +22,7 @@ plot_f <- function(model, preds)
   return(list(plot_dist(model, preds),
               plot_dist(model, preds, type = "cdf")))
 
+normal_plots <- plot_f(normal_model, normal_p)
 beta_plots <- plot_f(beta_model, beta_p)
 binomial_plots <- plot_f(binomial_model, binomial_p)
 cnorm_plots <- plot_f(cnorm_model, cnorm_p)

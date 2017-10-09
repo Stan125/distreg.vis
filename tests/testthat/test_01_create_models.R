@@ -4,6 +4,9 @@
 # Remove everything
 rm(list = ls())
 
+# Skip on cran
+skip_on_cran()
+
 # Libraries
 library(bamlss.vis)
 library(dplyr)
@@ -16,9 +19,13 @@ set.seed(1408)
 
 ## --- Generating data --- ##
 data_fam <- model_fam_data()
-art_data <- GAMart()
 
 ### --- Models --- ###
+
+# Normal model
+normal_model <- bamlss(list(normal ~ norm1 + norm2,
+                            sigma ~ norm1 + norm2),
+                       data = data_fam, family = gaussian_bamlss())
 
 # Beta dist model
 beta_model <- bamlss(list(beta ~ norm1 + norm2,
@@ -51,11 +58,12 @@ multinomial_model <- bamlss(list(multinomial ~ norm1 + norm2),
                             data = data_fam,
                             family = multinomial_bamlss())
 
+# MVnorm model
 suppressWarnings({
-  mvnorm_model <- bamlss(list(cbind(num, err) ~ x1 + x2 + x3,
-                            sigma1 ~ 1,
-                            sigma2 ~ 1), data = art_data,
-                       family = mvnorm_bamlss(k = 2))
+  mvnorm_model <- bamlss(list(normal ~ norm1 + norm2,
+                              norm1 ~ norm2 + normal),
+                         data = data_fam,
+                         family = mvnorm_bamlss(k = 2))
 })
 
 ### --- Predictions --- ###
@@ -64,12 +72,8 @@ suppressWarnings({
 expl <- sample_n(data_fam, 5) %>%
   select(norm1:norm2) %>%
   mutate(intercept = TRUE)
-expl_mvnorm <- sample_n(art_data, 5) %>%
-  select(x1:x3) %>%
-  mutate(intercept = TRUE)
-
 
 ### --- Save models --- ###
 save(file = "models_data.RData",
-     list = c(ls()[grepl("model|expl", ls())]), "art_data", "data_fam")
+     list = c(ls()[grepl("model", ls())]), "data_fam", "expl")
 

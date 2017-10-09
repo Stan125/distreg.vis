@@ -38,7 +38,8 @@ model_fam_data <- function(nrow = 500, seed = 1408) {
 
 
   ## Families
-  data <- data.frame(beta = qbeta(u_data$v1, 2, 5), # Beta distribution, alpha = 2, beta = 5
+  data <- data.frame(normal = qnorm(u_data$v1),
+                     beta = qbeta(u_data$v1, 2, 5), # Beta distribution, alpha = 2, beta = 5
                      binomial = qbinom(u_data$v1, 1, 0.8), # Binomial distribution, pi = 0.8
                      cnorm = cnorm_bamlss()$q(u_data$v1, # Cnorm distribution, mu = 5, sigma = 2
                                               par = list(mu = 5, sigma = 2)),

@@ -13,6 +13,8 @@ library(bamlss.vis)
 load("models_data.RData")
 
 ### --- Make plots --- ###
+expect_error(plot_moments(normal_model, int_var = "norm1", expl),
+             regexp = NA) # Normal
 expect_error(plot_moments(beta_model, int_var = "norm1", expl),
              regexp = NA) # Beta
 expect_error(plot_moments(binomial_model, int_var = "norm1", expl),
@@ -26,7 +28,7 @@ expect_error(plot_moments(gpareto_model, int_var = "norm1", expl),
 expect_error(plot_moments(multinomial_model, int_var = "norm1", expl),
              regexp = NA) # multinomial
 suppressWarnings({
-  expect_error(plot_moments(mvnorm_model, int_var = "x2", expl_mvnorm),
+  expect_error(plot_moments(mvnorm_model, int_var = "norm2", expl),
                regexp = NA) # multivariate normal
 })
 expect_error(plot_moments(poisson_model, int_var = "norm1", expl),

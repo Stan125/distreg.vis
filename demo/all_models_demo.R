@@ -14,6 +14,11 @@ art_data <- GAMart()
 
 ### --- Models --- ###
 
+# Normal model
+normal_model <- bamlss(list(normal ~ norm1 + norm2,
+                            sigma ~ norm1 + norm2),
+                       data = data_fam, family = gaussian_bamlss())
+
 # Beta dist model
 beta_model <- bamlss(list(beta ~ norm1 + norm2,
                           sigma2 ~ norm1 + norm2),
@@ -45,6 +50,7 @@ multinomial_model <- bamlss(list(multinomial ~ norm1 + norm2),
                             data = data_fam,
                             family = multinomial_bamlss())
 
+# MVnorm model
 mvnorm_model <- bamlss(list(cbind(num, err) ~ x1 + x2 + x3,
                             sigma1 ~ 1,
                             sigma2 ~ 1), data = art_data,
@@ -60,29 +66,32 @@ expl_mvnorm <- sample_n(art_data, 5) %>%
   select(x1:x3) %>%
   mutate(intercept = TRUE)
 
+# Normal
+normal_p <- preds(normal_model, expl)
+
 # Beta
-beta_p <- bamlss.vis:::preds(beta_model, expl)
+beta_p <- preds(beta_model, expl)
 
 # Binomial
-binomial_p <- bamlss.vis:::preds(binomial_model, expl)
+binomial_p <- preds(binomial_model, expl)
 
 # Cnorm
-cnorm_p <- bamlss.vis:::preds(cnorm_model, expl)
+cnorm_p <- preds(cnorm_model, expl)
 
 # Gamma
-gamma_p <- bamlss.vis:::preds(gamma_model, expl)
+gamma_p <- preds(gamma_model, expl)
 
 # GPareto
-gpareto_p <- bamlss.vis:::preds(gpareto_model, expl)
+gpareto_p <- preds(gpareto_model, expl)
 
 # Poisson
-poisson_p <- bamlss.vis:::preds(poisson_model, expl)
+poisson_p <- preds(poisson_model, expl)
 
 # Multinomial model
-multinomial_p <- bamlss.vis:::preds(multinomial_model, expl)
+multinomial_p <- preds(multinomial_model, expl)
 
 # MVnorm model
-mvnorm_p <- bamlss.vis:::preds(mvnorm_model, expl_mvnorm)
+mvnorm_p <- preds(mvnorm_model, expl_mvnorm)
 
 ## --- Plots --- ###
 # Function because I'm lazy
@@ -90,6 +99,7 @@ plot_f <- function(model, preds)
   return(list(plot_dist(model, preds),
               plot_dist(model, preds, type = "cdf")))
 
+normal_plots <- plot_f(normal_model, normal_p)
 beta_plots <- plot_f(beta_model, beta_p)
 binomial_plots <- plot_f(binomial_model, binomial_p)
 cnorm_plots <- plot_f(cnorm_model, cnorm_p)
@@ -105,6 +115,7 @@ mvnorm_pdf_image <- bamlss.vis:::pdfcdf_2d(mvnorm_p, mvnorm_model, type = "pdf",
                                      display = "image")
 
 ## --- Show da plots --- ###
+grid.arrange(grobs = normal_plots) # normal
 grid.arrange(grobs = beta_plots) # beta
 grid.arrange(grobs = binomial_plots) # binomial
 grid.arrange(grobs = cnorm_plots) # cnorm

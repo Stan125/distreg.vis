@@ -10,7 +10,8 @@ library(bamlss.vis)
 load("models_data.RData")
 
 ## --- Predictions --- ##
-# Gaussian missing
+# Normal
+normal_p <- preds(normal_model, expl)
 
 # Beta
 beta_p <- bamlss.vis:::preds(beta_model, expl)
@@ -35,7 +36,7 @@ multinomial_p <- bamlss.vis:::preds(multinomial_model, expl)
 
 # MVnorm model
 suppressWarnings({
-  mvnorm_p <- bamlss.vis:::preds(mvnorm_model, expl_mvnorm)
+  mvnorm_p <- bamlss.vis:::preds(mvnorm_model, expl)
 })
 
 ## --- Save predictions --- ##
