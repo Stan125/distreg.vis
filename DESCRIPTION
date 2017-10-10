@@ -1,7 +1,7 @@
 Package: bamlss.vis
 Type: Package
 Title: Visualize bamlss models in an interactive way
-Version: 0.4.5
+Version: 0.5.0
 Authors@R: person("Stanislaus", "Stadlmann", email = "stanislaus@stadlmann.cm", role = c("cre", "ctb"))
 Maintainer: Stanislaus Stadlmann <stanislaus@stadlmann.cm>
 Depends: 
@@ -16,7 +16,8 @@ Imports:
         plotly (>= 4.7.0),
         magrittr (>= 1.5),
         tidyr (>= 0.6.3),
-        mvtnorm (>= 1.0-6)
+        mvtnorm (>= 1.0-6),
+        viridis (>= 0.4.0)
 Suggests: testthat, gridExtra
 Description: bamlss.vis calls a Shiny app where one can compare different predictions depending on varying covariate values.
 License: GPL-2

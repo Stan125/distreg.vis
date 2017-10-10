@@ -5,7 +5,7 @@
 \title{Internal: Plot function as sub-case to plot_moments especially for
   multinomial family}
 \usage{
-plot_multinom_exp(model, int_var, pred_data, m_data)
+plot_multinom_exp(model, int_var, pred_data, m_data, palette)
 }
 \description{
 Internal: Plot function as sub-case to plot_moments especially for

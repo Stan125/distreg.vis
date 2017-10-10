@@ -4,7 +4,7 @@
 \alias{plot_dist}
 \title{Plot predicted bamlss distribution families with ggplot2}
 \usage{
-plot_dist(model, predictions, palette = "default", type = "pdf",
+plot_dist(model, predictions, palette = "viridis", type = "pdf",
   display = "perspective")
 }
 \arguments{
@@ -16,7 +16,8 @@ with the \code{bamlss.vis} function \code{\link{preds}}.}
 
 \item{palette}{The colour palette used for colouring the plot. You can use
 any of the ones supplied in \code{\link[ggplot2]{scale_fill_brewer}} though I
-suggest you use one of the qualitative ones: Accent, Dark2, etc.}
+suggest you use one of the qualitative ones: Accent, Dark2, etc. Since 0.5.0
+\code{"viridis"} is the default colour palette, to account for colour blindness.}
 
 \item{type}{Do you want the probability distribution function ("pdf") or
 the cumulative distribution function ("cdf")?}

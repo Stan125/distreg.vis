@@ -11,7 +11,8 @@
 #'   with the \code{bamlss.vis} function \code{\link{preds}}.
 #' @param palette The colour palette used for colouring the plot. You can use
 #'   any of the ones supplied in \code{\link[ggplot2]{scale_fill_brewer}} though I
-#'   suggest you use one of the qualitative ones: Accent, Dark2, etc.
+#'   suggest you use one of the qualitative ones: Accent, Dark2, etc. Since 0.5.0
+#'   \code{"viridis"} is the default colour palette, to account for colour blindness.
 #' @param type Do you want the probability distribution function ("pdf") or
 #'   the cumulative distribution function ("cdf")?
 #' @param display Only specify this when creating plots for two-dimensional
@@ -71,6 +72,7 @@ plot_dist <- function(model, predictions, palette = "default",
 #'
 #' Returns a plot
 #' @import ggplot2
+#' @importFrom viridis scale_fill_viridis scale_colour_viridis
 #' @keywords internal
 
 pdfcdf_continuous <- function(lims, funs, type, p_m, palette) {
@@ -105,9 +107,17 @@ pdfcdf_continuous <- function(lims, funs, type, p_m, palette) {
   # Different theme
   ground <- ground + theme_classic()
 
-  # Colour Palettes
-  if (palette != "default")
-    ground <- ground + scale_fill_brewer(palette = palette)
+  # Colour Palettes - if not default or viridis
+  if (palette == "viridis") {
+    ground <- ground +
+      scale_fill_viridis(discrete = TRUE) +
+      scale_colour_viridis(discrete = TRUE)
+  } else if (palette != "default") {
+    ground <- ground +
+      scale_fill_brewer(palette = palette) +
+      scale_colour_brewer(palette = palette)
+  }
+
 
   # Make legend title
   if (type == "pdf") {
@@ -124,6 +134,7 @@ pdfcdf_continuous <- function(lims, funs, type, p_m, palette) {
 #'
 #' Returns a plot
 #' @import ggplot2
+#' @importFrom viridis scale_fill_viridis scale_colour_viridis
 #' @keywords internal
 
 pdfcdf_discrete <- function(p_m, palette, family, type, model) {
@@ -141,9 +152,16 @@ pdfcdf_discrete <- function(p_m, palette, family, type, model) {
     # Classic theme
     ground <- ground + theme_classic()
 
-    # Palette
-    if (palette != "default")
-      ground <- ground + scale_fill_brewer(palette = palette)
+    # Palettes
+    if (palette == "viridis") {
+      ground <- ground +
+        scale_fill_viridis(discrete = TRUE) +
+        scale_colour_viridis(discrete = TRUE)
+    } else if (palette != "default") {
+      ground <- ground +
+        scale_fill_brewer(palette = palette) +
+        scale_colour_brewer(palette = palette)
+    }
 
     # Legend label
     ground$labels$fill <- "Predictions"
@@ -159,8 +177,15 @@ pdfcdf_discrete <- function(p_m, palette, family, type, model) {
     ground <- ground + theme_classic()
 
     # Palette
-    if (palette != "default")
-      ground <- ground + scale_fill_brewer(palette = palette)
+    if (palette == "viridis") {
+      ground <- ground +
+        scale_fill_viridis(discrete = TRUE) +
+        scale_colour_viridis(discrete = TRUE)
+    } else if (palette != "default") {
+      ground <- ground +
+        scale_fill_brewer(palette = palette) +
+        scale_colour_brewer(palette = palette)
+    }
 
     # Legend label
     ground$labels$colour <- "Predictions"

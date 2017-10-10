@@ -15,10 +15,11 @@
 #' @param model A fitted model on which the plots are based.
 #' @importFrom magrittr %>% extract inset
 #' @importFrom tidyr gather
+#' @importFrom viridis scale_fill_viridis scale_colour_viridis
 #' @import ggplot2
 #' @export
 
-plot_moments <- function(model, int_var, pred_data) {
+plot_moments <- function(model, int_var, pred_data, palette = "default") {
 
   # Get model data
   m_data <- model$model.frame
@@ -54,7 +55,7 @@ plot_moments <- function(model, int_var, pred_data) {
 
   # Use another function if you have multinomial family
   if (family(model)$family == "multinomial")
-    return(plot_multinom_exp(model, int_var, pred_data, m_data))
+    return(plot_multinom_exp(model, int_var, pred_data, m_data, palette))
 
   # Now make predictions and find out expected value and variance
   preds <- pred_data %>%
@@ -85,6 +86,17 @@ plot_moments <- function(model, int_var, pred_data) {
     ggtitle(paste("Influence of", int_var,
                   "on parameters of modeled distribution"))
 
+  # Palettes
+  if (palette == "viridis") {
+    ground <- ground +
+      scale_fill_viridis(discrete = TRUE) +
+      scale_colour_viridis(discrete = TRUE)
+  } else if (palette != "default") {
+    ground <- ground +
+      scale_fill_brewer(palette = palette) +
+      scale_colour_brewer(palette = palette)
+  }
+
   # Line if numeric
   if (coltype == "num") {
     plot <- ground +
@@ -105,9 +117,10 @@ plot_moments <- function(model, int_var, pred_data) {
 #' @import ggplot2
 #' @importFrom tidyr gather
 #' @importFrom magrittr %>% inset extract
+#' @importFrom viridis scale_fill_viridis scale_colour_viridis
 #' @keywords internal
 
-plot_multinom_exp <- function(model, int_var, pred_data, m_data) {
+plot_multinom_exp <- function(model, int_var, pred_data, m_data, palette) {
   # Get predictions for each class dep on int_var
   preds <- pred_data %>%
     subset(select = -c(id, prediction)) %>%
@@ -119,12 +132,23 @@ plot_multinom_exp <- function(model, int_var, pred_data, m_data) {
     merge(y = pred_data, by.x = "id") %>%
     extract(, c(int_var, classes, "prediction")) %>%
     tidyr::gather("class", "value", classes)
-  plot <- ggplot(preds, aes(x = norm1, y = value, fill = class)) +
+  ground <- ggplot(preds, aes(x = norm1, y = value, fill = class)) +
     geom_area() +
     facet_wrap(~prediction) +
     labs(y = "Expected value of class") +
     ggtitle(paste("Influence of", int_var,
                   "on expected values of every class' pi_i")) +
     theme_bw()
+
+  # Palettes
+  if (palette == "viridis") {
+    plot <- ground +
+      scale_fill_viridis(discrete = TRUE) +
+      scale_colour_viridis(discrete = TRUE)
+  } else if (palette != "default") {
+    plot <- ground +
+      scale_fill_brewer(palette = palette) +
+      scale_colour_brewer(palette = palette)
+  }
   return(plot)
 }

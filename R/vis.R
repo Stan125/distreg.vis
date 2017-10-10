@@ -348,9 +348,9 @@ vis <- function() {
           # Palette Choices, inly for 1d dists
           ui_list[[2]] <-
             selectInput("pal_choices", label = "Colour Palette",
-                        choices = c("default", "Accent", "Dark2", "Paired",
+                        choices = c("default", "viridis", "Accent", "Dark2",
                                     "Pastel1", "Pastel2", "Set1", "Set2",
-                                    "Set3"))
+                                    "Paired", "Set3"))
         }
 
         # Action Button for console pasting

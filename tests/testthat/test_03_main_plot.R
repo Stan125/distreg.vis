@@ -40,6 +40,7 @@ suppressWarnings({
 })
 
 ## --- Show da plots --- ###
+expect_error(grid.arrange(grobs = normal_plots), regexp = NA) # normal
 expect_error(grid.arrange(grobs = beta_plots), regexp = NA) # beta
 expect_error(grid.arrange(grobs = binomial_plots), regexp = NA) # binomial
 expect_error(grid.arrange(grobs = cnorm_plots), regexp = NA) # cnorm
