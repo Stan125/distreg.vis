@@ -50,6 +50,10 @@ vis <- function() {
   ## Assemble UI
   ui <- fluidPage(
 
+    # Use CSS and ShinyJS for Code Highlighting
+    includeCSS("inst/srcjs/solarized-dark.css"),
+    includeScript("inst/srcjs/highlight.pack.js"),
+
     # Title
     titlePanel("Visualize your bamlss predictions"),
 
@@ -384,7 +388,11 @@ vis <- function() {
           code <- paste(c_data, c_predictions, c_plot, sep = "\n")
           showModal(modalDialog(
             title = "Obtain your R code",
-            tags$pre(tags$code(code)), easyClose = TRUE
+            tags$pre(tags$code(code)),
+            HTML('<script>$("pre code").each(function(i, block) {
+                   hljs.highlightBlock(block);
+                  });</script>'),
+            easyClose = TRUE
           ))
     })
 
