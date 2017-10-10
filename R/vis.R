@@ -138,7 +138,7 @@ vis <- function() {
       if (!is.null(m())) {
 
         # Create slider UI elements
-        m_indep <- m_data()[, -1]
+        m_indep <- expl_vars(m())
         cnames <- colnames(m_indep)
         ui_list <- list()
 
@@ -404,7 +404,7 @@ vis <- function() {
                  plotOutput("influence_graph")),
           column(width = 3, br(),
                  selectInput(inputId = "int_var",
-                             choices = colnames(m_data()[, -c(1)]),
+                             choices = colnames(expl_vars(m())),
                              label = "Expl. variable for plotting influence"))
         )
         plot_ui_panel <- tabPanel(title = "Influence graph", br(),

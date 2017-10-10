@@ -38,6 +38,17 @@ fac_equ <- function(base_df, pred_df) {
   return(pred_df)
 }
 
+#' Internal: Function to obtain all explanatory variables used to fit
+#'   a model, without the dependent variables
+#' @keywords internal
+
+expl_vars <- function(model) {
+  all_data <- model.frame(model)
+  dep_names <- colnames(model$y)
+  index <- !colnames(all_data) %in% dep_names
+  return(all_data[, index, drop = FALSE])
+}
+
 
 
 
