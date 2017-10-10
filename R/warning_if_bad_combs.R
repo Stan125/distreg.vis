@@ -16,7 +16,7 @@ range_checker <- function(orig_data, newdata) {
 
   varnames <- colnames(newdata)
   # Check for every column if one of the values lies outside orig min/max
-  conds <- sapply(varnames, FUN = function(x)
+  conds <- sapply(varnames, simplify = FALSE, FUN = function(x)
     return(sapply(newdata[[x]], FUN = function(y, x)
       return(y > min(orig_data[[x]]) & y < max(orig_data[[x]])), x = x)))
   conds <- data.frame(conds, row.names = row.names(newdata))

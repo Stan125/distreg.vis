@@ -212,11 +212,13 @@ vis <- function() {
 
     observeEvent(input$scen_act, {
       if (is.null(pred$data)) {
-        pred$data <- current_data()
+        pred$data <- data.frame(current_data(), row.names = "P1")
       }
       else if (!is.null(pred$data)) {
-        pred$data <- rbind(pred$data, current_data())
-        row.names(pred$data) <- paste0("P", 1:nrow(pred$data))
+        # Current rowname
+        cur_rn <- paste0("P", nrow(pred$data) + 1)
+        pred$data <- rbind(pred$data,
+                           data.frame(current_data(), row.names = cur_rn))
       }
     })
 
@@ -255,7 +257,7 @@ vis <- function() {
         row.names(DF) <- paste0("P", 1:nrow(DF))
 
         # Check whether newdata is in old data's range
-        combs <- range_checker(m()$model.frame, DF)
+        combs <- range_checker(expl_vars(m()), DF)
         if (!is.null(combs)) { # if not NULL then we have bad combs
           warn_message <- bad_range_warning(combs)
           showNotification(warn_message, type = "warning", duration = 10)
