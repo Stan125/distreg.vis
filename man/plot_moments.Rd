@@ -16,7 +16,7 @@ graphically displayed. Has to be in character form.}
 including the variable of interest, which will be ignored in later
 processing.}
 
-\item{See}{\code{\link{plot_dist}}}
+\item{palette}{See \code{\link{plot_dist}}}
 }
 \description{
 This function takes a dataframe of predictions with one row per

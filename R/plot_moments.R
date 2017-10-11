@@ -13,7 +13,7 @@
 #'   including the variable of interest, which will be ignored in later
 #'   processing.
 #' @param model A fitted model on which the plots are based.
-#' @param See \code{\link{plot_dist}}
+#' @param palette See \code{\link{plot_dist}}
 #' @importFrom magrittr %>% extract inset
 #' @importFrom tidyr gather
 #' @importFrom viridis scale_fill_viridis scale_colour_viridis
