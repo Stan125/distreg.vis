@@ -381,8 +381,9 @@ vis <- function() {
                          type = input$type_choices)
           if (!is.null(input$display))# Type of 3D plot if specified
             c_plot[["display"]] <- input$display
-          if (!is.null(input$palette)) # Palette if specified
-            c_plot[["palette"]] <- input$palette
+          if (!is.null(input$pal_choices)) # Palette if specified, could be NULL when we have 3D graph
+            if (input$pal_choices != "default")
+              c_plot[["palette"]] <- input$pal_choices
           c_plot <- deparse(c_plot, width.cutoff = 100) # Make call into character
 
           code <- paste(c_data, c_predictions, c_plot, sep = "\n")
@@ -408,14 +409,28 @@ vis <- function() {
     # UI for EXVX DF and influence plot
     output$exvxdf_ui <- renderUI({
       if (gmad()) {
-        # Plot UI
+        # Plot UI - sidebar
+        infl_sidebar <- list()
+        infl_sidebar[[1]] <-
+          selectInput(inputId = "infl_int_var",
+                      choices = colnames(expl_vars(m())),
+                      label = "Expl. variable for plotting influence")
+        infl_sidebar[[2]] <-
+          selectInput("infl_pal_choices", label = "Colour Palette",
+                      choices = c("default", "viridis", "Accent", "Dark2",
+                                  "Pastel1", "Pastel2", "Set1", "Set2",
+                                  "Paired", "Set3"))
+        infl_sidebar[[3]] <-
+          actionButton("infl_pastecode", icon = icon("code"),
+                       label = "Obtain Code!", style = "color:white;
+                       background-color:red")
+
+        # Plot UI - put things together
         plot_ui <- fluidRow(
           column(width = 9,
                  plotOutput("influence_graph")),
           column(width = 3, br(),
-                 selectInput(inputId = "int_var",
-                             choices = colnames(expl_vars(m())),
-                             label = "Expl. variable for plotting influence"))
+                 infl_sidebar)
         )
         plot_ui_panel <- tabPanel(title = "Influence graph", br(),
                             plot_ui)
@@ -433,6 +448,32 @@ vis <- function() {
 
     })
 
+    ## What happens when infl_pastecode button is pressed
+    observeEvent(input$infl_pastecode, {
+      # First line of code
+      infl_c_data <- capture.output(dput(pred$data))
+      infl_c_data <- c("covariate_data <- ", infl_c_data)
+      infl_c_data <- paste0(infl_c_data, collapse = "")
+
+      # Second line of code
+      infl_c_plot <- call("plot_moments", model = as.name(input$model),
+                          int_var = input$infl_int_var,
+                          pred_data = quote(covariate_data))
+      if (input$infl_pal_choices != "default") # Palette if specified
+        infl_c_plot[["palette"]] <- input$infl_pal_choices
+      infl_c_plot <- deparse(infl_c_plot, width.cutoff = 100) # Make call into character
+
+      infl_code <- paste(infl_c_data, infl_c_plot, sep = "\n")
+      showModal(modalDialog(
+        title = "Obtain your R code",
+        tags$pre(tags$code(infl_code)),
+        HTML('<script>$("pre code").each(function(i, block) {
+                   hljs.highlightBlock(block);
+                  });</script>'),
+        easyClose = TRUE
+      ))
+    })
+
     # Server-Rendering of DF
     output$exvxdf <- renderTable({
       if (!is.null(m())) {
@@ -444,7 +485,8 @@ vis <- function() {
     # Server-Rendering of Influence graph
     output$influence_graph <- renderPlot({
       if (gmad())
-        plot_moments(m(), input$int_var, pred$data)
+        plot_moments(m(), input$infl_int_var, pred$data,
+                     palette = input$infl_pal_choices)
     })
 
   }
