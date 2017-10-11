@@ -15,6 +15,8 @@ graphically displayed. Has to be in character form.}
 \item{pred_data}{Combinations of covariate data, sometimes also known as "newdata",
 including the variable of interest, which will be ignored in later
 processing.}
+
+\item{See}{\code{\link{plot_dist}}}
 }
 \description{
 This function takes a dataframe of predictions with one row per
