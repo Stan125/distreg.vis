@@ -55,7 +55,6 @@ suppressWarnings({
   expect_error(mvnorm_cdf, regexp = NA)
   expect_error(mvnorm_pdf_palette, regexp = NA)
   expect_error(mvnorm_pdf_contour_palette, regexp = NA)
-  expect_error(mvnorm_pdf_contour, regexp = NA)
   expect_error(mvnorm_pdf_image, regexp = NA)
 })
 
