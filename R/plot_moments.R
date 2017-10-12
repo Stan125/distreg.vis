@@ -143,13 +143,13 @@ plot_multinom_exp <- function(model, int_var, pred_data, m_data, palette) {
 
   # Palettes
   if (palette == "viridis") {
-    plot <- ground +
+    ground <- ground +
       scale_fill_viridis(discrete = TRUE) +
       scale_colour_viridis(discrete = TRUE)
   } else if (palette != "default") {
-    plot <- ground +
+    ground <- ground +
       scale_fill_brewer(palette = palette) +
       scale_colour_brewer(palette = palette)
   }
-  return(plot)
+  return(ground)
 }
