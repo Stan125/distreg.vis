@@ -189,10 +189,10 @@ vis <- function() {
     # This function catches the current selected data
     current_data <- reactive({
       if (!is.null(m())) {
-        indep <- m_data()[, -1]
+        indep <- expl_vars(m())
 
         # Create empty dataframe
-        dat <- indep[NULL, ]
+        dat <- indep[NULL, , drop = FALSE]
 
         # Get current variable values
         for (i in 1:ncol(indep))
@@ -344,6 +344,12 @@ vis <- function() {
             selectInput("display", label = "3D Plot type",
                         choices = c("perspective", "contour",
                                     "image"))
+          ui_list[[3]] <-
+            selectInput("pal_choices", label = "Colour Palette",
+                        choices = c("default", "Spectral", "RdYlBu",
+                                    "RdYlGn","Blues", "Greens",
+                                    "OrRd", "Purples"))
+
         } else {
           # Palette Choices, inly for 1d dists
           ui_list[[2]] <-
@@ -354,7 +360,7 @@ vis <- function() {
         }
 
         # Action Button for console pasting
-        ui_list[[3]] <-
+        ui_list[[length(ui_list) + 1]] <-
           actionButton("pastecode", icon = icon("code"),
                        label = "Obtain Code!", style = "color:white;
                                   background-color:red")

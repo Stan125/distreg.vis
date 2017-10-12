@@ -12,7 +12,10 @@
 #' @param palette The colour palette used for colouring the plot. You can use
 #'   any of the ones supplied in \code{\link[ggplot2]{scale_fill_brewer}} though I
 #'   suggest you use one of the qualitative ones: Accent, Dark2, etc. Since 0.5.0
-#'   \code{"viridis"} is the default colour palette, to account for colour blindness.
+#'   \code{"viridis"} is included, to account for colour blindness. If you want to do
+#'   3D plots, the accepted palettes are one of: \code{"default"}(viridis),
+#'   \code{"Blues"}, \code{"Greens"}, \code{"OrRd"}, \code{"Purples"},
+#'   \code{"Spectral"}, \code{"RdYlBu"}, \code{"RdYlGn"}
 #' @param type Do you want the probability distribution function ("pdf") or
 #'   the cumulative distribution function ("cdf")?
 #' @param display Only specify this when creating plots for two-dimensional
@@ -58,7 +61,7 @@ plot_dist <- function(model, predictions, palette = "default",
 
   # Different plots depending on type of distribution
   if (is.2d(fam, fam_gen$links))
-    plot <- pdfcdf_2d(p_m, model, type, display = display)
+    plot <- pdfcdf_2d(p_m, model, type, display = display, palette = palette)
   else if (is.continuous(fam))
     plot <- pdfcdf_continuous(lims, funs_list, type, p_m, palette)
   else if (!is.continuous(fam))
@@ -201,7 +204,8 @@ pdfcdf_discrete <- function(p_m, palette, family, type, model) {
 #' @importFrom magrittr set_colnames
 #' @keywords internal
 
-pdfcdf_2d <- function(p_m, model, type, display = "perspective") {
+pdfcdf_2d <- function(p_m, model, type = "pdf", display = "perspective",
+                      palette = "default") {
   # First we look whether cdf or pdf
   if (type == "pdf") {
     # Function that generates z values
@@ -217,6 +221,9 @@ pdfcdf_2d <- function(p_m, model, type, display = "perspective") {
   xval <- seq(p$mu1 - 3 * p$sigma1, p$mu1 + 3 * p$sigma1, length.out = 100)
   yval <- seq(p$mu2 - 3 * p$sigma2, p$mu2 + 3 * p$sigma2, length.out = 100)
 
+  # Make the palette
+  cols <- palette_getter(palette)
+
   # Here these values are displayed in different ways
   if (display != "image") { # We have to first check for image because it uses different data structure (column), which is hella annoying
     z <- matrix(0, nrow = 100, ncol = 100)
@@ -225,13 +232,14 @@ pdfcdf_2d <- function(p_m, model, type, display = "perspective") {
         z[i, j] <- density_f(cbind(xval[i], yval[j]), par = p)
     if (display == "perspective") {
       plot <- plot_ly(x = xval, y = yval, z = z) %>%
-        add_surface() %>%
+        add_surface(colors = cols) %>%
         layout(title = "Predicted Distribution",
                scene = list(xaxis = list(title = "x"),
                             yaxis = list(title = "y"),
                             zaxis = list(title = desc)))
     } else if (display == "contour") {
-      plot <- plot_ly(x = xval, y = yval, z = z, type = "contour") %>%
+      plot <- plot_ly(x = xval, y = yval, z = z, type = "contour",
+                      colors = cols) %>%
         colorbar(title = desc) %>%
         layout(xaxis = list(title = "x"),
                yaxis = list(title = "y"),
@@ -246,6 +254,8 @@ pdfcdf_2d <- function(p_m, model, type, display = "perspective") {
       geom_tile() +
       ggtitle("Predicted distribution") +
       theme_classic()
+    if (!is.null(cols))
+      plot <- plot + scale_fill_gradientn(colors = cols)
     plot$labels$fill <- desc
   }
   return(plot)

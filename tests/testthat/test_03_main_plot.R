@@ -33,8 +33,10 @@ multinomial_plots <- plot_dist(multinomial_model, multinomial_p)
 suppressWarnings({
   mvnorm_pdf <- bamlss.vis:::pdfcdf_2d(mvnorm_p, mvnorm_model, type = "pdf")
   mvnorm_cdf <- bamlss.vis:::pdfcdf_2d(mvnorm_p, mvnorm_model, type = "cdf")
-  mvnorm_pdf_contour <- bamlss.vis:::pdfcdf_2d(mvnorm_p, mvnorm_model,
-                                               type = "pdf", display = "contour")
+  mvnorm_pdf_palette <- bamlss.vis:::pdfcdf_2d(mvnorm_p, mvnorm_model, palette = "Spectral")
+  mvnorm_pdf_contour_palette <- bamlss.vis:::pdfcdf_2d(
+    mvnorm_p, mvnorm_model, palette = "Spectral",
+    type = "pdf", display = "contour")
   mvnorm_pdf_image <- bamlss.vis:::pdfcdf_2d(mvnorm_p, mvnorm_model, type = "pdf",
                                              display = "image")
 })
@@ -51,6 +53,8 @@ expect_error(grid.arrange(multinomial_plots), regexp = NA) # multinomial
 suppressWarnings({
   expect_error(mvnorm_pdf, regexp = NA)
   expect_error(mvnorm_cdf, regexp = NA)
+  expect_error(mvnorm_pdf_palette, regexp = NA)
+  expect_error(mvnorm_pdf_contour_palette, regexp = NA)
   expect_error(mvnorm_pdf_contour, regexp = NA)
   expect_error(mvnorm_pdf_image, regexp = NA)
 })

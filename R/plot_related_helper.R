@@ -85,3 +85,17 @@ disc_trans <- function(predictions, family, type, model) {
   }
   return(tf_df)
 }
+
+#' Internal: Get colour palettes for 3D plots
+#'
+#' @importFrom RColorBrewer brewer.pal
+#' @keywords internal
+
+palette_getter <- function(name = "default") {
+  if (name == "default")
+    return(NULL)
+  if (any(name == c("Blues", "Greens", "OrRd", "Purples")))
+    return(brewer.pal(9, name)[5:9]) # omit white colours
+  if (any(name == c("Spectral", "RdYlBu", "RdYlGn")))
+    return(brewer.pal(9, name))
+}
