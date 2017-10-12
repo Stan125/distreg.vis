@@ -1,7 +1,7 @@
 Package: bamlss.vis
 Type: Package
 Title: Visualize bamlss models in an interactive way
-Version: 0.5.0
+Version: 0.6.0
 Authors@R: person("Stanislaus", "Stadlmann", email = "stanislaus@stadlmann.cm", role = c("cre", "ctb"))
 Maintainer: Stanislaus Stadlmann <stanislaus@stadlmann.cm>
 Depends: 
