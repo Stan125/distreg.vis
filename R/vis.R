@@ -51,8 +51,8 @@ vis <- function() {
   ui <- fluidPage(
 
     # Use CSS and ShinyJS for Code Highlighting
-    includeCSS("inst/srcjs/solarized-dark.css"),
-    includeScript("inst/srcjs/highlight.pack.js"),
+    includeCSS(system.file("srcjs/solarized-dark.css", package = "bamlss.vis")),
+    includeScript(system.file("srcjs/highlight.pack.js", package = "bamlss.vis")),
 
     # Title
     titlePanel("Visualize your bamlss predictions"),
