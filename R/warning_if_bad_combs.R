@@ -10,12 +10,12 @@ range_checker <- function(orig_data, newdata) {
   # If newdata has NA remove it
   newdata <- na.omit(newdata)
 
-  # If there is an intercept remove it
-  if ("intercept" %in% colnames(newdata))
-    newdata <- within(newdata, rm("intercept"))
+  # Only use numeric values
+  numerics <- sapply(newdata, FUN = is.numeric)
+  newdata <- newdata[, numerics]
 
-  varnames <- colnames(newdata)
   # Check for every column if one of the values lies outside orig min/max
+  varnames <- colnames(newdata)
   conds <- sapply(varnames, simplify = FALSE, FUN = function(x)
     return(sapply(newdata[[x]], FUN = function(y, x)
       return(y > min(orig_data[[x]]) & y < max(orig_data[[x]])), x = x)))
