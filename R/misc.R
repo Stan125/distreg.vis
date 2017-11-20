@@ -49,6 +49,11 @@ expl_vars <- function(model) {
   return(all_data[, index, drop = FALSE])
 }
 
+#' Function for better use of formatR's tidy_source
+#' @keywords internal
+#' @importFrom formatR tidy_source
+tidy_c <- function(x)
+  return(tidy_source(text = x, output = FALSE, width.cutoff = 50))$text.tidy
 
 
 

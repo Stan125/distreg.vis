@@ -7,6 +7,7 @@
 #' @importFrom plotly renderPlotly plotlyOutput ggplotly plotly_empty
 #' @importFrom utils capture.output
 #' @importFrom stats family
+#' @importFrom formatR tidy_source
 #' @export
 
 ### --- Shiny App --- ###
@@ -375,11 +376,14 @@ vis <- function() {
           c_data <- capture.output(dput(pred$data))
           c_data <- c("covariate_data <- ", c_data)
           c_data <- paste0(c_data, collapse = "")
+          c_data <- tidy_c(c_data) # tidying
 
           # Second line of code
           c_predictions <- call("preds", model = as.name(input$model),
                                 newdata = quote(covariate_data))
           c_predictions <- paste0("pred_data <- ", deparse(c_predictions))
+          c_predictions <- tidy_c(c_predictions) # tidying
+
 
           # Third line of code
           c_plot <- call("plot_dist", model = as.name(input$model),
@@ -390,9 +394,13 @@ vis <- function() {
           if (!is.null(input$pal_choices)) # Palette if specified, could be NULL when we have 3D graph
             if (input$pal_choices != "default")
               c_plot[["palette"]] <- input$pal_choices
-          c_plot <- deparse(c_plot, width.cutoff = 100) # Make call into character
+          c_plot <- deparse(c_plot, width.cutoff = 200) # Make call into character
+          c_plot <- tidy_c(c_plot)
 
+          # Assemble code
           code <- paste(c_data, c_predictions, c_plot, sep = "\n")
+
+          # Show Model
           showModal(modalDialog(
             title = "Obtain your R code",
             tags$pre(tags$code(code)),
