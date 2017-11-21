@@ -53,7 +53,7 @@ expl_vars <- function(model) {
 #' @keywords internal
 #' @importFrom formatR tidy_source
 tidy_c <- function(x)
-  return(tidy_source(text = x, output = FALSE, width.cutoff = 50))$text.tidy
+  return(tidy_source(text = x, output = FALSE, width.cutoff = 45))$text.tidy
 
 
 
