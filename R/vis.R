@@ -247,7 +247,7 @@ vis <- function() {
     output$predtable <- renderRHandsontable({
       if (!is.null(pred$data)) {
         DF <- pred$data
-        rhandsontable(DF, width = 400)
+        rhandsontable(DF, width = 300)
       } else {
         NULL
       }
