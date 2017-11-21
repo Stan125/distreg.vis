@@ -268,6 +268,9 @@ vis <- function() {
           showNotification(warn_message, type = "warning", duration = 10)
         }
 
+        # Check whether there is factor and if so convert it back from ordered...
+        DF <- fac_check(DF)
+
         # Assign the new DF to pred$data
         pred$data <- DF
       }

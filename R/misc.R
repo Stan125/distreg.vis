@@ -38,6 +38,22 @@ fac_equ <- function(base_df, pred_df) {
   return(pred_df)
 }
 
+#' Factor Checker
+#'
+#' Checks whether some factor was unwantedly converted to an ordered factor
+#' which rhandsontable sometimes does
+#' @keywords internal
+fac_check <- function(DF) {
+ DF <- lapply(DF, FUN = function(x) {
+   if ("ordered" %in% class(x))
+     return(factor(x, levels = levels(x), ordered = FALSE))
+   else
+     return(x)
+ })
+ DF <- as.data.frame(DF)
+ return(DF)
+}
+
 #' Internal: Function to obtain all explanatory variables used to fit
 #'   a model, without the dependent variables
 #' @keywords internal
