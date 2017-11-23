@@ -471,6 +471,7 @@ vis <- function() {
       infl_c_data <- capture.output(dput(pred$data))
       infl_c_data <- c("covariate_data <- ", infl_c_data)
       infl_c_data <- paste0(infl_c_data, collapse = "")
+      infl_c_data <- tidy_c(infl_c_data)
 
       # Second line of code
       infl_c_plot <- call("plot_moments", model = as.name(input$model),
@@ -479,6 +480,7 @@ vis <- function() {
       if (input$infl_pal_choices != "default") # Palette if specified
         infl_c_plot[["palette"]] <- input$infl_pal_choices
       infl_c_plot <- deparse(infl_c_plot, width.cutoff = 100) # Make call into character
+      infl_c_plot <- tidy_c(infl_c_plot)
 
       infl_code <- paste(infl_c_data, infl_c_plot, sep = "\n")
       showModal(modalDialog(
