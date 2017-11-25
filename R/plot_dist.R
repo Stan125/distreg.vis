@@ -202,6 +202,7 @@ pdfcdf_discrete <- function(p_m, palette, family, type, model) {
 #'
 #' @importFrom plotly plot_ly add_surface layout %>% colorbar
 #' @importFrom magrittr set_colnames
+#' @importFrom viridis scale_colour_viridis scale_fill_viridis
 #' @keywords internal
 
 pdfcdf_2d <- function(p_m, model, type = "pdf", display = "perspective",
@@ -233,7 +234,7 @@ pdfcdf_2d <- function(p_m, model, type = "pdf", display = "perspective",
     if (display == "perspective") {
       plot <- plot_ly(x = xval, y = yval, z = z) %>%
         add_surface(colors = cols) %>%
-        layout(title = "Predicted Distribution",
+        layout(title = "\nPredicted Distribution",
                scene = list(xaxis = list(title = "x"),
                             yaxis = list(title = "y"),
                             zaxis = list(title = desc)))
@@ -253,7 +254,9 @@ pdfcdf_2d <- function(p_m, model, type = "pdf", display = "perspective",
     plot <- ggplot(comb_vals, aes(x, y, fill = z)) +
       geom_tile() +
       ggtitle("Predicted distribution") +
-      theme_classic()
+      theme_classic() +
+      scale_colour_viridis() +
+      scale_fill_viridis()
     if (!is.null(cols))
       plot <- plot + scale_fill_gradientn(colors = cols)
     plot$labels$fill <- desc
