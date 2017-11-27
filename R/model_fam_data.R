@@ -52,6 +52,6 @@ model_fam_data <- function(nrow = 500, seed = 1408) {
                                                      "three", "four")),
                      norm1 = qnorm(u_data$v2, 3, 5),
                      norm2 = qnorm(u_data$v3, 10, 15),
-                     binomial1 = as.factor(qbinom(u_data$v2, 1, 0.5)))
+                     binomial1 = factor(qbinom(u_data$v2, 1, 0.5), labels = c("yes", "no")))
   return(data)
 }
