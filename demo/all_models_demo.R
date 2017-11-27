@@ -51,9 +51,11 @@ multinomial_model <- bamlss(list(multinomial ~ norm1 + norm2),
                             family = multinomial_bamlss())
 
 # MVnorm model
-mvnorm_model <- bamlss(list(cbind(num, err) ~ x1 + x2 + x3,
-                            sigma1 ~ 1,
-                            sigma2 ~ 1), data = art_data,
+mvnorm_model <- bamlss(list(num ~ s(x1) + s(x2) + s(x3),
+                            err ~ s(x1) + s(x2) + s(x3),
+                            sigma1 ~ s(x1) + s(x2) + s(x3),
+                            sigma2 ~ s(x1) + s(x2) + s(x3),
+                            rho12 ~ s(x1) + s(x2) + s(x3)), data = art_data,
                        family = mvnorm_bamlss(k = 2))
 
 ### --- Predictions --- ###
