@@ -2,13 +2,13 @@
 % Please edit documentation in R/plot_moments.R
 \name{plot_multinom_exp}
 \alias{plot_multinom_exp}
-\title{Internal: Plot function as sub-case to plot_moments especially for
+\title{Internal: Plot function as sub-case to plot_moments for
   multinomial family}
 \usage{
-plot_multinom_exp(model, int_var, pred_data, m_data, palette)
+plot_multinom_exp(model, int_var, pred_data, m_data, palette, coltype)
 }
 \description{
-Internal: Plot function as sub-case to plot_moments especially for
+Internal: Plot function as sub-case to plot_moments for
   multinomial family
 }
 \keyword{internal}

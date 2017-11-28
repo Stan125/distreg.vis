@@ -112,7 +112,7 @@ plot_moments <- function(model, int_var, pred_data, palette = "default") {
 }
 
 
-#' Internal: Plot function as sub-case to plot_moments especially for
+#' Internal: Plot function as sub-case to plot_moments for
 #'   multinomial family
 #'
 #' @import ggplot2
