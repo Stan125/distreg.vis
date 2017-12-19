@@ -187,7 +187,7 @@ vis <- function() {
 
     ## --- Newdata --- ##
 
-    # This function catches the current selected data
+    # This function catches the current expl variables data from the model
     current_data <- reactive({
       if (!is.null(m())) {
         indep <- expl_vars(m())
@@ -247,7 +247,8 @@ vis <- function() {
     output$predtable <- renderRHandsontable({
       if (!is.null(pred$data)) {
         DF <- pred$data
-        rhandsontable(DF, width = 300)
+        DF$rownames <- row.names(DF) # this line creates new variable on which the user can specify own rownames
+        rhandsontable(DF, rowHeaders = row.names(DF), width = 300)
       } else {
         NULL
       }
@@ -255,11 +256,13 @@ vis <- function() {
 
     # This function updates the prediction data when hot changes
     # Since 0.4.5 it also checks whether cov combinations are in range
+    # Since 0.4.6 the user can specify own rownames
     observe({
       if (!is.null(input$predtable)) {
         # Convert handsontable to df and give it the original rownames
         DF <- hot_to_r(input$predtable)
-        row.names(DF) <- paste0("P", 1:nrow(DF))
+        row.names(DF) <- DF$rownames # these two lines
+        DF$rownames <- NULL          # assign the user-specified rownames to the actual rownames
 
         # Check whether newdata is in old data's range
         combs <- range_checker(expl_vars(m()), DF)

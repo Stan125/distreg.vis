@@ -44,13 +44,14 @@ fac_equ <- function(base_df, pred_df) {
 #' which rhandsontable sometimes does
 #' @keywords internal
 fac_check <- function(DF) {
+  rn <- row.names(DF)
  DF <- lapply(DF, FUN = function(x) {
    if ("ordered" %in% class(x))
      return(factor(x, levels = levels(x), ordered = FALSE))
    else
      return(x)
  })
- DF <- as.data.frame(DF)
+ DF <- data.frame(DF, row.names = rn)
  return(DF)
 }
 
