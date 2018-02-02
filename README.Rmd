@@ -42,7 +42,7 @@ install_github("Stan125/bamlss.vis")
 Let's show an example using the `Wage` dataset, taken from the ISLR R package. It depicts the wage of 3000 male workers in the Mid-Atlantic region of the US, related to a couple of socio-economic variables.
 
 First, let's fit a bamlss using the censored normal distribution (Wages cannot be negative):
-```{r eval=FALSE, message=FALSE, warning=FALSE, include=FALSE}
+```{r eval=FALSE}
 library(bamlss)
 Wage <- ISLR::Wage
 cnorm_model <- bamlss(

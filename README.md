@@ -23,6 +23,17 @@ Let's show an example using the `Wage` dataset, taken from the ISLR R package. I
 
 First, let's fit a bamlss using the censored normal distribution (Wages cannot be negative):
 
+``` r
+library(bamlss)
+Wage <- ISLR::Wage
+cnorm_model <- bamlss(
+  list(wage ~ s(age) + race + year + education + health,
+       sigma ~ s(age) + race + year + education + health),
+  data = Wage,
+  family = cnorm_bamlss()
+)
+```
+
 Both parameters of the modeled wage distribution are now modeled as being dependent on the socio-economic variables.
 
 #### Starting the application
