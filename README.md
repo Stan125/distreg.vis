@@ -17,6 +17,14 @@ The implementation is an interactive application using the Shiny framework.
 
 `bamlss.vis` is not on CRAN, but only on GitHub at the moment. Run the following code to install the package and all its extensions. The following code also installs the latest version of `bamlss`, which is not on CRAN yet.
 
+``` r
+if (!require(devtools))
+  install.packages("devtools")
+library(devtools)
+install_github("rforge/bayesr/pkg/bamlss")
+install_github("Stan125/bamlss.vis")
+```
+
 ### Show-Case
 
 Let's show an example using the `Wage` dataset, taken from the ISLR R package. It depicts the wage of 3000 male workers in the Mid-Atlantic region of the US, related to a couple of socio-economic variables.

@@ -30,7 +30,7 @@ The implementation is an interactive application using the Shiny framework.
 ### Install
 `bamlss.vis` is not on CRAN, but only on GitHub at the moment. Run the following code to install the package and all its extensions. The following code also installs the latest version of `bamlss`, which is not on CRAN yet.
 
-```{r, eval = FALSE, include = FALSE}
+```{r, eval = FALSE}
 if (!require(devtools))
   install.packages("devtools")
 library(devtools)
