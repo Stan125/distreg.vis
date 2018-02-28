@@ -19,7 +19,7 @@ vis <- function() {
     tabPanel("Overview",
              br(),
              selectInput("model", label = "Select a model",
-                         choices = c("",search_ba())),
+                         choices = c("",search_distreg())), # Here bamlss and gamlss objects are searched for
              uiOutput("family_ui"),
              uiOutput("equations_ui"))
 
@@ -159,21 +159,17 @@ vis <- function() {
         # More space
         ui_list[[4]] <- br()
 
-        # Create intercept UI elements
-        ui_list[[5]] <- checkboxInput("intercept", "Include Intercept?",
-                                      value = TRUE)
-
         # Create coefficient elements
         for (i in 1:ncol(m_indep)) {
           if (any(is.numeric(m_indep[, i]))) {
-            ui_list[[i + 5]] <- sliderInput(inputId = paste0("var", i),
+            ui_list[[i + 4]] <- sliderInput(inputId = paste0("var", i),
                                             label = cnames[i],
                                             min = round(min(m_indep[, i]), 2),
                                             max = round(max(m_indep[, i]), 2),
                                             value = round(mean(m_indep[, i]), 2),
                                             sep = "")
           } else if (any(is.factor(m_indep[, i]))) {
-            ui_list[[i + 5]] <- selectInput(inputId = paste0("var", i),
+            ui_list[[i + 4]] <- selectInput(inputId = paste0("var", i),
                                             label = cnames[i],
                                             choices = levels(m_indep[, i]),
                                             selected = levels(m_indep[, i])[1])

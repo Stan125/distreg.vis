@@ -3,7 +3,7 @@
 #' Function that searches the WD for a bamlss model
 #' @keywords internal
 
-search_ba <- function() {
+search_distreg <- function() {
   # Get components of Global Environment
   lsc <- ls(envir = .GlobalEnv)
 
@@ -11,9 +11,9 @@ search_ba <- function() {
   distreg_true <- sapply(lsc, FUN = distreg_checker)
 
   # Return nothing if no bamlss or gamlss
-  if (length(bamlss_true) > 0)
-    if (sum(bamlss_true) > 0)
-      return(lsc[bamlss_true])
+  if (length(distreg_true) > 0)
+    if (sum(distreg_true) > 0)
+      return(lsc[distreg_true])
   else
     return("")
 }
@@ -22,10 +22,10 @@ search_ba <- function() {
 #'
 #' @keywords internal
 distreg_checker <- function(x) {
-  obj <- get(x)
-  if (any(class(x) == "bamlss"))
+  obj <- get(x, envir = .GlobalEnv)
+  if (any(class(obj) == "bamlss"))
     return(TRUE)
-  else if (any(class(x) == "gamlss"))
+  else if (any(class(obj) == "gamlss"))
     return(TRUE)
   else
     return(FALSE)
