@@ -18,44 +18,35 @@
 #'   data = data_fam, family = beta_bamlss())
 #' # Get 3 predictions
 #' pred_df <- data_fam[sample(1:nrow(data_fam), 3), c("norm1", "norm2")]
-#' pred_df <- cbind(pred_df, intercept = rep(TRUE, 3))
 #' param_preds <- preds(beta_model, pred_df)
 #' @return A data.frame with one column for every distributional parameter
 #'   and a row for every covariate combination that should be predicted.
 #' @importFrom stats na.omit predict
+#' @importFrom gamlss predictAll
+#' @importFrom bamlss predict.bamlss
 #' @export
 
 preds <- function(model, newdata) {
-  # Stop if no intercept
-  if (is.null(newdata$intercept))
-    stop("Intercept not specified")
 
-  # Omit NA's
+  # Omit NA's in prediction data
   newdata <- na.omit(newdata)
 
-  # Two df's with and without intercept
-  p_m_i <- data.frame()
-  p_m_ni <- data.frame()
-
-  # Get predictions for obs with intercept
-  if (sum(newdata$intercept) != 0) {
-    tempdata <- newdata[newdata$intercept == TRUE, ]
-    p_m_i <- as.data.frame(predict(model, tempdata, type = "parameter",
-                                   intercept = TRUE, drop = FALSE))
-    row.names(p_m_i) <- row.names(tempdata)
+  if (any(class(model) == "gamlss")) {
+    # Predicted parameters - gamlss
+    pred_par <-
+      as.data.frame(predictAll(model, newdata = newdata,
+                               output = "matrix", type = "parameter"))
+    pred_par <- predicted_par[, !colnames(predicted_par) %in% y]
+  } else if (any(class(model) == "bamlss")) {
+    # Predicted parameters - bamlss
+    pred_par <-
+      as.data.frame(predict(model, newdata = newdata, drop = FALSE,
+                            type = "parameter", intercept = TRUE))
+  } else {
+    stop("Class is neither bamlss nor gamlss, so no predictions!")
   }
-  # Get preds for obs without intercept
-  if (sum(newdata$intercept) != nrow(newdata)) {
-    tempdata <- newdata[newdata$intercept == FALSE, ]
-    p_m_ni <- as.data.frame(predict(model, tempdata, type = "parameter",
-                                    intercept = FALSE, drop = FALSE))
-    row.names(p_m_ni) <- row.names(tempdata)
-  }
-
-  # Put both together
-  p_m <- rbind(p_m_i, p_m_ni)
-  p_m <- p_m[order(row.names(p_m)), , drop = FALSE]
 
   # Return it here
-  return(p_m)
+  return(pred_par)
 }
+

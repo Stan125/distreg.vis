@@ -19,7 +19,8 @@ Imports:
         mvtnorm (>= 1.0-6),
         viridis (>= 0.4.0),
         RColorBrewer (>= 1.1-2),
-        formatR (>= 1.5)
+        formatR (>= 1.5),
+        gamlss (>= 5.0-6)
 Suggests: testthat, gridExtra
 Description: bamlss.vis calls a Shiny app where one can compare different predictions depending on varying covariate values.
 License: GPL-2
