@@ -35,7 +35,7 @@ preds <- function(model, newdata) {
     # Predicted parameters - gamlss
     pred_par <-
       as.data.frame(predictAll(model, newdata = newdata,
-                               output = "matrix", type = "parameter"))
+                               output = "matrix", type = "response"))
     pred_par <- predicted_par[, !colnames(predicted_par) %in% y]
   } else if (any(class(model) == "bamlss")) {
     # Predicted parameters - bamlss
