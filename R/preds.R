@@ -36,14 +36,14 @@ preds <- function(model, newdata) {
     pred_par <-
       as.data.frame(predictAll(model, newdata = newdata,
                                output = "matrix", type = "response"))
-    pred_par <- predicted_par[, !colnames(predicted_par) %in% y]
+    pred_par <- pred_par[, !colnames(pred_par) %in% "y", drop = FALSE] # goddamn
   } else if (any(class(model) == "bamlss")) {
     # Predicted parameters - bamlss
     pred_par <-
       as.data.frame(predict(model, newdata = newdata, drop = FALSE,
                             type = "parameter", intercept = TRUE))
   } else {
-    stop("Class is neither bamlss nor gamlss, so no predictions!")
+    stop("Class is neither bamlss nor gamlss, so can't make predictions!")
   }
 
   # Return it here

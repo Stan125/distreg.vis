@@ -9,10 +9,8 @@ skip_on_cran()
 
 # Libraries
 library(bamlss.vis)
+library(gamlss)
 library(dplyr)
-
-# Warnings are errors
-options(warn = 2)
 
 # Set Seed
 set.seed(1408)
@@ -20,41 +18,52 @@ set.seed(1408)
 ## --- Generating data --- ##
 data_fam <- model_fam_data()
 
-### --- Models --- ###
+### --- Models - bamlss w/ bamlss family --- ###
 
 # Normal model
-normal_model <- bamlss(list(normal ~ norm1 + norm2,
-                            sigma ~ norm1 + norm2),
-                       data = data_fam, family = gaussian_bamlss())
+normal_model_b <- bamlss(list(normal ~ norm1 + norm2,
+                              sigma ~ norm1 + norm2),
+                         data = data_fam, family = gaussian_bamlss())
+normal_model_bg <- bamlss(list(normal ~ norm1 + norm2,
+                               sigma ~ norm1 + norm2),
+                          data = data_fam, family = gamlss.dist::NO())
+normal_model_g <- gamlss(normal ~ norm1 + norm2,
+                         ~ norm1 + norm2, data = data_fam,
+                         family = gamlss.dist::NO(),
+                         trace = FALSE)
 
 # Beta dist model
-beta_model <- bamlss(list(beta ~ norm1 + norm2,
+beta_model_b <- bamlss(list(beta ~ norm1 + norm2,
                           sigma2 ~ norm1 + norm2),
                      data = data_fam, family = beta_bamlss())
 
 # Binomial model
-binomial_model <- bamlss(list(binomial ~ norm1 + norm2),
+binomial_model_b <- bamlss(list(binomial ~ norm1 + norm2),
                          data = data_fam, family = binomial_bamlss())
 
 # Cnorm model
-cnorm_model <- bamlss(list(cnorm ~ norm1 + norm2),
+cnorm_model_b <- bamlss(list(cnorm ~ norm1 + norm2),
                       data = data_fam, family = cnorm_bamlss())
 
 # Gamma model
-gamma_model <- bamlss(list(gamma ~ norm1 + norm2,
+gamma_model_b <- bamlss(list(gamma ~ norm1 + norm2,
                            sigma ~ norm1 + norm2),
                       data = data_fam, family = gamma_bamlss())
 
 # GPareto model
-gpareto_model <- bamlss(list(gpareto ~ norm1 + norm2),
+gpareto_model_b <- bamlss(list(gpareto ~ norm1 + norm2),
                         data = data_fam, family = gpareto_bamlss())
 
 # Poisson model
-poisson_model <- bamlss(list(poisson ~ norm1 + norm2),
+poisson_model_b <- bamlss(list(poisson ~ norm1 + norm2),
                         data = data_fam, family = poisson_bamlss())
+poisson_model_bg <- bamlss(list(poisson ~ norm1 + norm2),
+                           data = data_fam, family = gamlss.dist::PO())
+poisson_model_g <- gamlss(poisson ~ norm1 + norm2,
+                          data = data_fam, family = gamlss.dist::PO())
 
 # Multinomial model
-multinomial_model <- bamlss(list(multinomial ~ norm1 + norm2),
+multinomial_model_b <- bamlss(list(multinomial ~ norm1 + norm2),
                             data = data_fam,
                             family = multinomial_bamlss())
 
@@ -66,12 +75,12 @@ suppressWarnings({
                          family = mvnorm_bamlss(k = 2))
 })
 
+
 ### --- Predictions --- ###
 
 ## Expl Variable
 expl <- sample_n(data_fam, 5) %>%
-  select(norm1:norm2) %>%
-  mutate(intercept = TRUE)
+  select(norm1:norm2)
 
 ### --- Save models --- ###
 save(file = "models_data.RData",
