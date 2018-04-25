@@ -99,3 +99,47 @@ palette_getter <- function(name = "default") {
   if (any(name == c("Spectral", "RdYlBu", "RdYlGn")))
     return(brewer.pal(9, name))
 }
+
+#' Internal: PDF and CDF getter
+#'
+#' Obtain the right PDF and CDF for the modeled distribution for a given model class and distribution
+#'
+#' @import gamlss.dist
+#' @keywords internal
+
+pdf_cdf_getter <- function(model) {
+  # Stop if not gamlss or bamlss model
+  if (!any(class(model) %in% c("gamlss", "bamlss")))
+    stop("Only GAMLSS and BAMLSS classes supported.")
+
+  # GAMLSS
+  if (any(class(model) == "gamlss")) {
+    fam_name <- model$family[1]
+
+    # Probability distribution function
+    d_raw_name <- paste0("d", fam_name)
+    d <- function(x, par)
+      return(do.call(get(force(d_raw_name), envir = as.environment("package:gamlss.dist")),
+                     c(list(x = x), par))) # why does it preserve d_raw_name even if this function is used outside of this environment? http://adv-r.had.co.nz/Functions.html
+
+    # Cumulative distribution function
+    p_raw_name <- paste0("p", fam_name)
+    p <- function(x, par)
+      return(do.call(get(force(p_raw_name), envir = as.environment("package:gamlss.dist")),
+                    c(list(x = x), par)))
+
+    # Put p and d together
+    dist_list <- list(d = d, p = p)
+  }
+
+  # BAMLSS
+  if (any(class(model) == "bamlss")) {
+    family <- family(model)
+    d <- family$d
+    p <- family$p
+
+    # Put p and d together
+    dist_list <- list(d = d, p = p)
+  }
+  return(dist_list)
+}
