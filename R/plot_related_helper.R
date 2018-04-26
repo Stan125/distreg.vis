@@ -129,7 +129,7 @@ pdf_cdf_getter <- function(model) {
                     c(list(x = x), par)))
 
     # Put p and d together
-    dist_list <- list(d = d, p = p)
+    dist_functions <- list(d = d, p = p)
   }
 
   # BAMLSS
@@ -138,8 +138,12 @@ pdf_cdf_getter <- function(model) {
     d <- family$d
     p <- family$p
 
+    # Stop when there is no pdf - AFAIK only in bamlss/multinomial case...
+    if (is.null(p))
+      stop(paste("Family", family, "does not have a CDF!"))
+
     # Put p and d together
-    dist_list <- list(d = d, p = p)
+    dist_functions <- list(d = d, p = p)
   }
   return(dist_list)
 }
