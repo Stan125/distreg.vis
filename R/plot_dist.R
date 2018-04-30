@@ -42,10 +42,16 @@
 plot_dist <- function(model, pred_params, palette = "default",
                       type = "pdf", display = "perspective") {
 
-  # Check here whether distribution is even implemented
+  # Check whether the function is even applied to the right classes
+  if (!any(class(model) %in% c("bamlss", "gamlss")))
+    stop("This tool only works for bamlss/gamlss classes")
 
   # Get right family
   fam_name <- fam_obtainer(model)
+
+  # Check here whether distribution is even implemented
+  if (!is.implemented(fam_name))
+    stop("Family not implemented")
 
   # Get correct pdf and cdf functions - pdf_cdf_getter should also check whether a cdf is even available
   funs_list <- pdf_cdf_getter(model)
