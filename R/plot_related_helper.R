@@ -62,7 +62,7 @@ limits <- function(fam_name, predictions) {
 #' Internal: Limit type getter
 #'
 #' Get the limit type depending on \code{dists}.
-#' @keyword internal
+#' @keywords internal
 type_getter <- function(fam_name) {
   type <- dists[dists$dist_name == fam_name, "type_limits", drop = TRUE]
   return(as.character(type))
@@ -195,6 +195,7 @@ pdf_cdf_getter <- function(model) {
 #' Internal: Family obtainer
 #'
 #' Gets the right family (in character) from a given model
+#' @keywords internal
 
 fam_obtainer <- function(model) {
   # Check whether model is gamlss or bamlss

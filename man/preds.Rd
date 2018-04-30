@@ -32,6 +32,5 @@ beta_model <- bamlss(list(beta ~ norm1 + norm2,
   data = data_fam, family = beta_bamlss())
 # Get 3 predictions
 pred_df <- data_fam[sample(1:nrow(data_fam), 3), c("norm1", "norm2")]
-pred_df <- cbind(pred_df, intercept = rep(TRUE, 3))
 param_preds <- preds(beta_model, pred_df)
 }

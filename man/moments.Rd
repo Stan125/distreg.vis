@@ -4,7 +4,7 @@
 \alias{moments}
 \title{Return First two Moments of a distributions's parameters}
 \usage{
-moments(par, family)
+moments(par, fam_name)
 }
 \arguments{
 \item{par}{Parameters of the modeled distribution in a data.frame form.

@@ -23,7 +23,6 @@
 #'   and a row for every covariate combination that should be predicted.
 #' @importFrom stats na.omit predict
 #' @importFrom gamlss predictAll
-#' @importFrom bamlss predict.bamlss
 #' @export
 
 preds <- function(model, newdata) {

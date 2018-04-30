@@ -17,8 +17,8 @@ moments <- function(par, fam_name) {
 
     # Get moments for each row of par
     moms_raw <- apply(par, 1, function(x) {
-      ex <- do.call(fam_called$ex, args = as.list(x)) # Expected value
-      vx <- do.call(fam_called$vx, args = as.list(x)) # Variance
+      ex <- do.call(fam_called$mean, args = as.list(x)) # Expected value
+      vx <- do.call(fam_called$variance, args = as.list(x)) # Variance
       return(c(ex = ex, vx = vx))
     })
 

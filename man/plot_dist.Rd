@@ -4,13 +4,13 @@
 \alias{plot_dist}
 \title{Plot predicted bamlss distribution families with ggplot2}
 \usage{
-plot_dist(model, predictions, palette = "default", type = "pdf",
+plot_dist(model, pred_params, palette = "default", type = "pdf",
   display = "perspective")
 }
 \arguments{
 \item{model}{A fitted bamlss object.}
 
-\item{predictions}{A data.frame with rows for every model prediction and
+\item{pred_params}{A data.frame with rows for every model prediction and
 columns for every predicted parameter of the distribution. Is easily obtained
 with the \code{bamlss.vis} function \code{\link{preds}}.}
 
@@ -20,7 +20,7 @@ suggest you use one of the qualitative ones: Accent, Dark2, etc. Since 0.5.0
 \code{"viridis"} is included, to account for colour blindness. If you want to do
 3D plots, the accepted palettes are one of: \code{"default"}(viridis),
 \code{"Blues"}, \code{"Greens"}, \code{"OrRd"}, \code{"Purples"},
-\code{"Spectral"}, \code{"RdYlBu"}, \code{"RdYlGn"}}
+\code{"Spectral"}, \code{"RdYlBu"}, \code{"RdYlGn"}.}
 
 \item{type}{Do you want the probability distribution function ("pdf") or
 the cumulative distribution function ("cdf")?}
@@ -34,10 +34,9 @@ image plot.}
 A ggplot2 object.
 }
 \description{
-This function plots the parameters of a predicted distribution (e.g.
-  obtained through \code{\link{preds}}) with ggplot2. You can use all
-  implemented families in bamlss except two-dimensional distributions and
-  the cox family.
+This function plots the parameters of a predicted distribution (e.g. obtained
+through \code{\link{preds}}) with ggplot2. You can use all implemented
+families in bamlss except the cox family.
 }
 \examples{
 # Generating data

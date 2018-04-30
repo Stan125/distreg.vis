@@ -2,11 +2,16 @@
 % Please edit documentation in R/plot_related_helper.R
 \name{limits}
 \alias{limits}
-\title{Internal: Get plot limits for a predicted distribution.}
+\title{Internal: Plot limit getter}
 \usage{
-limits(predictions, family, times_sd = 3)
+limits(fam_name, predictions)
 }
 \description{
-Returns a data.frame
+A function that heavily relies on the \code{distreg.vis::dists} data.frame to
+obtain optimal plotting limits. Specifically, this function relies on the
+columns \code{type_limits}, \code{l_limit}, \code{u_limit}.
+}
+\details{
+Three cases: categorical limits (\code{cat_limits}), no_limits, has_limits, both_limits
 }
 \keyword{internal}
