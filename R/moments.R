@@ -9,6 +9,9 @@
 #' @import bamlss
 #' @export
 moments <- function(par, fam_name) {
+  # get rownames
+  rnames <- row.names(par)
+
   # gamlss moments
   if (is.gamlss(fam_name)) {
     # Call the family
@@ -23,7 +26,7 @@ moments <- function(par, fam_name) {
     })
 
     # Make into nice format
-    moms <- as.data.frame(t(moms_raw))
+    moms <- as.data.frame(t(moms_raw), row.names = rnames)
   }
 
   # bamlss moments
@@ -40,7 +43,7 @@ moments <- function(par, fam_name) {
     })
 
     # Make into nice format
-    moms <- as.data.frame(t(moms_raw)) # lots of reshaping here... no me gusta
+    moms <- as.data.frame(t(moms_raw), row.names = rnames) # lots of reshaping here... no me gusta
   }
 
   return(moms)
