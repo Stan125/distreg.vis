@@ -1,4 +1,4 @@
-dist_name;class;implemented;varying_limits;l_limit;u_limit;type;is_multivariate
+dist_name;class;implemented;type_limits;l_limit;u_limit;type;is_multivariate
 BB;gamlss;FALSE;NA;NA;NA;Discrete;FALSE
 BCCG;gamlss;FALSE;NA;NA;NA;Continuous;FALSE
 BCCGo;gamlss;FALSE;NA;NA;NA;Continuous;FALSE
@@ -43,14 +43,14 @@ LOGITNO;gamlss;FALSE;NA;NA;NA;Continuous;FALSE
 LOGNO;gamlss;FALSE;NA;NA;NA;Continuous;FALSE
 LOGNO2;gamlss;FALSE;NA;NA;NA;Continuous;FALSE
 LQNO;gamlss;FALSE;NA;NA;NA;Continuous;FALSE
-MN3;gamlss;FALSE;NA;NA;NA;Discrete;FALSE
-MN4;gamlss;FALSE;NA;NA;NA;Discrete;FALSE
-MN5;gamlss;FALSE;NA;NA;NA;Discrete;FALSE
+MN3;gamlss;FALSE;NA;NA;NA;Categorical;FALSE
+MN4;gamlss;FALSE;NA;NA;NA;Categorical;FALSE
+MN5;gamlss;FALSE;NA;NA;NA;Categorical;FALSE
 NBF;gamlss;FALSE;NA;NA;NA;Discrete;FALSE
 NBI;gamlss;FALSE;NA;NA;NA;Discrete;FALSE
 NBII;gamlss;FALSE;NA;NA;NA;Discrete;FALSE
 NET;gamlss;FALSE;NA;NA;NA;Continuous;FALSE
-NO;gamlss;TRUE;TRUE;NA;NA;Continuous;FALSE
+NO;gamlss;TRUE;no_limits;NA;NA;Continuous;FALSE
 NO2;gamlss;FALSE;NA;NA;NA;Continuous;FALSE
 NOF;gamlss;FALSE;NA;NA;NA;Continuous;FALSE
 PARETO2;gamlss;FALSE;NA;NA;NA;Continuous;FALSE
@@ -63,9 +63,9 @@ RG;gamlss;FALSE;NA;NA;NA;Continuous;FALSE
 RGE;gamlss;FALSE;NA;NA;NA;Continuous;FALSE
 SEP;gamlss;FALSE;NA;NA;NA;Continuous;FALSE
 Sep 01;gamlss;FALSE;NA;NA;NA;Continuous;FALSE
-Sep 02;gamlss;FALSE;NA;NA;NA;Continuous;FALSE
-Sep 03;gamlss;FALSE;NA;NA;NA;Continuous;FALSE
-Sep 04;gamlss;FALSE;NA;NA;NA;Continuous;FALSE
+Sep 01;gamlss;FALSE;NA;NA;NA;Continuous;FALSE
+Sep 01;gamlss;FALSE;NA;NA;NA;Continuous;FALSE
+Sep 01;gamlss;FALSE;NA;NA;NA;Continuous;FALSE
 SHASH;gamlss;FALSE;NA;NA;NA;Continuous;FALSE
 SHASHo;gamlss;FALSE;NA;NA;NA;Continuous;FALSE
 SHASHo2;gamlss;FALSE;NA;NA;NA;Continuous;FALSE
@@ -108,17 +108,17 @@ ZIP2;gamlss;FALSE;NA;NA;NA;Discrete;FALSE
 ZIPF;gamlss;FALSE;NA;NA;NA;Discrete;FALSE
 ZIPIG;gamlss;FALSE;NA;NA;NA;Discrete;FALSE
 ZISICHEL;gamlss;FALSE;NA;NA;NA;Discrete;FALSE
-beta;bamlss;TRUE;TRUE;NA;NA;Continuous;FALSE
-binomial;bamlss;TRUE;TRUE;NA;NA;Discrete;FALSE
-cnorm;bamlss;TRUE;TRUE;NA;NA;Mixed;FALSE
-cox;bamlss;TRUE;TRUE;NA;NA;NA;FALSE
-gamma;bamlss;TRUE;TRUE;NA;NA;Continuous;FALSE
-gaussian;bamlss;TRUE;TRUE;NA;NA;Continuous;FALSE
-Gaussian;bamlss;TRUE;TRUE;NA;NA;Continuous;FALSE
-gaussian2;bamlss;TRUE;TRUE;NA;NA;Continuous;FALSE
-glogis;bamlss;TRUE;TRUE;NA;NA;Continuous;FALSE
-gpareto;bamlss;TRUE;TRUE;NA;NA;Continuous;FALSE
-multinomial;bamlss;TRUE;TRUE;NA;NA;Discrete;FALSE
-.mvnorm;bamlss;TRUE;TRUE;NA;NA;Continuous;TRUE
-poisson;bamlss;TRUE;TRUE;NA;NA;Discrete;FALSE
-quant;bamlss;TRUE;TRUE;NA;NA;NA;FALSE
+beta;bamlss;TRUE;both_limits;0;1;Continuous;FALSE
+binomial;bamlss;TRUE;cat_limits;0;1;Discrete;FALSE
+cnorm;bamlss;TRUE;one_limit;0;NA;Mixed;FALSE
+cox;bamlss;FALSE;NA;NA;NA;NA;FALSE
+gamma;bamlss;TRUE;one_limit;0;NA;Continuous;FALSE
+gaussian;bamlss;TRUE;no_limits;NA;NA;Continuous;FALSE
+Gaussian;bamlss;TRUE;no_limits;NA;NA;Continuous;FALSE
+gaussian2;bamlss;TRUE;no_limits;NA;NA;Continuous;FALSE
+glogis;bamlss;TRUE;no_limits;NA;NA;Continuous;FALSE
+gpareto;bamlss;TRUE;both_limits;0;5;Continuous;FALSE
+multinomial;bamlss;TRUE;cat_limits;NA;NA;Categorical;FALSE
+.mvnorm;bamlss;TRUE;no_limits;NA;NA;Continuous;TRUE
+poisson;bamlss;TRUE;one_limit;NA;NA;Discrete;FALSE
+quant;bamlss;FALSE;NA;NA;NA;NA;NA

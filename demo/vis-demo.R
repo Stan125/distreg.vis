@@ -1,4 +1,4 @@
-## Demo: Shiny App
+ ## Demo: Shiny App
 library(bamlss.vis)
 
 # Data

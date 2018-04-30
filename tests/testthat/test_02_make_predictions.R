@@ -15,17 +15,19 @@ load("models_data.RData")
 
 ## --- Predictions --- ##
 # All but mvnorm model
-models <- ls()[grepl("model_", ls())]
-models <- models[models != "mvnorm_model"] # MVnorm prediction separately
-predictions <- list()
-for (i in 1:length(models)) {
-  predictions[[i]] <- bamlss.vis::preds(get(models[i]), newdata = expl)
-  expect_true(any(class(predictions[[i]]) == "data.frame")) # Did drop = FALSE work?
-}
+predictions <- lapply(models[names(models) != "mvnorm"], FUN = function(family_models) {
+  lapply(family_models, FUN = function(model) {
+    predictions <- bamlss.vis::preds(model, newdata = expl)
+    expect_true(any(class(predictions) == "data.frame"))
+    return(predictions)
+  })
+})
 
 # MVnorm model
 suppressWarnings({
-  mvnorm_p <- bamlss.vis:::preds(mvnorm_model, expl)
+  mvnorm_p <- bamlss.vis:::preds(models$mvnorm$bamlss, expl)
+  expect_true(any(class(mvnorm_p) == "data.frame"))
+  predictions$mvnorm$bamlss <- mvnorm_p
 })
 
 ## --- Save predictions & other things --- ##

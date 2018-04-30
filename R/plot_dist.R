@@ -1,12 +1,11 @@
 #' Plot predicted bamlss distribution families with ggplot2
 #'
-#' This function plots the parameters of a predicted distribution (e.g.
-#'   obtained through \code{\link{preds}}) with ggplot2. You can use all
-#'   implemented families in bamlss except two-dimensional distributions and
-#'   the cox family.
+#' This function plots the parameters of a predicted distribution (e.g. obtained
+#' through \code{\link{preds}}) with ggplot2. You can use all implemented
+#' families in bamlss except the cox family.
 #'
 #' @param model A fitted bamlss object.
-#' @param predictions A data.frame with rows for every model prediction and
+#' @param pred_params A data.frame with rows for every model prediction and
 #'   columns for every predicted parameter of the distribution. Is easily obtained
 #'   with the \code{bamlss.vis} function \code{\link{preds}}.
 #' @param palette The colour palette used for colouring the plot. You can use
@@ -15,7 +14,7 @@
 #'   \code{"viridis"} is included, to account for colour blindness. If you want to do
 #'   3D plots, the accepted palettes are one of: \code{"default"}(viridis),
 #'   \code{"Blues"}, \code{"Greens"}, \code{"OrRd"}, \code{"Purples"},
-#'   \code{"Spectral"}, \code{"RdYlBu"}, \code{"RdYlGn"}
+#'   \code{"Spectral"}, \code{"RdYlBu"}, \code{"RdYlGn"}.
 #' @param type Do you want the probability distribution function ("pdf") or
 #'   the cumulative distribution function ("cdf")?
 #' @param display Only specify this when creating plots for two-dimensional
@@ -40,31 +39,26 @@
 #' plot_dist(beta_model, param_preds, palette = "Dark2")
 #' @export
 
-plot_dist <- function(model, predictions, palette = "default",
+plot_dist <- function(model, pred_params, palette = "default",
                       type = "pdf", display = "perspective") {
 
-  # Convert predictions to p_m
-  p_m <- predictions
+  # Check here whether distribution is even implemented
 
-  # Get family and function for pdf
-  fam_gen <- family(model)
-  fam <- fam_gen$family
-  funs_list <- list(pdf = fam_gen$d, cdf = fam_gen$p)
+  # Get right family
+  fam_name <- fam_obtainer(model)
 
-  # Hacky way to stop the function for multinomial cdf
-  if (fam == "multinomial" & type == "cdf")
-    stop("There is no cdf for the multinomial distribution!")
+  # Get correct pdf and cdf functions - pdf_cdf_getter should also check whether a cdf is even available
+  funs_list <- pdf_cdf_getter(model)
 
-  # Get plot limits
-  if (!is.2d(fam, fam_gen$links))
-    lims <- limits(p_m, fam)
+  # Get correct limits
+  lims <- limits(fam_name, pred_params)
 
   # Different plots depending on type of distribution
-  if (is.2d(fam, fam_gen$links))
+  if (is.2d(fam_name))
     plot <- pdfcdf_2d(p_m, model, type, display = display, palette = palette)
-  else if (is.continuous(fam))
-    plot <- pdfcdf_continuous(lims, funs_list, type, p_m, palette)
-  else if (!is.continuous(fam))
+  else if (is.continuous(fam_name))
+    plot <- pdfcdf_continuous(lims, funs_list, type, pred_params, palette)
+  else if (!is.continuous(fam_name))
     plot <- pdfcdf_discrete(p_m, palette, fam, type, model)
 
   # Return it
@@ -94,7 +88,7 @@ pdfcdf_continuous <- function(lims, funs, type, p_m, palette) {
     }
   } else if (type == "pdf") {
     # Assemble plot
-    ground <- ggplot(data = lims, aes(x)) +
+    ground <- ggplot(data = data.frame(x = lims), aes(x)) +
       ggtitle("Predicted distribution(s)") +
       labs(x = "y", y = "f(y)")
 

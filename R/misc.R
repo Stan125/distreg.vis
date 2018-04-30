@@ -1,6 +1,6 @@
-#' bamlss Searcher
+#' distreg Searcher
 #'
-#' Function that searches the WD for a bamlss model
+#' Function that searches the WD for a distreg model
 #' @keywords internal
 
 search_distreg <- function() {

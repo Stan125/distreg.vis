@@ -3,3 +3,4 @@
 ^images$
 ^\.travis\.yml$
 ^\.httr-oauth$
+^data-raw$
