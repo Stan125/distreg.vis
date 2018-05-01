@@ -50,11 +50,11 @@ limits <- function(fam_name, predictions) {
     max_lim <- max(all_lims)
 
     # Check here whether to use max/min or the theoretical limits
-    if (min_lim < theo_lims$l_limit) # this works even if there is an NA because then it won't be true as well... magic...
+    if (isTRUE(min_lim < theo_lims$l_limit)) # this works even if there is an NA because then it won't be true as well... magic...
       lower <- theo_lims$l_limit
     else
       lower <- min_lim
-    if (max_lim > theo_lims$u_limit)
+    if (isTRUE(max_lim > theo_lims$u_limit))
       upper <- theo_lims$u_limit
     else
       upper <- max_lim
