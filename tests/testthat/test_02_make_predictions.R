@@ -18,7 +18,7 @@ load("models_data.RData")
 predictions <- lapply(models[names(models) != "mvnorm"], FUN = function(family_models) {
   lapply(family_models, FUN = function(model) {
     predictions <- bamlss.vis::preds(model, newdata = expl)
-    expect_true(any(class(predictions) == "data.frame"))
+    testthat::expect_true(any(class(predictions) == "data.frame"))
     return(predictions)
   })
 })

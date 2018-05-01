@@ -35,21 +35,32 @@ limits <- function(fam_name, predictions) {
     # Get moments
     moms <- moments(predictions, fam_name)
 
-    # Get theoretical lims by dists data.frame
+    # Get theoretical lims by dists data.frame - this means the support of the distribution
     theo_lims <- lims_getter(fam_name)
 
-    # Get theoretical upper and lower limit
+    # Get empirical upper and lower limits
     all_lims <- apply(moms, 1, FUN = function(x){
       ex <- x["ex"]
       sd <- sqrt(x["vx"])
       return(c(l = ex - 3 * sd, u = ex + 3 * sd)) # plot limits - 3 times the standard deviation
     })
 
-    # Find the min and max of both to get right limits
-    all_combined <- na.omit(c(unlist(all_lims), theo_lims)) # the na.omit here takes care of the case when there is only one limit.... NA is input as the upper limit and then removed here.
+    # Min/max of empirical limits (mean +- three times the sd)
+    min_lim <- min(all_lims)
+    max_lim <- max(all_lims)
+
+    # Check here whether to use max/min or the theoretical limits
+    if (min_lim < theo_lims$l_limit) # this works even if there is an NA because then it won't be true as well... magic...
+      lower <- theo_lims$l_limit
+    else
+      lower <- min_lim
+    if (max_lim > theo_lims$u_limit)
+      upper <- theo_lims$u_limit
+    else
+      upper <- max_lim
 
     # Limits
-    lims <- c(lower = min(all_combined), upper = max(all_combined))
+    lims <- c(lower = lower, upper = upper)
   }
 
   # if we are categorical do this
