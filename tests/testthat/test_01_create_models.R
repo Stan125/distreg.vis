@@ -51,13 +51,14 @@ models <- list(
                                  data = data_fam, family = gamlss.dist::PO())),
   multinomial = list(bamlss = bamlss(list(multinomial ~ norm1 + norm2),
                                      data = data_fam,
-                                     family = multinomial_bamlss())),
-  mvnorm = list(bamlss = suppressWarnings({
-    bamlss(list(normal ~ norm2,
-                norm1 ~ norm2),
-           data = data_fam,
-           family = mvnorm_bamlss(k = 2))
-  }))
+                                     family = multinomial_bamlss()))
+  # ,
+  # mvnorm = list(bamlss = suppressWarnings({
+  #   bamlss(list(normal ~ norm2,
+  #               norm1 ~ norm2),
+  #          data = data_fam,
+  #          family = mvnorm_bamlss(k = 2))
+  # }))
 )
 
 ### --- Expl variables for predictions --- ###

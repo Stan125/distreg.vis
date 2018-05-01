@@ -23,12 +23,12 @@ predictions <- lapply(models[names(models) != "mvnorm"], FUN = function(family_m
   })
 })
 
-# MVnorm model
-suppressWarnings({
-  mvnorm_p <- bamlss.vis:::preds(models$mvnorm$bamlss, expl)
-  expect_true(any(class(mvnorm_p) == "data.frame"))
-  predictions$mvnorm$bamlss <- mvnorm_p
-})
+# # MVnorm model
+# suppressWarnings({
+#   mvnorm_p <- bamlss.vis:::preds(models$mvnorm$bamlss, expl)
+#   expect_true(any(class(mvnorm_p) == "data.frame"))
+#   predictions$mvnorm$bamlss <- mvnorm_p
+# })
 
 ## --- Save predictions & other things --- ##
 save(list = "predictions", file = "predictions.RData")
