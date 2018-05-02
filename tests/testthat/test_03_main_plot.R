@@ -1,6 +1,9 @@
 ## Creates main distribution plots ##
 # Based on all_models_demo.R
 
+# Currently not available
+testthat::skip("Currently not available")
+
 # Skip on CRAN
 skip_on_cran()
 

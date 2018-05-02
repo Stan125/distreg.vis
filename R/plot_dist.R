@@ -60,12 +60,12 @@ plot_dist <- function(model, pred_params, palette = "default",
   lims <- limits(fam_name, pred_params)
 
   # Different plots depending on type of distribution
-  if (is.2d(fam_name))
-    plot <- pdfcdf_2d(p_m, model, type, display = display, palette = palette)
+  if (is.2d(model))
+    plot <- pdfcdf_2d(pred_params, model, type, display = display, palette = palette)
   else if (is.continuous(fam_name))
     plot <- pdfcdf_continuous(lims, funs_list, type, pred_params, palette)
   else if (!is.continuous(fam_name))
-    plot <- pdfcdf_discrete(p_m, palette, fam, type, model)
+    plot <- pdfcdf_discrete(pred_params, palette, fam_name, type, model)
 
   # Return it
   return(plot)

@@ -1,5 +1,8 @@
 ## Creates moments influence plots ##
 
+# Currently not available
+testthat::skip("Currently not available")
+
 # Skip on CRAN
 skip_on_cran()
 

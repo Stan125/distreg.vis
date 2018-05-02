@@ -1,5 +1,9 @@
 ## Misc Testing ##
 
+
+# Currently not available
+testthat::skip("Currently not available")
+
 # Remove everything
 rm(list = ls())
 

@@ -4,7 +4,7 @@
 \alias{is.2d}
 \title{Internal: Function to check whether the modeled response is bivariate}
 \usage{
-is.2d(name)
+is.2d(model)
 }
 \description{
 Internal: Function to check whether the modeled response is bivariate

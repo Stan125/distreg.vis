@@ -26,21 +26,25 @@
 #' @export
 
 preds <- function(model, newdata) {
-
   # Omit NA's in prediction data
   newdata <- na.omit(newdata)
+
+  # Rownames
+  rnames <- row.names(newdata)
 
   if (any(class(model) == "gamlss")) {
     # Predicted parameters - gamlss
     pred_par <-
       as.data.frame(predictAll(model, newdata = newdata,
-                               output = "matrix", type = "response"))
+                               output = "matrix", type = "response"),
+                    row.names = rnames)
     pred_par <- pred_par[, !colnames(pred_par) %in% "y", drop = FALSE] # goddamn
   } else if (any(class(model) == "bamlss")) {
     # Predicted parameters - bamlss
     pred_par <-
       as.data.frame(predict(model, newdata = newdata, drop = FALSE,
-                            type = "parameter", intercept = TRUE))
+                            type = "parameter", intercept = TRUE),
+                    row.names = rnames)
   } else {
     stop("Class is neither bamlss nor gamlss, so can't make predictions!")
   }

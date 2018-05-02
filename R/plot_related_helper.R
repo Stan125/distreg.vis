@@ -6,7 +6,6 @@
 #'
 #' Three cases: categorical limits (\code{cat_limits}), no_limits, has_limits, both_limits
 #' @keywords internal
-
 limits <- function(fam_name, predictions) {
 
   # Get limit type
@@ -63,10 +62,14 @@ limits <- function(fam_name, predictions) {
     lims <- c(lower = lower, upper = upper)
   }
 
-  # if we are categorical do this
+  # Third case - categorical variables
+  if (lim_type == "cat_limits") {
+    # if we are categorical do this
 
-  # (binomial should also be categorical, actually...)
+    # (binomial should also be categorical, actually...)
 
+    # probably have to write a function that catches the data from gamlss/bamlss models and uses it here...
+  }
   return(lims)
 }
 
@@ -94,7 +97,6 @@ lims_getter <- function(fam_name) {
 #' @importFrom tidyr gather
 #' @importFrom stats dpois ppois
 #' @keywords internal
-
 disc_trans <- function(predictions, family, type, model) {
   if (family == "binomial") {
     if (type == "pdf") {
@@ -145,7 +147,6 @@ disc_trans <- function(predictions, family, type, model) {
 #'
 #' @importFrom RColorBrewer brewer.pal
 #' @keywords internal
-
 palette_getter <- function(name = "default") {
   if (name == "default")
     return(NULL)
@@ -161,7 +162,6 @@ palette_getter <- function(name = "default") {
 #'
 #' @import gamlss.dist
 #' @keywords internal
-
 pdf_cdf_getter <- function(model) {
   # Stop if not gamlss or bamlss model
   if (!any(class(model) %in% c("gamlss", "bamlss")))
@@ -179,9 +179,9 @@ pdf_cdf_getter <- function(model) {
 
     # Cumulative distribution function
     p_raw_name <- paste0("p", fam_name)
-    cdf <- function(x, par)
+    cdf <- function(q, par)
       return(do.call(get(force(p_raw_name), envir = as.environment("package:gamlss.dist")),
-                    c(list(x = x), par)))
+                    c(list(q = q), par)))
 
     # Put p and d together
     dist_functions <- list(pdf = pdf, cdf = cdf)
@@ -207,7 +207,6 @@ pdf_cdf_getter <- function(model) {
 #'
 #' Gets the right family (in character) from a given model
 #' @keywords internal
-
 fam_obtainer <- function(model) {
   # Check whether model is gamlss or bamlss
   if (!any(class(model) %in% c("gamlss", "bamlss")))

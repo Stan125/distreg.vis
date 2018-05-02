@@ -1,5 +1,8 @@
 ### -- This script checks for correct use of moments() -- ###
 
+# Currently not available
+testthat::skip("Currently not available")
+
 ## Remove everything
 rm(list = ls())
 

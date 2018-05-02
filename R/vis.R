@@ -90,7 +90,7 @@ vis <- function() {
     # Reactive model data
     m_data <- reactive({
       if (!is.null(m()))
-        m()$model.frame
+        model_data(m())
     })
 
     # Reactive model family
@@ -120,7 +120,7 @@ vis <- function() {
     # Equations Rendering
     output$equations <- renderPrint({
       if (!is.null(m()))
-        m()$formula
+        formula_printer(m())
     })
 
     # Family Output
@@ -197,9 +197,6 @@ vis <- function() {
 
         # Convert categorical variables to factors with right levels
         dat <- fac_equ(indep, dat)
-
-        # Add intercept
-        dat <- cbind(dat, intercept = input$intercept)
 
         # Show DF
         dat
@@ -288,7 +285,7 @@ vis <- function() {
     ## PLotly is rendered here, condition is checked with conditionalPanel
     output$plotly <- renderPlotly({
       if (gmad()) {
-        if (is.2d(fam()$family, fam()$links)) {
+        if (is.2d(m())) {
           p <- plot_dist(m(), cur_pred(), palette = input$pal_choices,
                          type = input$type_choices, display = input$display)
           p$elementId <- NULL
@@ -310,7 +307,7 @@ vis <- function() {
     ## Plot is rendered here, condition is checked with conditionalPanel
     output$plot <- renderPlot({
       if (gmad())
-        if (!is.2d(fam()$family, fam()$links))
+        if (!is.2d(m()))
           plot_dist(m(), cur_pred(), palette = input$pal_choices,
                     type = input$type_choices)
       else
@@ -321,7 +318,7 @@ vis <- function() {
     ## It checks the conditions for plot and then decides if plotly or plot
     output$condition_plot <- renderUI({
       if (gmad()) {
-        if (is.2d(fam()$family, fam()$links)) {
+        if (is.2d(m())) {
           plotlyOutput("plotly")
         } else {
           plotOutput("plot")
@@ -341,7 +338,7 @@ vis <- function() {
           selectInput("type_choices", label = "PDF or CDF?",
                       choices = c("pdf", "cdf"))
 
-        if (is.2d(fam()$family, fam()$links)) {
+        if (is.2d(m())) {
           # Contour/Image Slider for 3D - only for 2d dists
           ui_list[[2]] <-
             selectInput("display", label = "3D Plot type",

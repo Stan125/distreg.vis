@@ -23,7 +23,7 @@
 plot_moments <- function(model, int_var, pred_data, palette = "default") {
 
   # Get model data
-  m_data <- model$model.frame
+  m_data <- model_data(model)
 
   # Ignore interested variable
   pred_data[[int_var]] <- NULL
@@ -55,14 +55,14 @@ plot_moments <- function(model, int_var, pred_data, palette = "default") {
     inset("id", value = row.names(.))
 
   # Use another function if you have multinomial family
-  if (family(model)$family == "multinomial")
+  if (fam_obtainer(model) == "multinomial")
     return(plot_multinom_exp(model, int_var, pred_data, m_data, palette, coltype))
 
   # Now make predictions and find out expected value and variance
   preds <- pred_data %>%
     subset(select = -c(id, prediction)) %>%
     preds(model, newdata = .) %>%
-    bamlss.vis:::moments(par = ., family = family(model)$family) %>%
+    bamlss.vis:::moments(par = ., fam_name = fam_obtainer(model)) %>%
     inset("id", value = row.names(.))
   moments <- colnames(preds)[colnames(preds) != "id"]
 

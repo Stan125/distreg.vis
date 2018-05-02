@@ -67,22 +67,10 @@ fac_check <- function(DF) {
  return(DF)
 }
 
-#' Internal: Function to obtain all explanatory variables used to fit
-#'   a model, without the dependent variables
-#' @keywords internal
-
-expl_vars <- function(model) {
-  all_data <- model.frame(model)
-  dep_names <- colnames(model$y)
-  index <- !colnames(all_data) %in% dep_names
-  return(all_data[, index, drop = FALSE])
-}
-
 #' Function for better use of formatR's tidy_source
 #' @keywords internal
 #' @importFrom formatR tidy_source
 tidy_c <- function(x)
   return(tidy_source(text = x, output = FALSE, width.cutoff = 45))$text.tidy
-
 
 

@@ -109,7 +109,7 @@ ZIPF;gamlss;FALSE;NA;NA;NA;Discrete;FALSE
 ZIPIG;gamlss;FALSE;NA;NA;NA;Discrete;FALSE
 ZISICHEL;gamlss;FALSE;NA;NA;NA;Discrete;FALSE
 beta;bamlss;TRUE;both_limits;0;1;Continuous;FALSE
-binomial;bamlss;TRUE;cat_limits;0;1;Discrete;FALSE
+binomial;bamlss;TRUE;one_limit;0;1;Discrete;FALSE
 cnorm;bamlss;TRUE;one_limit;0;NA;Mixed;FALSE
 cox;bamlss;FALSE;NA;NA;NA;NA;FALSE
 gamma;bamlss;TRUE;one_limit;0;NA;Continuous;FALSE
@@ -118,7 +118,7 @@ Gaussian;bamlss;TRUE;no_limits;NA;NA;Continuous;FALSE
 gaussian2;bamlss;TRUE;no_limits;NA;NA;Continuous;FALSE
 glogis;bamlss;TRUE;no_limits;NA;NA;Continuous;FALSE
 gpareto;bamlss;TRUE;both_limits;0;5;Continuous;FALSE
-multinomial;bamlss;TRUE;cat_limits;NA;NA;Categorical;FALSE
+multinomial;bamlss;FALSE;cat_limits;NA;NA;Categorical;FALSE
 .mvnorm;bamlss;TRUE;no_limits;NA;NA;Continuous;TRUE
 poisson;bamlss;TRUE;one_limit;NA;NA;Discrete;FALSE
 quant;bamlss;FALSE;NA;NA;NA;NA;NA

@@ -47,7 +47,6 @@ is.gamlss <- function(name) {
 #'
 #' Check whether a given distribution comes from the bamlss package
 #' @keywords internal
-
 is.bamlss <- function(name) {
   return(any(dists[dists$dist_name == name, "class"] == "bamlss"))
 }
@@ -55,7 +54,12 @@ is.bamlss <- function(name) {
 #' Internal: Function to check whether the modeled response is bivariate
 #'
 #' @keywords internal
-
-is.2d <- function(name) {
-  return(dists[dists$dist_name == name, "is_multivariate"])
+is.2d <- function(model) {
+  fam_name <- fam_obtainer(model)
+  is.mv <- bamlss.vis::dists[bamlss.vis::dists$dist_name == fam_name, "is_multivariate"]
+  links <- link_printer(model)
+  if (is.mv && length(links) == 5)
+    return(TRUE)
+  else
+    FALSE
 }
