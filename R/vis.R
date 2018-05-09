@@ -492,7 +492,7 @@ vis <- function() {
     # Server-Rendering of DF
     output$exvxdf <- renderTable({
       if (!is.null(m())) {
-        moments <- moments(cur_pred(), fam()$family)
+        moments <- moments(cur_pred(), fam_obtainer(m()))
         moments
       }
     }, rownames = TRUE)
