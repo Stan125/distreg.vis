@@ -7,7 +7,7 @@ testthat::skip("Currently not available")
 rm(list = ls())
 
 ## Load package(s) ##
-library(bamlss.vis)
+library(distreg.vis)
 
 ## Load data ##
 load("predictions.RData")

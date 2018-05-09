@@ -11,7 +11,7 @@ skip_on_cran()
 rm(list = ls())
 
 # Libraries
-library(bamlss.vis)
+library(distreg.vis)
 library(dplyr)
 library(gridExtra)
 
@@ -34,13 +34,13 @@ gpareto_plots <- plot_f(gpareto_model, gpareto_p)
 poisson_plots <- plot_f(poisson_model, poisson_p)
 multinomial_plots <- plot_dist(multinomial_model, multinomial_p)
 suppressWarnings({
-  mvnorm_pdf <- bamlss.vis:::pdfcdf_2d(mvnorm_p, mvnorm_model, type = "pdf")
-  mvnorm_cdf <- bamlss.vis:::pdfcdf_2d(mvnorm_p, mvnorm_model, type = "cdf")
-  mvnorm_pdf_palette <- bamlss.vis:::pdfcdf_2d(mvnorm_p, mvnorm_model, palette = "Spectral")
-  mvnorm_pdf_contour_palette <- bamlss.vis:::pdfcdf_2d(
+  mvnorm_pdf <- distreg.vis:::pdfcdf_2d(mvnorm_p, mvnorm_model, type = "pdf")
+  mvnorm_cdf <- distreg.vis:::pdfcdf_2d(mvnorm_p, mvnorm_model, type = "cdf")
+  mvnorm_pdf_palette <- distreg.vis:::pdfcdf_2d(mvnorm_p, mvnorm_model, palette = "Spectral")
+  mvnorm_pdf_contour_palette <- distreg.vis:::pdfcdf_2d(
     mvnorm_p, mvnorm_model, palette = "Spectral",
     type = "pdf", display = "contour")
-  mvnorm_pdf_image <- bamlss.vis:::pdfcdf_2d(mvnorm_p, mvnorm_model, type = "pdf",
+  mvnorm_pdf_image <- distreg.vis:::pdfcdf_2d(mvnorm_p, mvnorm_model, type = "pdf",
                                              display = "image")
 })
 

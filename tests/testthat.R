@@ -1,4 +1,4 @@
 library(testthat)
-library(bamlss.vis)
+library(distreg.vis)
 
-test_check("bamlss.vis")
+test_check("distreg.vis")

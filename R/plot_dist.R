@@ -7,7 +7,7 @@
 #' @param model A fitted bamlss object.
 #' @param pred_params A data.frame with rows for every model prediction and
 #'   columns for every predicted parameter of the distribution. Is easily obtained
-#'   with the \code{bamlss.vis} function \code{\link{preds}}.
+#'   with the \code{distreg.vis} function \code{\link{preds}}.
 #' @param palette The colour palette used for colouring the plot. You can use
 #'   any of the ones supplied in \code{\link[ggplot2]{scale_fill_brewer}} though I
 #'   suggest you use one of the qualitative ones: Accent, Dark2, etc. Since 0.5.0

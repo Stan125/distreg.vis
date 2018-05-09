@@ -1,6 +1,6 @@
 ### Try out all models ###
 ### all-models demo ###
-library(bamlss.vis)
+library(distreg.vis)
 library(dplyr)
 library(ggplot2)
 library(gridExtra)
@@ -109,11 +109,11 @@ gamma_plots <- plot_f(gamma_model, gamma_p)
 gpareto_plots <- plot_f(gpareto_model, gpareto_p)
 poisson_plots <- plot_f(poisson_model, poisson_p)
 multinomial_plots <- plot_dist(multinomial_model, multinomial_p)
-mvnorm_pdf <- bamlss.vis:::pdfcdf_2d(mvnorm_p, mvnorm_model, type = "pdf")
-mvnorm_cdf <- bamlss.vis:::pdfcdf_2d(mvnorm_p, mvnorm_model, type = "cdf")
-mvnorm_pdf_contour <- bamlss.vis:::pdfcdf_2d(mvnorm_p, mvnorm_model,
+mvnorm_pdf <- distreg.vis:::pdfcdf_2d(mvnorm_p, mvnorm_model, type = "pdf")
+mvnorm_cdf <- distreg.vis:::pdfcdf_2d(mvnorm_p, mvnorm_model, type = "cdf")
+mvnorm_pdf_contour <- distreg.vis:::pdfcdf_2d(mvnorm_p, mvnorm_model,
                                              type = "pdf", display = "contour")
-mvnorm_pdf_image <- bamlss.vis:::pdfcdf_2d(mvnorm_p, mvnorm_model, type = "pdf",
+mvnorm_pdf_image <- distreg.vis:::pdfcdf_2d(mvnorm_p, mvnorm_model, type = "pdf",
                                      display = "image")
 
 ## --- Show da plots --- ###

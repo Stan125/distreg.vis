@@ -12,7 +12,7 @@ plot_dist(model, pred_params, palette = "default", type = "pdf",
 
 \item{pred_params}{A data.frame with rows for every model prediction and
 columns for every predicted parameter of the distribution. Is easily obtained
-with the \code{bamlss.vis} function \code{\link{preds}}.}
+with the \code{distreg.vis} function \code{\link{preds}}.}
 
 \item{palette}{The colour palette used for colouring the plot. You can use
 any of the ones supplied in \code{\link[ggplot2]{scale_fill_brewer}} though I

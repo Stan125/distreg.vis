@@ -9,3 +9,4 @@ model_data(model)
 \description{
 Get the data from the models
 }
+\keyword{internal}

@@ -10,7 +10,7 @@ skip_on_cran()
 rm(list = ls())
 
 # Libraries
-library(bamlss.vis)
+library(distreg.vis)
 
 ### --- Get models and data --- ###
 load("models_data.RData")

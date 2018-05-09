@@ -1,6 +1,6 @@
-Package: bamlss.vis
+Package: distreg.vis
 Type: Package
-Title: Visualize bamlss models in an interactive way
+Title: Framework for the visualization of distributional regression models
 Version: 0.6.0
 Authors@R: person("Stanislaus", "Stadlmann", email = "stanislaus@stadlmann.cm", role = c("cre", "ctb"))
 Maintainer: Stanislaus Stadlmann <stanislaus@stadlmann.cm>
@@ -22,9 +22,9 @@ Imports:
         formatR (>= 1.5),
         gamlss (>= 5.0-6)
 Suggests: testthat, gridExtra
-Description: bamlss.vis calls a Shiny app where one can compare different predictions depending on varying covariate values.
+Description: distreg.vis calls a Shiny app where one can compare different predictions depending on varying covariate values.
 License: GPL-2
 LazyData: TRUE
-URL: https://github.com/Stan125/bamlss.vis
-BugReports: https://github.com/Stan125/bamlss.vis/issues
+URL: https://github.com/Stan125/distreg.vis
+BugReports: https://github.com/Stan125/distreg.vis/issues
 RoxygenNote: 6.0.1

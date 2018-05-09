@@ -1,6 +1,6 @@
-#' bamlss.vis function
+#' distreg.vis function
 #'
-#' Function to call the bamlss.vis Shiny App which represents the core of this
+#' Function to call the distreg.vis Shiny App which represents the core of this
 #'   package.
 #' @import shiny
 #' @import rhandsontable
@@ -52,8 +52,8 @@ vis <- function() {
   ui <- fluidPage(
 
     # Use CSS and ShinyJS for Code Highlighting
-    includeCSS(system.file("srcjs/solarized-dark.css", package = "bamlss.vis")),
-    includeScript(system.file("srcjs/highlight.pack.js", package = "bamlss.vis")),
+    includeCSS(system.file("srcjs/solarized-dark.css", package = "distreg.vis")),
+    includeScript(system.file("srcjs/highlight.pack.js", package = "distreg.vis")),
 
     # Title
     titlePanel("Visualize your bamlss predictions"),

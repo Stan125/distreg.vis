@@ -1,5 +1,5 @@
  ## Demo: Shiny App
-library(bamlss.vis)
+library(distreg.vis)
 
 # Data
 data_fam <- model_fam_data()
@@ -13,9 +13,9 @@ poisson_model <- bamlss(list(poisson ~ norm1 + norm2),
 mvnorm_model <- bamlss(list(normal ~ s(norm2),
                             norm1 ~ s(norm2)), data = data_fam,
                        family = mvnorm_bamlss(k = 2))
-multinomial_model <- bamlss(list(multinomial ~ norm1 + norm2 + binomial1),
-                            data = data_fam,
-                            family = multinomial_bamlss())
+# multinomial_model <- bamlss(list(multinomial ~ norm1 + norm2 + binomial1),
+#                             data = data_fam,
+#                             family = multinomial_bamlss())
 
 # Start the App
-bamlss.vis::vis()
+distreg.vis::vis()

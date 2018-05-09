@@ -8,7 +8,7 @@ rm(list = ls())
 skip_on_cran()
 
 # Libraries
-library(bamlss.vis)
+library(distreg.vis)
 library(gamlss)
 library(dplyr)
 

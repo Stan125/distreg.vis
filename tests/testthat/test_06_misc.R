@@ -9,6 +9,7 @@ rm(list = ls())
 
 # Libraries
 library(dplyr)
+library(distreg.vis)
 
 ### -- Mult_trans --- ###
 
@@ -20,16 +21,16 @@ load("predictions.RData")
 multinomial_p1 <- multinomial_p %>%
   sample_n(1)
 
-m_one <- bamlss.vis:::mult_trans(multinomial_p1, multinomial_model)
-m_two <- bamlss.vis:::mult_trans(multinomial_p, multinomial_model)
+m_one <- distreg.vis:::mult_trans(multinomial_p1, multinomial_model)
+m_two <- distreg.vis:::mult_trans(multinomial_p, multinomial_model)
 expect_equal(class(m_one), "data.frame")
 expect_equal(class(m_two), "data.frame")
 
 ### -- Shiny & Javascript/CSS --- ###
 cssfile <-
-  system.file("srcjs/solarized-dark.css", package = "bamlss.vis")
+  system.file("srcjs/solarized-dark.css", package = "distreg.vis")
 jsfile <-
-  system.file("srcjs/highlight.pack.js", package = "bamlss.vis")
+  system.file("srcjs/highlight.pack.js", package = "distreg.vis")
 expect_true(file.exists(cssfile))
 expect_true(file.exists(jsfile))
 

@@ -2,11 +2,11 @@
 % Please edit documentation in R/vis.R
 \name{vis}
 \alias{vis}
-\title{bamlss.vis function}
+\title{distreg.vis function}
 \usage{
 vis()
 }
 \description{
-Function to call the bamlss.vis Shiny App which represents the core of this
+Function to call the distreg.vis Shiny App which represents the core of this
   package.
 }
