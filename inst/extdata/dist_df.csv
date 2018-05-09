@@ -40,7 +40,7 @@ LG;gamlss;FALSE;NA;NA;NA;Discrete;FALSE
 LNO;gamlss;FALSE;NA;NA;NA;Continuous;FALSE
 LO;gamlss;FALSE;NA;NA;NA;Continuous;FALSE
 LOGITNO;gamlss;FALSE;NA;NA;NA;Continuous;FALSE
-LOGNO;gamlss;FALSE;NA;NA;NA;Continuous;FALSE
+LOGNO;gamlss;TRUE;one_limit;0;NA;Continuous;FALSE
 LOGNO2;gamlss;FALSE;NA;NA;NA;Continuous;FALSE
 LQNO;gamlss;FALSE;NA;NA;NA;Continuous;FALSE
 MN3;gamlss;FALSE;NA;NA;NA;Categorical;FALSE
