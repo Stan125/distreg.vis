@@ -160,7 +160,6 @@ palette_getter <- function(name = "default") {
 #'
 #' Obtain the right PDF and CDF for the modeled distribution for a given model class and distribution
 #'
-#' @import gamlss.dist
 #' @keywords internal
 pdf_cdf_getter <- function(model) {
   # Stop if not gamlss or bamlss model
@@ -207,6 +206,7 @@ pdf_cdf_getter <- function(model) {
 #'
 #' Gets the right family (in character) from a given model
 #' @keywords internal
+#' @export
 fam_obtainer <- function(model) {
   # Check whether model is gamlss or bamlss
   if (!any(class(model) %in% c("gamlss", "bamlss")))

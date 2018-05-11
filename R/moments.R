@@ -1,11 +1,11 @@
 #' Return First two Moments of a distributions's parameters
 #'
 #' @importFrom stats pnorm dnorm
-#' @param par Parameters of the modeled distribution in a data.frame form.
-#'   Can be Output of \code{\link{preds}}, for example.
-#' @param family One of \code{\link{family.bamlss}} family objects' "family"
-#'   description in character form. E.g. \code{"gaussian"} or \code{"beta"}.
-#' @import gamlss.dist
+#' @param par Parameters of the modeled distribution in a data.frame form. Can
+#'   be Output of \code{\link{preds}}, for example.
+#' @param fam_name Name of the used family in character form. Can be one of
+#'   \code{dists$dist_name}. All gamlss.dist and exported bamlss families are
+#'   supported. To obtain the family from a model in character form, use \code{\link{fam_obtainer}}.
 #' @import bamlss
 #' @export
 moments <- function(par, fam_name) {

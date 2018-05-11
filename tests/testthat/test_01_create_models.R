@@ -4,6 +4,9 @@
 # Remove everything
 rm(list = ls())
 
+## Context
+testthat::context("Make predictions")
+
 # Skip on cran
 skip_on_cran()
 
