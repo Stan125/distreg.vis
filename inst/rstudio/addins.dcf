@@ -1,4 +1,4 @@
-Name: BAMLSS Model Visualizer
-Description: Shiny App to interactively display bamlss predictions.
+Name: Distributional Regression Model Visualizer
+Description: Shiny App to interactively display bamlss/gamlss predictions.
 Binding: vis
 Interactive: true
