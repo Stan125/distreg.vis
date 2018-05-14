@@ -12,6 +12,7 @@ knitr::opts_chunk$set(
   comment = "#>",
   fig.path = "README-"
 )
+library("dplyr")
 ```
 
 distreg.vis
@@ -36,6 +37,14 @@ library(devtools)
 install_github("Stan125/gamlss.dist")
 install_github("rforge/bayesr/pkg/bamlss")
 install_github("Stan125/distreg.vis")
+```
+
+### Supported distributions
+At the moment, the following distributions are supported:
+```{r}
+dists %>%
+  filter(implemented) %>%
+  dplyr::select(dist_name, class)
 ```
 
 ### Show-Case
