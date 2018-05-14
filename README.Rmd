@@ -12,8 +12,10 @@ knitr::opts_chunk$set(
   comment = "#>",
   fig.path = "README-"
 )
-library("dplyr")
-library("distreg.vis")
+suppressPackageStartupMessages({
+  library("dplyr")
+  library("distreg.vis")
+})
 ```
 
 distreg.vis
