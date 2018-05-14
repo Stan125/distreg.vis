@@ -1,4 +1,72 @@
 <!-- README.md is generated from README.Rmd. Please edit that file -->
+    ## 
+    ## Attaching package: 'dplyr'
+
+    ## The following objects are masked from 'package:stats':
+    ## 
+    ##     filter, lag
+
+    ## The following objects are masked from 'package:base':
+    ## 
+    ##     intersect, setdiff, setequal, union
+
+    ## Loading required package: shiny
+
+    ## Loading required package: bamlss
+
+    ## Loading required package: coda
+
+    ## Loading required package: colorspace
+
+    ## Loading required package: mgcv
+
+    ## Loading required package: nlme
+
+    ## 
+    ## Attaching package: 'nlme'
+
+    ## The following object is masked from 'package:dplyr':
+    ## 
+    ##     collapse
+
+    ## This is mgcv 1.8-23. For overview type 'help("mgcv-package")'.
+
+    ## 
+    ## Attaching package: 'bamlss'
+
+    ## The following object is masked from 'package:mgcv':
+    ## 
+    ##     smooth.construct
+
+    ## The following object is masked from 'package:dplyr':
+    ## 
+    ##     n
+
+    ## Loading required package: gamlss
+
+    ## Loading required package: splines
+
+    ## Loading required package: gamlss.data
+
+    ## Loading required package: gamlss.dist
+
+    ## Loading required package: MASS
+
+    ## 
+    ## Attaching package: 'MASS'
+
+    ## The following object is masked from 'package:dplyr':
+    ## 
+    ##     select
+
+    ## Loading required package: parallel
+
+    ##  **********   GAMLSS Version 5.0-6  **********
+
+    ## For more on GAMLSS look at http://www.gamlss.org/
+
+    ## Type gamlssNews() to see new features/changes/bug fixes.
+
 distreg.vis
 ===========
 
@@ -37,6 +105,30 @@ library(devtools)
 install_github("Stan125/gamlss.dist")
 install_github("rforge/bayesr/pkg/bamlss")
 install_github("Stan125/distreg.vis")
+```
+
+### Supported distributions
+
+At the moment, the following distributions are supported:
+
+``` r
+dists %>%
+  filter(implemented) %>%
+  dplyr::select(dist_name, class)
+#>    dist_name  class
+#> 1      LOGNO gamlss
+#> 2         NO gamlss
+#> 3       beta bamlss
+#> 4   binomial bamlss
+#> 5      cnorm bamlss
+#> 6      gamma bamlss
+#> 7   gaussian bamlss
+#> 8   Gaussian bamlss
+#> 9  gaussian2 bamlss
+#> 10    glogis bamlss
+#> 11   gpareto bamlss
+#> 12   .mvnorm bamlss
+#> 13   poisson bamlss
 ```
 
 ### Show-Case
