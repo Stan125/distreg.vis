@@ -59,7 +59,7 @@ library(gamlss)
 Wage <- ISLR::Wage
 wage_model <- gamlss(wage ~ ps(age) + race + year + education,
                      ~ ps(age) + race + year + education,
-                     data = wage_sub, family = LOGNO())
+                     data = Wage, family = LOGNO())
 ```
 Both parameters of the modeled wage distribution are now modeled as being dependent on the socio-economic variables.
 

@@ -1,5 +1,5 @@
 dist_name;class;implemented;type_limits;l_limit;u_limit;type;is_multivariate
-BB;gamlss;FALSE;NA;NA;NA;Discrete;FALSE
+BB;gamlss;TRUE;both_limits;0;10;Discrete;FALSE
 BCCG;gamlss;FALSE;NA;NA;NA;Continuous;FALSE
 BCCGo;gamlss;FALSE;NA;NA;NA;Continuous;FALSE
 BCPE;gamlss;FALSE;NA;NA;NA;Continuous;FALSE
@@ -62,10 +62,10 @@ PO;gamlss;FALSE;NA;NA;NA;Discrete;FALSE
 RG;gamlss;FALSE;NA;NA;NA;Continuous;FALSE
 RGE;gamlss;FALSE;NA;NA;NA;Continuous;FALSE
 SEP;gamlss;FALSE;NA;NA;NA;Continuous;FALSE
-Sep 01;gamlss;FALSE;NA;NA;NA;Continuous;FALSE
-Sep 01;gamlss;FALSE;NA;NA;NA;Continuous;FALSE
-Sep 01;gamlss;FALSE;NA;NA;NA;Continuous;FALSE
-Sep 01;gamlss;FALSE;NA;NA;NA;Continuous;FALSE
+SEP1;gamlss;FALSE;NA;NA;NA;Continuous;FALSE
+SEP2;gamlss;FALSE;NA;NA;NA;Continuous;FALSE
+SEP3;gamlss;FALSE;NA;NA;NA;Continuous;FALSE
+SEP4;gamlss;FALSE;NA;NA;NA;Continuous;FALSE
 SHASH;gamlss;FALSE;NA;NA;NA;Continuous;FALSE
 SHASHo;gamlss;FALSE;NA;NA;NA;Continuous;FALSE
 SHASHo2;gamlss;FALSE;NA;NA;NA;Continuous;FALSE
