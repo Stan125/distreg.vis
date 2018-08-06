@@ -48,19 +48,20 @@ dists %>%
   filter(implemented) %>%
   dplyr::select(dist_name, class)
 #>    dist_name  class
-#> 1      LOGNO gamlss
-#> 2         NO gamlss
-#> 3       beta bamlss
-#> 4   binomial bamlss
-#> 5      cnorm bamlss
-#> 6      gamma bamlss
-#> 7   gaussian bamlss
-#> 8   Gaussian bamlss
-#> 9  gaussian2 bamlss
-#> 10    glogis bamlss
-#> 11   gpareto bamlss
-#> 12   .mvnorm bamlss
-#> 13   poisson bamlss
+#> 1         BB gamlss
+#> 2      LOGNO gamlss
+#> 3         NO gamlss
+#> 4       beta bamlss
+#> 5   binomial bamlss
+#> 6      cnorm bamlss
+#> 7      gamma bamlss
+#> 8   gaussian bamlss
+#> 9   Gaussian bamlss
+#> 10 gaussian2 bamlss
+#> 11    glogis bamlss
+#> 12   gpareto bamlss
+#> 13   .mvnorm bamlss
+#> 14   poisson bamlss
 ```
 
 ### Show-Case
@@ -77,7 +78,7 @@ library(gamlss)
 Wage <- ISLR::Wage
 wage_model <- gamlss(wage ~ ps(age) + race + year + education,
                      ~ ps(age) + race + year + education,
-                     data = wage_sub, family = LOGNO())
+                     data = Wage, family = LOGNO())
 ```
 
 Both parameters of the modeled wage distribution are now modeled as
