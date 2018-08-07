@@ -3,9 +3,6 @@
 ## Remove everything
 rm(list = ls())
 
-# Currently not available
-testthat::skip("Something wrong with prediction")
-
 ## Context
 testthat::context("Create Models")
 
