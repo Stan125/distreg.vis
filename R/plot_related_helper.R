@@ -114,15 +114,22 @@ disc_trans <- function(predictions, family, type, model) {
                                        value = rep(0, (nrow(tf_df)/ 2))))
       tf_df$type <- as.numeric(tf_df$type)
     }
-  } else if (family == "poisson") {
+  } else if (family %in% c("poisson", "PO")) {
+    if (is.gamlss(family))
+      lambda <- predictions$mu
+    else
+      lambda <- predictions$lambda
+    # PDF
     if (type == "pdf"){
-      limits <- 0:((max(predictions$lambda)*2) + 3) # what lim should preds be?
+      limits <- 0:((max(lambda)*2) + 3) # what lim should preds be?
       tf_df <- apply(predictions, 1, FUN = function(x) return(dpois(limits, x)))
       tf_df <- cbind(tf_df, limits)
       colnames(tf_df) <- c(row.names(predictions), "type")
       tf_df <- gather(as.data.frame(tf_df), key = "rownames", "value", -type)
-    } else if (type == "cdf") {
-      limits <- 0:((max(predictions$lambda)*2) + 3) # what lim should preds be?
+    }
+    # CDF
+    if (type == "cdf") {
+      limits <- 0:((max(lambda)*2) + 3) # what lim should preds be?
       tf_df <- apply(predictions, 1, FUN = function(x) return(ppois(limits, x)))
       tf_df <- cbind(tf_df, limits)
       colnames(tf_df) <- c(row.names(predictions), "type")
