@@ -1,4 +1,4 @@
-#' Return First two Moments of a distributions's parameters
+#' Return expected first two moments of a distribution, given the predicted parameters
 #'
 #' @importFrom stats pnorm dnorm
 #' @param par Parameters of the modeled distribution in a data.frame form. Can

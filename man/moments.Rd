@@ -2,7 +2,7 @@
 % Please edit documentation in R/moments.R
 \name{moments}
 \alias{moments}
-\title{Return First two Moments of a distributions's parameters}
+\title{Return expected first two moments of a distribution, given the predicted parameters}
 \usage{
 moments(par, fam_name)
 }
@@ -15,5 +15,5 @@ be Output of \code{\link{preds}}, for example.}
 supported. To obtain the family from a model in character form, use \code{\link{fam_obtainer}}.}
 }
 \description{
-Return First two Moments of a distributions's parameters
+Return expected first two moments of a distribution, given the predicted parameters
 }
