@@ -1,18 +1,20 @@
 ### -- This script checks for correct use of moments() -- ###
 
-# Currently not available
-testthat::skip("Currently not available")
-
 ## Remove everything
 rm(list = ls())
+
+## Context
+testthat::context("Compute Moments")
 
 ## Load package(s) ##
 library(distreg.vis)
 
 ## Load data ##
 load("predictions.RData")
+load("models_data.RData")
 
 ## - Tests - ##
+for (i in seq_len(length(predictions)))
+  for (j in seq_len(length(predictions[[i]])))
+    moments(predictions[[i]][[j]], fam_obtainer(models[[i]][[j]]))
 
-# Gaussian - missing
-beta_m <- moments(beta_p, family = beta_bamlss()$family)

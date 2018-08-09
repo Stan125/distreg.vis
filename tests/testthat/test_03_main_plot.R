@@ -1,8 +1,8 @@
 ## Creates main distribution plots ##
 # Based on all_models_demo.R
 
-# Currently not available
-#testthat::skip("Currently not available")
+## Context
+testthat::context("Make Plots")
 
 # Remove everything
 rm(list = ls())

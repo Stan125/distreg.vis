@@ -5,7 +5,7 @@
 rm(list = ls())
 
 ## Context
-testthat::context("Make predictions")
+testthat::context("Create Models")
 
 # Libraries
 library(distreg.vis)

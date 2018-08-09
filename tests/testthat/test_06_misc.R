@@ -1,11 +1,10 @@
 ## Misc Testing ##
 
-
-# Currently not available
-testthat::skip("Currently not available")
-
 # Remove everything
 rm(list = ls())
+
+## Context
+testthat::context("Miscellaneous")
 
 # Libraries
 library(dplyr)
@@ -18,13 +17,13 @@ load("models_data.RData")
 load("predictions.RData")
 
 # Transform predictions of multinomial data
-multinomial_p1 <- multinomial_p %>%
-  sample_n(1)
-
-m_one <- distreg.vis:::mult_trans(multinomial_p1, multinomial_model)
-m_two <- distreg.vis:::mult_trans(multinomial_p, multinomial_model)
-expect_equal(class(m_one), "data.frame")
-expect_equal(class(m_two), "data.frame")
+# multinomial_p1 <- multinomial_p %>%
+#   sample_n(1)
+#
+# m_one <- distreg.vis:::mult_trans(multinomial_p1, multinomial_model)
+# m_two <- distreg.vis:::mult_trans(multinomial_p, multinomial_model)
+# expect_equal(class(m_one), "data.frame")
+# expect_equal(class(m_two), "data.frame")
 
 ### -- Shiny & Javascript/CSS --- ###
 cssfile <-
@@ -73,5 +72,5 @@ DF <-
                   "P4", "P5"),
     class = "data.frame"
 )
-DF <- fac_check(DF)
+DF <- distreg.vis:::fac_check(DF)
 expect_false("ordered" %in% unlist(sapply(DF, class)))

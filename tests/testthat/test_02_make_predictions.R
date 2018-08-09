@@ -4,7 +4,7 @@
 rm(list = ls())
 
 ## Context
-testthat::context("Create Models")
+testthat::context("Make Predictions")
 
 ## Load package(s) ##
 library(distreg.vis)
@@ -20,9 +20,9 @@ load("models_data.RData")
 # All but mvnorm model
 predictions <- lapply(models[names(models) != "mvnorm"], FUN = function(family_models) {
   lapply(family_models, FUN = function(model) {
-    predictions <- distreg.vis::preds(model, newdata = expl)
-    testthat::expect_true(any(class(predictions) == "data.frame"))
-    return(predictions)
+    pred <- distreg.vis::preds(model, newdata = expl)
+    testthat::expect_true(any(class(pred) == "data.frame"))
+    return(pred)
   })
 })
 
