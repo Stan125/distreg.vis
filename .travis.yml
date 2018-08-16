@@ -9,3 +9,6 @@ r_packages:
 r_github_packages:
   - rforge/bayesr/pkg/bamlss
   - Stan125/gamlss.dist
+notifications:
+  email:
+    - stadlmann@uni-goettingen.de
