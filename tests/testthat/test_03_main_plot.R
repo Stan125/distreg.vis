@@ -27,7 +27,6 @@ for (i in seq_len(length(models))) {
   for (j in seq_len(length(models[[i]]))) {
     plots[[i]][[j]] <- plot_dist(models[[i]][[j]], predictions[[i]][[j]])
     plots_cdf[[i]][[j]] <- plot_dist(models[[i]][[j]], predictions[[i]][[j]], type = "cdf")
-    cat(paste0(i, ",", j, "\n"))
   }
 }
 
