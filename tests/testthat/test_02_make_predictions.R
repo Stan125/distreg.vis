@@ -26,6 +26,9 @@ predictions <- lapply(models[names(models) != "mvnorm"], FUN = function(family_m
   })
 })
 
+## Try out preds with tibble data
+expect_error(distreg.vis::preds(models[[1]][[1]], tibble::as_tibble(expl)), regexp = NA)
+
 # # MVnorm model
 # suppressWarnings({
 #   mvnorm_p <- distreg.vis:::preds(models$mvnorm$bamlss, expl)

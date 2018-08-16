@@ -3,7 +3,9 @@
 language: R
 sudo: false
 cache: packages
-r_packages: gridExtra
+r_packages:
+  - gridExtra
+  - tibble
 r_github_packages:
   - rforge/bayesr/pkg/bamlss
   - Stan125/gamlss.dist
