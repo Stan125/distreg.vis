@@ -75,10 +75,10 @@ limits <- function(fam_name, predictions) {
 
 #' Internal: Limit type getter
 #'
-#' Get the limit type depending on \code{dists}.
+#' Get the limit type depending on \code{distreg.vis::dists}.
 #' @keywords internal
 type_getter <- function(fam_name) {
-  type <- dists[dists$dist_name == fam_name, "type_limits", drop = TRUE]
+  type <- distreg.vis::dists[distreg.vis::dists$dist_name == fam_name, "type_limits", drop = TRUE]
   return(as.character(type))
 }
 
@@ -88,7 +88,7 @@ type_getter <- function(fam_name) {
 #' necessary if the distribution has limits
 #' @keywords internal
 lims_getter <- function(fam_name) {
-  return(dists[dists$dist_name == fam_name, c("l_limit", "u_limit")])
+  return(distreg.vis::dists[distreg.vis::dists$dist_name == fam_name, c("l_limit", "u_limit")])
 }
 
 
