@@ -47,21 +47,26 @@ At the moment, the following distributions are supported:
 dists %>%
   filter(implemented) %>%
   dplyr::select(dist_name, class)
-#>    dist_name  class
-#> 1         BB gamlss
-#> 2      LOGNO gamlss
-#> 3         NO gamlss
-#> 4       beta bamlss
-#> 5   binomial bamlss
-#> 6      cnorm bamlss
-#> 7      gamma bamlss
-#> 8   gaussian bamlss
-#> 9   Gaussian bamlss
-#> 10 gaussian2 bamlss
-#> 11    glogis bamlss
-#> 12   gpareto bamlss
-#> 13   .mvnorm bamlss
-#> 14   poisson bamlss
+#> # A tibble: 17 x 2
+#>    dist_name class 
+#>    <chr>     <chr> 
+#>  1 BB        gamlss
+#>  2 LOGNO     gamlss
+#>  3 NO        gamlss
+#>  4 NO2       gamlss
+#>  5 PO        gamlss
+#>  6 RG        gamlss
+#>  7 beta      bamlss
+#>  8 binomial  bamlss
+#>  9 cnorm     bamlss
+#> 10 gamma     bamlss
+#> 11 gaussian  bamlss
+#> 12 Gaussian  bamlss
+#> 13 gaussian2 bamlss
+#> 14 glogis    bamlss
+#> 15 gpareto   bamlss
+#> 16 mvnorm    bamlss
+#> 17 poisson   bamlss
 ```
 
 ### Show-Case
