@@ -26,6 +26,13 @@
 #' @export
 
 preds <- function(model, newdata) {
+
+  # Check and convert to data.frame
+  if ("data.frame" %in% class(newdata))
+    newdata <- as.data.frame(newdata)
+  else
+    stop("Newdata has to be in a data.frame format")
+
   # Omit NA's in prediction data
   newdata <- na.omit(newdata)
 
