@@ -7,6 +7,6 @@
 type_getter(fam_name)
 }
 \description{
-Get the limit type depending on \code{dists}.
+Get the limit type depending on \code{distreg.vis::dists}.
 }
 \keyword{internal}
