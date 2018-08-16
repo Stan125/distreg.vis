@@ -14,8 +14,7 @@
 #'   processing.
 #' @param model A fitted model on which the plots are based.
 #' @param palette See \code{\link{plot_dist}}
-#' @importFrom magrittr %>% extract inset
-#' @importFrom tidyr gather
+#' @importFrom magrittr %>% extract inset set_colnames set_rownames
 #' @importFrom viridis scale_fill_viridis scale_colour_viridis
 #' @import ggplot2
 #' @export
@@ -70,8 +69,12 @@ plot_moments <- function(model, int_var, pred_data, palette = "default") {
   preds <- preds %>%
     merge(y = pred_data, by.x = "id") %>%
     extract(, c(int_var, "prediction", moments)) %>%
-    tidyr::gather("moment", "value", moments) %>%
-    inset("value", value = as.numeric(.[["value"]]))
+    set_colnames(c(int_var, "prediction", paste0("mom.", moments))) %>%
+    reshape(., direction = "long",
+            varying = seq_along(moments) + 2, # because moments start after 2
+            idvar = c("norm1", "prediction")) %>%
+    set_rownames(seq_along(rownames(.))) %>%
+    set_colnames(c(int_var, "prediction", "moment", "value"))
 
   if (coltype == "num") { # if we have a numeric column trans to num
     preds[[int_var]] <- as.numeric(preds[[int_var]])
