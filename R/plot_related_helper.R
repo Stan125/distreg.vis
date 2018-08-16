@@ -94,8 +94,7 @@ lims_getter <- function(fam_name) {
 
 #' Internal: Transform discrete predictions into a usable df
 #'
-#' @importFrom tidyr gather
-#' @importFrom stats dpois ppois
+#' @importFrom stats dpois ppois reshape
 #' @keywords internal
 disc_trans <- function(predictions, family, type, model) {
   if (family == "binomial") {
@@ -122,18 +121,46 @@ disc_trans <- function(predictions, family, type, model) {
     # PDF
     if (type == "pdf"){
       limits <- 0:((max(lambda)*2) + 3) # what lim should preds be?
-      tf_df <- apply(predictions, 1, FUN = function(x) return(dpois(limits, x)))
-      tf_df <- cbind(tf_df, limits)
-      colnames(tf_df) <- c(row.names(predictions), "type")
-      tf_df <- gather(as.data.frame(tf_df), key = "rownames", "value", -type)
+      tf_df_unshaped <- apply(predictions, 1, FUN = function(x) return(dpois(limits, x)))
+      tf_df_unshaped <- cbind(tf_df_unshaped, limits)
+
+      # New colnames for easier reshaping
+      colnames(tf_df_unshaped) <- c(paste0("rn.", row.names(predictions)), "type")
+      tf_df_unshaped <- as.data.frame(tf_df_unshaped)
+      tf_df_unshaped$type <- as.character(tf_df_unshaped$type)
+
+      # Reshape with base - to get rid of tidyr dependency
+      tf_df <-
+        reshape(
+          tf_df_unshaped,
+          varying = seq_len(nrow(predictions)),
+          idvar = "type",
+          direction = "long"
+        )
+      colnames(tf_df) <- c("type", "rownames", "value")
     }
     # CDF
     if (type == "cdf") {
       limits <- 0:((max(lambda)*2) + 3) # what lim should preds be?
-      tf_df <- apply(predictions, 1, FUN = function(x) return(ppois(limits, x)))
-      tf_df <- cbind(tf_df, limits)
-      colnames(tf_df) <- c(row.names(predictions), "type")
-      tf_df <- gather(as.data.frame(tf_df), key = "rownames", "value", -type)
+      tf_df_unshaped <- apply(predictions, 1, FUN = function(x) return(ppois(limits, x)))
+      tf_df_unshaped <- cbind(tf_df_unshaped, limits)
+
+      # New colnames for easier reshaping
+      colnames(tf_df_unshaped) <- c(paste0("rn.", row.names(predictions)), "type")
+      tf_df_unshaped <- as.data.frame(tf_df_unshaped)
+      tf_df_unshaped$type <- as.character(tf_df_unshaped$type)
+
+      # Reshape with base - to get rid of tidyr dependency
+      tf_df <-
+        reshape(
+          tf_df_unshaped,
+          varying = seq_len(nrow(predictions)),
+          idvar = "type",
+          direction = "long"
+        )
+      colnames(tf_df) <- c("type", "rownames", "value")
+
+      # Reshape again for plotting purposes
       tf_df <- rbind(data.frame(type = 0, rownames = row.names(predictions),
                                 value = -1e-100), # this is because starting point has to be left by just a little margin for plot...
                      tf_df)

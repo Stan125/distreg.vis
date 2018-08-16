@@ -16,7 +16,6 @@ Imports:
         rhandsontable (>= 0.3.4),
         plotly (>= 4.7.0),
         magrittr (>= 1.5),
-        tidyr (>= 0.6.3),
         mvtnorm (>= 1.0-6),
         viridis (>= 0.4.0),
         RColorBrewer (>= 1.1-2),
