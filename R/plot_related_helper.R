@@ -101,13 +101,17 @@ disc_trans <- function(predictions, family, type, model) {
     if (type == "pdf") {
       predictions$pi_inv <- 1 - predictions$pi
       predictions$rownames <- row.names(predictions)
-      colnames(predictions) <- c("0", "1", "rownames")
-      tf_df <- gather(predictions, "type", "value", -rownames)
+      colnames(predictions) <- c("v.0", "v.1", "rownames") # v. are the names that need transforming
+      tf_df <- reshape(predictions, varying = seq_len(2), idvar = "rownames", direction = "long")
+      colnames(tf_df) <- c("rownames", "type", "value")
+      rownames(tf_df) <- seq_len(nrow(tf_df))
     } else if (type == "cdf") {
       predictions$pi_inv <- 1
       predictions$rownames <- row.names(predictions)
-      colnames(predictions) <- c("0", "1", "rownames")
-      tf_df <- gather(predictions, "type", "value", -rownames)
+      colnames(predictions) <- c("v.0", "v.1", "rownames") # v. are the names that need transforming
+      tf_df <- reshape(predictions, varying = seq_len(2), idvar = "rownames", direction = "long")
+      colnames(tf_df) <- c("rownames", "type", "value")
+      rownames(tf_df) <- seq_len(nrow(tf_df))
       tf_df <- rbind(tf_df, data.frame(rownames = unique(tf_df$rownames),
                                        type = rep(-1e-100, (nrow(tf_df)/ 2)), # this is because starting point has to be left by just a little margin for plot...
                                        value = rep(0, (nrow(tf_df)/ 2))))
@@ -167,10 +171,21 @@ disc_trans <- function(predictions, family, type, model) {
     }
   } else if (family == "multinomial") {
     if (type == "pdf") {
-      tf_df_start <- mult_trans(predictions, model)
-      tf_df <- tf_df_start
-      tf_df$rownames <- row.names(tf_df)
-      tf_df <- gather(tf_df, "type", "value", -rownames)
+      ## Transform the predictions such that probabilities for all classes are given
+      levels <- levels(model$model.frame[, 1])
+      psums <- rowSums(predictions) + 1
+      p0 <- 1 / psums
+      trans_preds <- cbind(p0, matrix(apply(predictions, 2, FUN = function(x)
+        return(x * p0)), ncol = length(levels) - 1)) # matrix because else it will not work with just one row
+      trans_preds <- as.data.frame(trans_preds)
+      colnames(trans_preds) <- paste0("lv.", levels)
+      trans_preds$rownames <- row.names(trans_preds)
+      tf_df <- reshape(trans_preds,
+                       varying = seq_len(length(levels)),
+                       idvar = "rownames",
+                       direction = "long")
+      colnames(tf_df) <- c("rownames", "type", "value")
+      rownames(tf_df) <- seq_len(nrow(tf_df))
       tf_df$type <- factor(tf_df$type, labels = colnames(tf_df_start))
     }
   }

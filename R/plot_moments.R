@@ -119,8 +119,8 @@ plot_moments <- function(model, int_var, pred_data, palette = "default") {
 #'   multinomial family
 #'
 #' @import ggplot2
-#' @importFrom tidyr gather
-#' @importFrom magrittr %>% inset extract
+#' @importFrom   gather
+#' @importFrom magrittr %>% inset extract set_rownames set_colnames
 #' @importFrom viridis scale_fill_viridis scale_colour_viridis
 #' @keywords internal
 
@@ -135,7 +135,12 @@ plot_multinom_exp <- function(model, int_var, pred_data, m_data, palette, coltyp
     preds <- preds %>%
       merge(y = pred_data, by.x = "id") %>%
       extract(, c(int_var, classes, "prediction")) %>%
-      tidyr::gather("class", "value", classes)
+      set_colnames(c(int_var, paste0("c.", classes), "prediction")) %>%
+      reshape(., direction = "long",
+              varying = seq_len(length(classes)) + 1,
+              idvar = c("norm1", "prediction")) %>% # because classes start with second column
+      set_colnames(c("norm1", "prediction", "class", "value")) %>%
+      set_rownames(seq_len(nrow(.)))
 
     # Numerical influence plot
     if (coltype == "num") {
