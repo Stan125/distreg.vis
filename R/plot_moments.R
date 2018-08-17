@@ -119,7 +119,6 @@ plot_moments <- function(model, int_var, pred_data, palette = "default") {
 #'   multinomial family
 #'
 #' @import ggplot2
-#' @importFrom   gather
 #' @importFrom magrittr %>% inset extract set_rownames set_colnames
 #' @importFrom viridis scale_fill_viridis scale_colour_viridis
 #' @keywords internal
