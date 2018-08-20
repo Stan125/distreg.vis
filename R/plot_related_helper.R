@@ -16,6 +16,9 @@ limits <- function(fam_name, predictions) {
 
     # Get moments
     moms <- moments(predictions, fam_name)
+    moms <- na.omit(moms)
+    if (nrow(moms) == 0)
+      stop("Cannot produce limits because predicted distribution does not have valid moments") # check whether there's problem with issue #53. can we display all distributions even if some moments are not able to be made?
 
     # get upper and lower limit
     all_lims <- apply(moms, 1, FUN = function(x){
@@ -33,6 +36,9 @@ limits <- function(fam_name, predictions) {
 
     # Get moments
     moms <- moments(predictions, fam_name)
+    moms <- na.omit(moms)
+    if (nrow(moms) == 0)
+      stop("Cannot produce limits because predicted distribution does not have valid moments")
 
     # Get theoretical lims by dists data.frame - this means the support of the distribution
     theo_lims <- lims_getter(fam_name)
@@ -186,7 +192,10 @@ disc_trans <- function(predictions, family, type, model) {
                        direction = "long")
       colnames(tf_df) <- c("rownames", "type", "value")
       rownames(tf_df) <- seq_len(nrow(tf_df))
-      tf_df$type <- factor(tf_df$type, labels = colnames(tf_df_start))
+      tf_df$type <- factor(tf_df$type, labels = levels)
+    }
+    if (type == "cdf") {
+      stop("CDF of Multinomial Family not feasible")
     }
   }
   return(tf_df)

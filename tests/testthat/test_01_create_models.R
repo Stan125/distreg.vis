@@ -48,11 +48,10 @@ models <- list(
                  hybrid = bamlss(list(poisson ~ norm1 + norm2),
                                  data = data_fam, family = gamlss.dist::PO()),
                  gamlss = gamlss(poisson ~ norm1 + norm2,
-                                 data = data_fam, family = gamlss.dist::PO()))
-  # ,
-  # multinomial = list(bamlss = bamlss(list(multinomial ~ norm1 + norm2),
-  #                                    data = data_fam,
-  #                                    family = multinomial_bamlss()))
+                                 data = data_fam, family = gamlss.dist::PO())),
+  multinomial = list(bamlss = bamlss(list(multinomial ~ norm1 + norm2),
+                                     data = data_fam,
+                                     family = multinomial_bamlss()))
   # ,
   # mvnorm = list(bamlss = suppressWarnings({
   #   bamlss(list(normal ~ norm2,

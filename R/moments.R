@@ -35,6 +35,9 @@ moments <- function(par, fam_name) {
     fam <- get(paste0(fam_name, "_bamlss"), envir = as.environment("package:bamlss"))
     fam_called <- fam()
 
+    if (is.null(fam_called$mean) | is.null(fam_called$variance))
+      stop("Not all momoment functions implemented")
+
     # Get moments for each row of par
     moms_raw <- apply(par, 1, function(x) {
       ex <- fam_called$mean(as.list(x)) # Expected value

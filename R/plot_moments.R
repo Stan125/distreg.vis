@@ -128,7 +128,7 @@ plot_multinom_exp <- function(model, int_var, pred_data, m_data, palette, coltyp
     preds <- pred_data %>%
       subset(select = -c(id, prediction)) %>%
       preds(model, newdata = .) %>%
-      distreg.vis:::mult_trans(., model) %>%
+      mult_trans(., model) %>%
       inset("id", value = row.names(.))
     classes <- as.character(unique(m_data[, 1]))
     preds <- preds %>%

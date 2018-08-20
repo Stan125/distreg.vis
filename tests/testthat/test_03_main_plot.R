@@ -7,6 +7,9 @@ testthat::context("Make Plots")
 # Remove everything
 rm(list = ls())
 
+# Warnings to Errors
+options(warn = 2)
+
 # Libraries
 library(distreg.vis)
 library(dplyr)
@@ -26,10 +29,14 @@ for (i in seq_len(length(models))) {
   plots_cdf[[i]] <- list()
   for (j in seq_len(length(models[[i]]))) {
     plots[[i]][[j]] <- plot_dist(models[[i]][[j]], predictions[[i]][[j]])
-    plots_cdf[[i]][[j]] <- plot_dist(models[[i]][[j]], predictions[[i]][[j]], type = "cdf")
+    if (distreg.vis::fam_obtainer(models[[i]][[j]]) != "multinomial")
+      plots_cdf[[i]][[j]] <- plot_dist(models[[i]][[j]], predictions[[i]][[j]], type = "cdf")
   }
 }
 
 ## --- Show da plots --- ###
 expect_error(grid.arrange(grobs = do.call("c", plots)), regexp = NA) # normal
 expect_error(grid.arrange(grobs = do.call("c", plots_cdf)), regexp = NA) # normal
+
+# Warnings to Errors
+options(warn = 0)
