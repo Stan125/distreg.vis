@@ -111,6 +111,7 @@ disc_trans <- function(predictions, family, type, model) {
       tf_df <- reshape(predictions, varying = seq_len(2), idvar = "rownames", direction = "long")
       colnames(tf_df) <- c("rownames", "type", "value")
       rownames(tf_df) <- seq_len(nrow(tf_df))
+      tf_df$type <- as.factor(tf_df$type)
     } else if (type == "cdf") {
       predictions$pi_inv <- 1
       predictions$rownames <- row.names(predictions)
@@ -121,7 +122,8 @@ disc_trans <- function(predictions, family, type, model) {
       tf_df <- rbind(tf_df, data.frame(rownames = unique(tf_df$rownames),
                                        type = rep(-1e-100, (nrow(tf_df)/ 2)), # this is because starting point has to be left by just a little margin for plot...
                                        value = rep(0, (nrow(tf_df)/ 2))))
-      tf_df$type <- as.numeric(tf_df$type)
+      tf_df$type <- as.factor(tf_df$type)
+
     }
   } else if (family %in% c("poisson", "PO")) {
     if (is.gamlss(family))
@@ -148,6 +150,8 @@ disc_trans <- function(predictions, family, type, model) {
           direction = "long"
         )
       colnames(tf_df) <- c("type", "rownames", "value")
+      tf_df$type <- as.numeric(tf_df$type)
+      tf_df$rownames <- as.factor(tf_df$rownames)
     }
     # CDF
     if (type == "cdf") {
@@ -169,6 +173,8 @@ disc_trans <- function(predictions, family, type, model) {
           direction = "long"
         )
       colnames(tf_df) <- c("type", "rownames", "value")
+      tf_df$type <- as.numeric(tf_df$type)
+      tf_df$rownames <- as.factor(tf_df$rownames)
 
       # Reshape again for plotting purposes
       tf_df <- rbind(data.frame(type = 0, rownames = row.names(predictions),
