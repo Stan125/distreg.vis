@@ -14,45 +14,25 @@ limits <- function(fam_name, predictions) {
   # First case - no limits. Example: Normal distribution
   if (lim_type == "no_limits") {
 
-    # Get moments
-    moms <- moments(predictions, fam_name)
-    moms <- na.omit(moms)
-    if (nrow(moms) == 0)
-      stop("Cannot produce limits because predicted distribution does not have valid moments") # check whether there's problem with issue #53. can we display all distributions even if some moments are not able to be made?
-
-    # get upper and lower limit
-    all_lims <- apply(moms, 1, FUN = function(x){
-      ex <- x["ex"]
-      sd <- sqrt(x["vx"])
-      return(c(l = ex - 3 * sd, u = ex + 3 * sd)) # plot limits - 3 times the standard deviation
-    })
+    # Get limits with quants()
+    quant_lims <- quants(fam_name, predictions)
 
     # Max and min for limits
-    lims <- c(lower = min(all_lims), upper = max(all_lims))
+    lims <- c(lower = min(quant_lims$lower), upper = max(quant_lims$upper))
   }
 
   # Second case: One Limit / Two Limits. Example: Beta distribution
   if (lim_type %in% c("one_limit", "both_limits")) {
 
-    # Get moments
-    moms <- moments(predictions, fam_name)
-    moms <- na.omit(moms)
-    if (nrow(moms) == 0)
-      stop("Cannot produce limits because predicted distribution does not have valid moments")
-
     # Get theoretical lims by dists data.frame - this means the support of the distribution
     theo_lims <- lims_getter(fam_name)
 
-    # Get empirical upper and lower limits
-    all_lims <- apply(moms, 1, FUN = function(x){
-      ex <- x["ex"]
-      sd <- sqrt(x["vx"])
-      return(c(l = ex - 3 * sd, u = ex + 3 * sd)) # plot limits - 3 times the standard deviation
-    })
+    # Get limits with quants()
+    quant_lims <- quants(fam_name, predictions)
 
-    # Min/max of empirical limits (mean +- three times the sd)
-    min_lim <- min(all_lims)
-    max_lim <- max(all_lims)
+    # Min/max of empirical 0.1% and 99.1% quantiles
+    min_lim <- min(quant_lims$lower)
+    max_lim <- max(quant_lims$upper)
 
     # Check here whether to use max/min or the theoretical limits
     if (isTRUE(min_lim < theo_lims$l_limit)) # this works even if there is an NA because then it won't be true as well... magic...
