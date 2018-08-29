@@ -76,7 +76,7 @@ plot_moments <- function(model, int_var, pred_data, palette = "default") {
     set_colnames(c(int_var, "prediction", paste0("mom.", moments))) %>%
     reshape(., direction = "long",
             varying = seq_along(moments) + 2, # because moments start after 2
-            idvar = c("norm1", "prediction")) %>%
+            idvar = c(int_var, "prediction")) %>%
     set_rownames(seq_along(rownames(.))) %>%
     set_colnames(c(int_var, "prediction", "moment", "value"))
 
