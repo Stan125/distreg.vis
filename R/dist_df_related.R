@@ -4,9 +4,9 @@
 #' Meaning: Does \code{plot_dist()} work?
 #' @keywords internal
 is.implemented <- function(fam_name) {
-  exists <- name %in% distreg.vis::dists$dist_name
+  exists <- fam_name %in% distreg.vis::dists$dist_name
   if (exists)
-    return(distreg.vis::dists[distreg.vis::dists$dist_name == name, "implemented"])
+    return(distreg.vis::dists[distreg.vis::dists$dist_name == fam_name, "implemented"])
   else
     return(FALSE)
 }
@@ -17,9 +17,9 @@ is.implemented <- function(fam_name) {
 #' will \code{plot_moments()} work?
 #' @keywords internal
 has.moments <- function(fam_name) {
-  exists <- name %in% distreg.vis::dists$dist_name
+  exists <- fam_name %in% distreg.vis::dists$dist_name
   if (exists)
-    return(distreg.vis::dists[distreg.vis::dists$dist_name == name, "moment_funs"])
+    return(distreg.vis::dists[distreg.vis::dists$dist_name == fam_name, "moment_funs"])
   else
     return(FALSE)
 }
