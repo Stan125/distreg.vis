@@ -21,6 +21,10 @@
 
 plot_moments <- function(model, int_var, pred_data, palette = "default") {
 
+  # Are the moments even implemented?
+  if (!has.moments(fam_obtainer(model)))
+    stop("The modeled distribution does not have implemented moment functions.")
+
   # Get model data
   m_data <- model_data(model)
 

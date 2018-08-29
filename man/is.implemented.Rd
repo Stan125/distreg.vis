@@ -4,9 +4,10 @@
 \alias{is.implemented}
 \title{Internal: Distribution Implementation Checker}
 \usage{
-is.implemented(name)
+is.implemented(fam_name)
 }
 \description{
-Is the distribution implemented in the distreg.vis framework?
+Is the distribution generally implemented in the distreg.vis framework?
+Meaning: Does \code{plot_dist()} work?
 }
 \keyword{internal}
