@@ -141,8 +141,8 @@ plot_multinom_exp <- function(model, int_var, pred_data, m_data, palette, coltyp
       set_colnames(c(int_var, paste0("c.", classes), "prediction")) %>%
       reshape(., direction = "long",
               varying = seq_len(length(classes)) + 1,
-              idvar = c("norm1", "prediction")) %>% # because classes start with second column
-      set_colnames(c("norm1", "prediction", "class", "value")) %>%
+              idvar = c(int_var, "prediction")) %>% # because classes start with second column
+      set_colnames(c(int_var, "prediction", "class", "value")) %>%
       set_rownames(seq_len(nrow(.)))
 
     # Numerical influence plot
