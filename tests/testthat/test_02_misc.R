@@ -12,10 +12,6 @@ library(distreg.vis)
 
 ### -- Mult_trans --- ###
 
-# Get models
-load("models_data.RData")
-load("predictions.RData")
-
 # Transform predictions of multinomial data
 # multinomial_p1 <- multinomial_p %>%
 #   sample_n(1)
