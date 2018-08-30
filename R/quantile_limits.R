@@ -1,7 +1,7 @@
 #' Get quantile limits of a distribution
 #'
 #' Get the quantile limits of a distribution, depending on the predicted parameters.
-#'
+#' @keywords internal
 quants <- function(fam_name, pred_params) {
 
   # GAMLSS

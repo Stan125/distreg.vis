@@ -9,3 +9,4 @@ quants(fam_name, pred_params)
 \description{
 Get the quantile limits of a distribution, depending on the predicted parameters.
 }
+\keyword{internal}

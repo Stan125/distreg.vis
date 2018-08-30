@@ -4,7 +4,6 @@ language: R
 sudo: false
 cache: packages
 r_packages:
-  - gridExtra
   - tibble
 r_github_packages:
   - rforge/bayesr/pkg/bamlss

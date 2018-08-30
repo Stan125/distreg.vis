@@ -40,14 +40,13 @@ families in bamlss except the cox family.
 }
 \examples{
 # Generating data
-data_fam <- model_fam_data()
+data_fam <- model_fam_data(fam_name = "beta")
 # Compute model
-beta_model <- bamlss(list(beta ~ norm1 + norm2,
-  sigma2 ~ norm1 + norm2),
+beta_model <- bamlss(list(beta ~ norm2 + binomial1,
+  sigma2 ~ norm2 + binomial1),
   data = data_fam, family = beta_bamlss())
 # Get 3 predictions
-pred_df <- data_fam[sample(1:nrow(data_fam), 3), c("norm1", "norm2")]
-pred_df <- cbind(pred_df, intercept = rep(TRUE, 3))
+pred_df <- data_fam[sample(1:nrow(data_fam), 3), c("norm2", "binomial1")]
 param_preds <- preds(beta_model, pred_df)
 # Create pdf, cdf plots
 plot_dist(beta_model, param_preds)
