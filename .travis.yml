@@ -3,14 +3,12 @@
 language: R
 sudo: false
 cache: packages
-r_packages:
-  - tibble
-  - glogis
-r_github_packages:
-  - Stan125/gamlss.dist
-  - thomasp85/patchwork
 notifications:
   email:
     - stadlmann@uni-goettingen.de
 install:
   - R -e "install.packages('bamlss', repos = 'http://R-Forge.R-project.org')"
+  - R -e "install.packages('tibble')"
+  - R -e "install.packages('glogis')"
+  - R -e "devtools::install_github('Stan125/gamlss.dist')"
+  - R -e "devtools::install_github('thomasp85/patchwork')"
