@@ -76,6 +76,11 @@ model_fam_data <- function(nrow = 500, seed = 1408, fam_name = "NO") {
     ## Poisson
     if (fam_name == "poisson")
       tfvec <- qpois(u_data$v1, 3)
+
+    if (fam_name == "glogis")
+      tfvec <- sapply(u_data$v1, FUN = glogis_bamlss()$q,
+                      par = list(mu = 1, sigma = 1, alpha = 1)) # not vectorized
+
   }
 
   ### GAMLSS Families
