@@ -67,10 +67,12 @@ test_core <- function(fam_name) {
   ########   ---    moments()   ---    ########
 
   ## Get the moments
-  if (distreg.vis:::has.moments(fam_name)) {
-    moms <- moments(pred_params, fam_name)
-  } else {
-    expect_error(moms <- moments(pred_params, fam_name))
+  if (fam_name != "multinomial") {
+    if (distreg.vis:::has.moments(fam_name)) {
+      moms <- moments(pred_params, fam_name)
+    } else {
+      expect_error(moms <- moments(pred_params, fam_name))
+    }
   }
 
   ########   ---    moments()   ---    ########

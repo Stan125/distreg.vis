@@ -119,6 +119,6 @@ gaussian2;bamlss;TRUE;TRUE;no_limits;NA;NA;Continuous;FALSE
 glogis;bamlss;TRUE;TRUE;no_limits;NA;NA;Continuous;FALSE
 gpareto;bamlss;TRUE;TRUE;both_limits;0;5;Continuous;FALSE
 multinomial;bamlss;TRUE;TRUE;cat_limits;NA;NA;Categorical;FALSE
-mvnorm;bamlss;TRUE;TRUE;no_limits;NA;NA;Continuous;TRUE
+mvnorm;bamlss;FALSE;FALSE;no_limits;NA;NA;Continuous;TRUE
 poisson;bamlss;TRUE;TRUE;one_limit;0;NA;Discrete;FALSE
 quant;bamlss;FALSE;FALSE;NA;NA;NA;NA;NA
