@@ -5,6 +5,7 @@ sudo: false
 cache: packages
 r_packages:
   - tibble
+  - glogis
 r_github_packages:
   - rforge/bayesr/pkg/bamlss
   - Stan125/gamlss.dist

@@ -20,7 +20,7 @@ Imports:
         viridis (>= 0.4.0),
         RColorBrewer (>= 1.1-2),
         formatR (>= 1.5),
-Suggests: testthat, patchwork
+Suggests: testthat, patchwork, glogis
 Description: distreg.vis calls a Shiny app where one can compare different predictions depending on varying covariate values.
 License: GPL-2
 LazyData: TRUE
