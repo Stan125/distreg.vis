@@ -3,8 +3,6 @@
 language: R
 sudo: false
 cache: packages
-install:
-  - R -e "install.packages('bamlss', repos = 'http://R-Forge.R-project.org')"
 r_packages:
   - tibble
   - glogis
@@ -14,3 +12,5 @@ r_github_packages:
 notifications:
   email:
     - stadlmann@uni-goettingen.de
+install:
+  - R -e "install.packages('bamlss', repos = 'http://R-Forge.R-project.org')"
