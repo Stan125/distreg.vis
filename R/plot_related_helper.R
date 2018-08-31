@@ -102,7 +102,6 @@ disc_trans <- function(predictions, family, type, model) {
       tf_df <- rbind(tf_df, data.frame(rownames = unique(tf_df$rownames),
                                        type = rep(-1e-100, (nrow(tf_df)/ 2)), # this is because starting point has to be left by just a little margin for plot...
                                        value = rep(0, (nrow(tf_df)/ 2))))
-      tf_df$type <- as.factor(tf_df$type)
 
     }
   } else if (family %in% c("poisson", "PO")) {
