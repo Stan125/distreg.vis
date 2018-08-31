@@ -50,34 +50,36 @@ dists %>%
   knitr::kable()
 ```
 
-| dist\_name     | class                                                                                                              |
-|:---------------|:-------------------------------------------------------------------------------------------------------------------|
-| exGAUS         | gamlss                                                                                                             |
-| GU             | gamlss                                                                                                             |
-| LO             | gamlss                                                                                                             |
-| LOGNO          | gamlss                                                                                                             |
-| NO             | gamlss                                                                                                             |
-| NO2            | gamlss                                                                                                             |
-| NOF            | gamlss                                                                                                             |
-| PE             | gamlss                                                                                                             |
-| PE2            | gamlss                                                                                                             |
-| PO             | gamlss                                                                                                             |
-| RG             | gamlss                                                                                                             |
-| SN1            | gamlss                                                                                                             |
-| SN2            | gamlss                                                                                                             |
-| TF             | gamlss                                                                                                             |
-| TF2            | gamlss                                                                                                             |
-| beta           | bamlss                                                                                                             |
-| binomial       | bamlss                                                                                                             |
-| cnorm          | bamlss                                                                                                             |
-| gamma          | bamlss                                                                                                             |
-| gaussian       | bamlss                                                                                                             |
-| gaussian2      | bamlss                                                                                                             |
-| glogis         | bamlss                                                                                                             |
-| gpareto        | bamlss                                                                                                             |
-| multinomial    | bamlss                                                                                                             |
-| poisson        | bamlss                                                                                                             |
-| The rest of th | e distributions are mostly supported, but only in displaying their predicted distributions, and not their moments. |
+| dist\_name  | class  |
+|:------------|:-------|
+| exGAUS      | gamlss |
+| GU          | gamlss |
+| LO          | gamlss |
+| LOGNO       | gamlss |
+| NO          | gamlss |
+| NO2         | gamlss |
+| NOF         | gamlss |
+| PE          | gamlss |
+| PE2         | gamlss |
+| PO          | gamlss |
+| RG          | gamlss |
+| SN1         | gamlss |
+| SN2         | gamlss |
+| TF          | gamlss |
+| TF2         | gamlss |
+| beta        | bamlss |
+| binomial    | bamlss |
+| cnorm       | bamlss |
+| gamma       | bamlss |
+| gaussian    | bamlss |
+| gaussian2   | bamlss |
+| glogis      | bamlss |
+| gpareto     | bamlss |
+| multinomial | bamlss |
+| poisson     | bamlss |
+
+The rest of the distributions are mostly supported, but only in
+displaying their predicted distributions, and not their moments.
 
 ### Show-Case
 

@@ -50,6 +50,7 @@ dists %>%
   dplyr::select(dist_name, class) %>%
   knitr::kable()
 ```
+
 The rest of the distributions are mostly supported, but only in displaying their predicted distributions, and not their moments.
 
 ### Show-Case
