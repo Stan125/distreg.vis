@@ -46,37 +46,34 @@ At the moment, the following distributions are fully supported:
 ``` r
 dists %>%
   filter(moment_funs) %>%
-  dplyr::select(dist_name, class) %>%
-  knitr::kable()
+  dplyr::select(dist_name, class)
+#>      dist_name  class
+#> 1       exGAUS gamlss
+#> 2           GU gamlss
+#> 3           LO gamlss
+#> 4        LOGNO gamlss
+#> 5           NO gamlss
+#> 6          NO2 gamlss
+#> 7          NOF gamlss
+#> 8           PE gamlss
+#> 9          PE2 gamlss
+#> 10          PO gamlss
+#> 11          RG gamlss
+#> 12         SN1 gamlss
+#> 13         SN2 gamlss
+#> 14          TF gamlss
+#> 15         TF2 gamlss
+#> 16        beta bamlss
+#> 17    binomial bamlss
+#> 18       cnorm bamlss
+#> 19       gamma bamlss
+#> 20    gaussian bamlss
+#> 21   gaussian2 bamlss
+#> 22      glogis bamlss
+#> 23     gpareto bamlss
+#> 24 multinomial bamlss
+#> 25     poisson bamlss
 ```
-
-| dist\_name  | class  |
-|:------------|:-------|
-| exGAUS      | gamlss |
-| GU          | gamlss |
-| LO          | gamlss |
-| LOGNO       | gamlss |
-| NO          | gamlss |
-| NO2         | gamlss |
-| NOF         | gamlss |
-| PE          | gamlss |
-| PE2         | gamlss |
-| PO          | gamlss |
-| RG          | gamlss |
-| SN1         | gamlss |
-| SN2         | gamlss |
-| TF          | gamlss |
-| TF2         | gamlss |
-| beta        | bamlss |
-| binomial    | bamlss |
-| cnorm       | bamlss |
-| gamma       | bamlss |
-| gaussian    | bamlss |
-| gaussian2   | bamlss |
-| glogis      | bamlss |
-| gpareto     | bamlss |
-| multinomial | bamlss |
-| poisson     | bamlss |
 
 The rest of the distributions are mostly supported, but only in
 displaying their predicted distributions, and not their moments.
