@@ -17,7 +17,7 @@ library("patchwork")
 ## Delete everything
 rm(list = ls())
 
-##### Complete function ##f###
+##### Complete function #####
 test_core <- function(fam_name) {
 
   ## Cat

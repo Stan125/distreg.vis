@@ -78,7 +78,8 @@ model_fam_data <- function(nrow = 500, seed = 1408, fam_name = "NO") {
       tfvec <- qpois(u_data$v1, 3)
 
     if (fam_name == "glogis")
-      tfvec <- glogis_bamlss()$q(u_data$v1, list(mu = 1, sigma = 1, alpha = 1))
+      tfvec <- sapply(u_data$v1, FUN = glogis_bamlss()$q,
+                      par = list(mu = 1, sigma = 1, alpha = 1))
 
   }
 
