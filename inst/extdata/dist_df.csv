@@ -50,8 +50,8 @@ NBF;gamlss;FALSE;FALSE;NA;NA;NA;Discrete;FALSE
 NBI;gamlss;FALSE;FALSE;NA;NA;NA;Discrete;FALSE
 NBII;gamlss;FALSE;FALSE;NA;NA;NA;Discrete;FALSE
 NET;gamlss;FALSE;FALSE;NA;NA;NA;Continuous;FALSE
-NO;gamlss;TRUE;FALSE;no_limits;NA;NA;Continuous;FALSE
-NO2;gamlss;TRUE;FALSE;no_limits;NA;NA;Continuous;FALSE
+NO;gamlss;TRUE;TRUE;no_limits;NA;NA;Continuous;FALSE
+NO2;gamlss;TRUE;TRUE;no_limits;NA;NA;Continuous;FALSE
 NOF;gamlss;TRUE;FALSE;no_limits;NA;NA;Continuous;FALSE
 PARETO2;gamlss;TRUE;FALSE;one_limit;0;NA;Continuous;FALSE
 PARETO2o;gamlss;TRUE;FALSE;one_limit;0;NA;Continuous;FALSE
