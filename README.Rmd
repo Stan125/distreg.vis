@@ -43,12 +43,14 @@ install_github("Stan125/distreg.vis")
 ```
 
 ### Supported distributions
-At the moment, the following distributions are supported:
+At the moment, the following distributions are fully supported:
 ```{r}
 dists %>%
-  filter(implemented) %>%
-  dplyr::select(dist_name, class)
+  filter(moment_funs) %>%
+  dplyr::select(dist_name, class) %>%
+  knitr::kable()
 ```
+The rest of the distributions are mostly supported, but only in displaying their predicted distributions, and not their moments.
 
 ### Show-Case
 Let's show an example using the `Wage` dataset, taken from the ISLR R package. It depicts the wage of 3000 male workers in the Mid-Atlantic region of the US, related to a couple of socio-economic variables.

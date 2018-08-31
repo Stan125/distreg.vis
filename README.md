@@ -41,33 +41,43 @@ install_github("Stan125/distreg.vis")
 
 ### Supported distributions
 
-At the moment, the following distributions are supported:
+At the moment, the following distributions are fully supported:
 
 ``` r
 dists %>%
-  filter(implemented) %>%
-  dplyr::select(dist_name, class)
-#> # A tibble: 17 x 2
-#>    dist_name class 
-#>    <chr>     <chr> 
-#>  1 BB        gamlss
-#>  2 LOGNO     gamlss
-#>  3 NO        gamlss
-#>  4 NO2       gamlss
-#>  5 PO        gamlss
-#>  6 RG        gamlss
-#>  7 beta      bamlss
-#>  8 binomial  bamlss
-#>  9 cnorm     bamlss
-#> 10 gamma     bamlss
-#> 11 gaussian  bamlss
-#> 12 Gaussian  bamlss
-#> 13 gaussian2 bamlss
-#> 14 glogis    bamlss
-#> 15 gpareto   bamlss
-#> 16 mvnorm    bamlss
-#> 17 poisson   bamlss
+  filter(moment_funs) %>%
+  dplyr::select(dist_name, class) %>%
+  knitr::kable()
 ```
+
+| dist\_name     | class                                                                                                              |
+|:---------------|:-------------------------------------------------------------------------------------------------------------------|
+| exGAUS         | gamlss                                                                                                             |
+| GU             | gamlss                                                                                                             |
+| LO             | gamlss                                                                                                             |
+| LOGNO          | gamlss                                                                                                             |
+| NO             | gamlss                                                                                                             |
+| NO2            | gamlss                                                                                                             |
+| NOF            | gamlss                                                                                                             |
+| PE             | gamlss                                                                                                             |
+| PE2            | gamlss                                                                                                             |
+| PO             | gamlss                                                                                                             |
+| RG             | gamlss                                                                                                             |
+| SN1            | gamlss                                                                                                             |
+| SN2            | gamlss                                                                                                             |
+| TF             | gamlss                                                                                                             |
+| TF2            | gamlss                                                                                                             |
+| beta           | bamlss                                                                                                             |
+| binomial       | bamlss                                                                                                             |
+| cnorm          | bamlss                                                                                                             |
+| gamma          | bamlss                                                                                                             |
+| gaussian       | bamlss                                                                                                             |
+| gaussian2      | bamlss                                                                                                             |
+| glogis         | bamlss                                                                                                             |
+| gpareto        | bamlss                                                                                                             |
+| multinomial    | bamlss                                                                                                             |
+| poisson        | bamlss                                                                                                             |
+| The rest of th | e distributions are mostly supported, but only in displaying their predicted distributions, and not their moments. |
 
 ### Show-Case
 
