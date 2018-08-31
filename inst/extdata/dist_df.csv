@@ -1,6 +1,6 @@
 dist_name;class;implemented;moment_funs;type_limits;l_limit;u_limit;type;is_multivariate
 BB;gamlss;FALSE;FALSE;both_limits;0;10;Discrete;FALSE
-BCCG;gamlss;FALSE;FALSE;NA;NA;NA;Continuous;FALSE
+BCCG;gamlss;TRUE;FALSE;one_limit;0;NA;Continuous;FALSE
 BCCGo;gamlss;FALSE;FALSE;NA;NA;NA;Continuous;FALSE
 BCPE;gamlss;FALSE;FALSE;NA;NA;NA;Continuous;FALSE
 BCPEo;gamlss;FALSE;FALSE;NA;NA;NA;Continuous;FALSE
