@@ -29,9 +29,10 @@ This function takes a dataframe of predictions with one row per
 }
 \examples{
 library("gamlss")
-wage <- ISLR::Wage
-model <- gamlss(wage ~ year + ps(age) + education, data = wage,
-                family = "LOGNO")
-ndata <- wage[sample(seq_len(nrow(wage)), 5), c("age", "year", "education")]
-plot_moments(model, int_var = "age", pred_data = ndata)
+dat <- model_fam_data("LOGNO")
+model <- gamlss(LOGNO ~ ps(norm2) + binomial1,
+                ~ ps(norm2) + binomial1,
+                data = dat, family = "LOGNO")
+ndata <- wage[sample(seq_len(nrow(dat)), 5), c("norm2", "binomial1")]
+plot_moments(model, int_var = "norm2", pred_data = ndata)
 }
