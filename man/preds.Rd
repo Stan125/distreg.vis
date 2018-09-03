@@ -27,6 +27,7 @@ for the specified distribution.
 # Generating data
 data_fam <- model_fam_data(fam_name = "beta")
 # Fit model
+library("bamlss")
 beta_model <- bamlss(list(beta ~ norm2 + binomial1,
   sigma2 ~ norm2 + binomial1),
   data = data_fam, family = beta_bamlss())

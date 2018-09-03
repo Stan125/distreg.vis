@@ -17,6 +17,13 @@
 #' @importFrom magrittr %>% extract inset set_colnames set_rownames
 #' @importFrom viridis scale_fill_viridis scale_colour_viridis
 #' @import ggplot2
+#' @examples
+#' library("gamlss")
+#' wage <- ISLR::Wage
+#' model <- gamlss(wage ~ year + ps(age) + education, data = wage,
+#'                 family = "LOGNO")
+#' ndata <- wage[sample(seq_len(nrow(wage)), 5), c("age", "year", "education")]
+#' plot_moments(model, int_var = "age", pred_data = ndata)
 #' @export
 
 plot_moments <- function(model, int_var, pred_data, palette = "default") {

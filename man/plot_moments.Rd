@@ -27,3 +27,11 @@ This function takes a dataframe of predictions with one row per
   against the expected value and the variance of the underlying
   distribution
 }
+\examples{
+library("gamlss")
+wage <- ISLR::Wage
+model <- gamlss(wage ~ year + ps(age) + education, data = wage,
+                family = "LOGNO")
+ndata <- wage[sample(seq_len(nrow(wage)), 5), c("age", "year", "education")]
+plot_moments(model, int_var = "age", pred_data = ndata)
+}
