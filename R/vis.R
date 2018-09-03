@@ -386,7 +386,7 @@ vis <- function() {
 
           # Third line of code
           c_plot <- call("plot_dist", model = as.name(input$model),
-                         predictions = quote(pred_data),
+                         pred_params = quote(pred_data),
                          type = input$type_choices)
           if (!is.null(input$display))# Type of 3D plot if specified
             c_plot[["display"]] <- input$display
