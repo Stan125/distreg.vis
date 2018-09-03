@@ -27,7 +27,7 @@
 #' plot_moments(model, int_var = "norm2", pred_data = ndata)
 #' @export
 
-plot_moments <- function(model, int_var, pred_data, palette = "default") {
+plot_moments <- function(model, int_var, pred_data, palette = "default", ex_fun = NULL) {
 
   # Are the moments even implemented?
   if (!has.moments(fam_obtainer(model)))
@@ -70,20 +70,24 @@ plot_moments <- function(model, int_var, pred_data, palette = "default") {
     return(plot_multinom_exp(model, int_var, pred_data, m_data, palette, coltype))
 
   # Now make predictions and find out expected value and variance
-  preds <- pred_data %>%
-    subset(select = -c(id, prediction)) %>%
-    preds(model, newdata = .) %>%
-    distreg.vis:::moments(par = ., fam_name = fam_obtainer(model)) %>%
-    inset("id", value = row.names(.))
-  moments <- colnames(preds)[colnames(preds) != "id"]
+  to_predict <- pred_data %>%
+    subset(select = -c(id, prediction))
+  preds <- preds(model, newdata = to_predict)
+  all_preds <- distreg.vis:::moments(par = preds, fam_name = fam_obtainer(model))
+  if (!is.null(ex_fun))
+    all_preds$ex_fun <- ex_f(preds, ex_fun)
+  all_preds$id <- row.names(all_preds)
+
+  # Which params are interesting?
+  int_params <- colnames(all_preds)[colnames(all_preds) != "id"]
 
   # Merge predictions with pred_data, transform into long and to numerics
-  preds <- preds %>%
+  preds <- all_preds %>%
     merge(y = pred_data, by.x = "id") %>%
-    extract(, c(int_var, "prediction", moments)) %>%
-    set_colnames(c(int_var, "prediction", paste0("mom.", moments))) %>%
+    extract(, c(int_var, "prediction", int_params)) %>%
+    set_colnames(c(int_var, "prediction", paste0("mom.", int_params))) %>%
     reshape(., direction = "long",
-            varying = seq_along(moments) + 2, # because moments start after 2
+            varying = seq_along(int_params) + 2, # because moments start after 2
             idvar = c(int_var, "prediction")) %>%
     set_rownames(seq_along(rownames(.))) %>%
     set_colnames(c(int_var, "prediction", "moment", "value"))
