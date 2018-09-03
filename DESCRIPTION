@@ -5,13 +5,13 @@ Version: 0.6.0
 Authors@R: person("Stanislaus", "Stadlmann", email = "stanislaus@stadlmann.cm", role = c("cre", "ctb"))
 Maintainer: Stanislaus Stadlmann <stanislaus@stadlmann.cm>
 Depends: 
-        shiny (>= 1.0.3), 
-        R (>= 3.3.0), 
-        bamlss (>= 0.1-2),
-        gamlss (>= 5.0-6)
+        R (>= 3.3.0)
 Imports: 
         stats,
         utils,
+        shiny (>= 1.0.3), 
+        bamlss (>= 0.1-2),
+        gamlss (>= 5.0-6),
         ggplot2 (>= 2.2.1),
         rhandsontable (>= 0.3.4),
         plotly (>= 4.7.0),
@@ -19,7 +19,7 @@ Imports:
         mvtnorm (>= 1.0-6),
         viridis (>= 0.4.0),
         RColorBrewer (>= 1.1-2),
-        formatR (>= 1.5),
+        formatR (>= 1.5)
 Suggests: testthat, patchwork, glogis
 Description: distreg.vis calls a Shiny app where one can compare different predictions depending on varying covariate values.
 License: GPL-2
