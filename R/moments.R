@@ -22,7 +22,7 @@ moments <- function(par, fam_name) {
     moms_raw <- apply(par, 1, function(x) {
       ex <- do.call(fam_called$mean, args = as.list(x)) # Expected value
       vx <- do.call(fam_called$variance, args = as.list(x)) # Variance
-      return(c(ex = ex, vx = vx))
+      return(c(Expected_Value = ex, Variance = vx))
     })
 
     # Make into nice format
@@ -42,7 +42,7 @@ moments <- function(par, fam_name) {
     moms_raw <- apply(par, 1, function(x) {
       ex <- fam_called$mean(as.list(x)) # Expected value
       vx <- fam_called$variance(as.list(x)) # Variance
-      return(c(ex = ex, vx = vx))
+      return(c(Expected_Value = ex, Variance = vx))
     })
 
     # Make into nice format
