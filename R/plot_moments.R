@@ -23,7 +23,7 @@
 #' model <- gamlss(LOGNO ~ ps(norm2) + binomial1,
 #'                 ~ ps(norm2) + binomial1,
 #'                 data = dat, family = "LOGNO")
-#' ndata <- wage[sample(seq_len(nrow(dat)), 5), c("norm2", "binomial1")]
+#' ndata <- dat[sample(seq_len(nrow(dat)), 5), c("norm2", "binomial1")]
 #' plot_moments(model, int_var = "norm2", pred_data = ndata)
 #' @export
 
