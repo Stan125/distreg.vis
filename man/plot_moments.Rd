@@ -29,7 +29,7 @@ This function takes a dataframe of predictions with one row per
 }
 \examples{
 library("gamlss")
-dat <- model_fam_data("LOGNO")
+dat <- model_fam_data(fam_name = "LOGNO")
 model <- gamlss(LOGNO ~ ps(norm2) + binomial1,
                 ~ ps(norm2) + binomial1,
                 data = dat, family = "LOGNO")
