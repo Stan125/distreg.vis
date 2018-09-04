@@ -84,6 +84,15 @@ test_core <- function(fam_name) {
       plot_moments(model, "norm2", pred_data = ndata) +
       plot_moments(model, "binomial1", pred_data = ndata)
 
+    if (fam_name == "LOGNO") {
+      ineq <<- function(par) {
+        2 * pnorm((par[["sigma"]] / 2) * sqrt(2)) - 1
+      }
+      plots_moments <- plots_moments +
+        plot_moments(model, "norm2", pred_data = ndata, ex_fun = "ineq") +
+        plot_moments(model, "binomial1", pred_data = ndata, ex_fun = "ineq")
+    }
+
     # Save
     ggsave(filename = paste0("plot_", fam_name, "_moments.png"), height = 6, width = 12,
            plot = plots_moments)
