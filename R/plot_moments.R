@@ -76,8 +76,13 @@ plot_moments <- function(model, int_var, pred_data, palette = "default", ex_fun 
     subset(select = -c(id, prediction))
   preds <- preds(model, newdata = to_predict)
   all_preds <- distreg.vis:::moments(par = preds, fam_name = fam_obtainer(model))
-  if (!is.null(ex_fun))
-    all_preds$ex_fun <- ex_f(preds, ex_fun)
+  if (!is.null(ex_fun)) {
+    tryCatch({
+      all_preds$ex_fun <- ex_f(preds, ex_fun)
+    }, error = function(e) {
+      stop("External function not specified correctly!")
+    })
+  }
   all_preds$id <- row.names(all_preds)
 
   # Which params are interesting?
