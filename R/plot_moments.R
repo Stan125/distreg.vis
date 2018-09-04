@@ -1,19 +1,21 @@
 #' Plot function: Display the influence of a covariate
 #'
-#' This function takes a dataframe of predictions with one row per
-#'   prediction and one column for every explanatory variable.
-#'   Then, those predictions are held constant while one specific variable
-#'   is varied over it's whole range (min-max). Then, the constant
-#'   variables with the varied interest variables are predicted and plotted
-#'   against the expected value and the variance of the underlying
-#'   distribution
+#' This function takes a dataframe of predictions with one row per prediction
+#' and one column for every explanatory variable. Then, those predictions are
+#' held constant while one specific variable is varied over it's whole range
+#' (min-max). Then, the constant variables with the varied interest variables
+#' are predicted and plotted against the expected value and the variance of the
+#' underlying distribution
 #' @param int_var The variable for which influences of the moments shall be
 #'   graphically displayed. Has to be in character form.
-#' @param pred_data Combinations of covariate data, sometimes also known as "newdata",
-#'   including the variable of interest, which will be ignored in later
-#'   processing.
+#' @param pred_data Combinations of covariate data, sometimes also known as
+#'   "newdata", including the variable of interest, which will be ignored in
+#'   later processing.
 #' @param model A fitted model on which the plots are based.
 #' @param palette See \code{\link{plot_dist}}
+#' @param ex_fun An external function \code{function(par) {...}} which
+#'   calculates a measure, which dependency from a certain variable is of
+#'   interest.
 #' @importFrom magrittr %>% extract inset set_colnames set_rownames
 #' @importFrom viridis scale_fill_viridis scale_colour_viridis
 #' @import ggplot2

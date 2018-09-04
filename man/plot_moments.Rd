@@ -13,20 +13,23 @@ plot_moments(model, int_var, pred_data, palette = "default",
 \item{int_var}{The variable for which influences of the moments shall be
 graphically displayed. Has to be in character form.}
 
-\item{pred_data}{Combinations of covariate data, sometimes also known as "newdata",
-including the variable of interest, which will be ignored in later
-processing.}
+\item{pred_data}{Combinations of covariate data, sometimes also known as
+"newdata", including the variable of interest, which will be ignored in
+later processing.}
 
 \item{palette}{See \code{\link{plot_dist}}}
+
+\item{ex_fun}{An external function \code{function(par) {...}} which
+calculates a measure, which dependency from a certain variable is of
+interest.}
 }
 \description{
-This function takes a dataframe of predictions with one row per
-  prediction and one column for every explanatory variable.
-  Then, those predictions are held constant while one specific variable
-  is varied over it's whole range (min-max). Then, the constant
-  variables with the varied interest variables are predicted and plotted
-  against the expected value and the variance of the underlying
-  distribution
+This function takes a dataframe of predictions with one row per prediction
+and one column for every explanatory variable. Then, those predictions are
+held constant while one specific variable is varied over it's whole range
+(min-max). Then, the constant variables with the varied interest variables
+are predicted and plotted against the expected value and the variance of the
+underlying distribution
 }
 \examples{
 library("gamlss")
