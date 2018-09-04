@@ -33,9 +33,9 @@ search_funs <- function() {
   # Return only if there is a function
   if (length(functions_true) > 0)
     if (sum(functions_true) > 0)
-      return(c("", lsc[functions_true]))
+      return(c("NO FUNCTION", lsc[functions_true]))
   else
-    return("")
+    return("NO FUNCTION")
 }
 
 #' Checker if object is either gamlss or bamlss

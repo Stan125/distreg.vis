@@ -478,7 +478,7 @@ vis <- function() {
                           pred_data = quote(covariate_data))
       if (input$infl_pal_choices != "default") # Palette if specified
         infl_c_plot[["palette"]] <- input$infl_pal_choices
-      if (input$infl_exfun != "")
+      if (input$infl_exfun != "" | input$infl_exfun == "NO FUNCTION")
         infl_c_plot[["ex_fun"]] <- input$infl_exfun
       infl_c_plot <- deparse(infl_c_plot, width.cutoff = 100) # Make call into character
       infl_c_plot <- tidy_c(infl_c_plot)

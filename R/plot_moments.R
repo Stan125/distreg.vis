@@ -37,7 +37,7 @@ plot_moments <- function(model, int_var, pred_data, palette = "default", ex_fun 
 
   # What to do if ex_fun is an empty string - this is for easier shiny app handling
   if (!is.null(ex_fun))
-    if (ex_fun == "")
+    if (ex_fun == "" | ex_fun == "NO FUNCTION")
       ex_fun <- NULL
 
   # Get model data
