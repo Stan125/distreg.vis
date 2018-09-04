@@ -7,12 +7,15 @@
 
 ex_f <- function(pred_params, ex_fun) {
 
+  # Obtain the function from the string
+  fun <- get(ex_fun, envir = .GlobalEnv)
+
   # Stop if not function
-  if (class(ex_fun) != "function")
+  if (class(fun) != "function")
     stop("Argument 'ex-fun' has to be a function!")
 
   # Get values
-  vals <- data.frame(ex_fun = apply(pred_params, 1, FUN = ex_fun))
+  vals <- apply(pred_params, 1, FUN = fun)
 
   # Return values
   return(vals)

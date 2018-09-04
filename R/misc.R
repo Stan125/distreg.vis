@@ -18,6 +18,26 @@ search_distreg <- function() {
     return("")
 }
 
+#' function Searcher
+#'
+#' Function that looks for objects of class 'function' in the working directory.
+
+search_funs <- function() {
+  # Get components of Global Envir
+  lsc <- ls(envir = .GlobalEnv)
+
+  # Look for functions
+  functions_true <- sapply(lsc, FUN = function(x)
+    return(is.function(get(x, envir = .GlobalEnv))))
+
+  # Return only if there is a function
+  if (length(functions_true) > 0)
+    if (sum(functions_true) > 0)
+      return(c("", lsc[functions_true]))
+  else
+    return("")
+}
+
 #' Checker if object is either gamlss or bamlss
 #'
 #' @keywords internal

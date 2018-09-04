@@ -437,6 +437,9 @@ vis <- function() {
           actionButton("infl_pastecode", icon = icon("code"),
                        label = "Obtain Code!", style = "color:white;
                        background-color:red")
+        infl_sidebar[[4]] <-
+          selectInput(inputId = "infl_exfun", choices = search_funs(),
+                      label = "Include own function")
 
         # Plot UI - put things together
         plot_ui <- fluidRow(
@@ -501,7 +504,8 @@ vis <- function() {
     output$influence_graph <- renderPlot({
       if (gmad())
         plot_moments(m(), input$infl_int_var, pred$data,
-                     palette = input$infl_pal_choices)
+                     palette = input$infl_pal_choices,
+                     ex_fun = input$infl_exfun)
     })
 
   }
