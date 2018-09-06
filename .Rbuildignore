@@ -4,3 +4,5 @@
 ^\.travis\.yml$
 ^\.httr-oauth$
 ^data-raw$
+^README\.Rmd$
+^README\.md$

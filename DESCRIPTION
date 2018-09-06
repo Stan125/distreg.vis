@@ -9,6 +9,7 @@ Depends:
 Imports: 
         stats,
         utils,
+        methods,
         shiny (>= 1.0.3), 
         bamlss (>= 0.1-2),
         gamlss (>= 5.0-6),
