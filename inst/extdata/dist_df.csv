@@ -13,7 +13,7 @@ BEINF1;gamlss;TRUE;FALSE;both_limits;0;1;Mixed;FALSE
 BEo;gamlss;TRUE;FALSE;both_limits;0;1;Continuous;FALSE
 BEOI;gamlss;TRUE;FALSE;both_limits;0;1;Mixed;FALSE
 BEZI;gamlss;TRUE;FALSE;both_limits;0;1;Mixed;FALSE
-BI;gamlss;FALSE;FALSE;NA;NA;NA;Discrete;FALSE
+BI;gamlss;TRUE;FALSE;both_limits;0;1;Discrete;FALSE
 BNB;gamlss;FALSE;FALSE;NA;NA;NA;Discrete;FALSE
 DBI;gamlss;FALSE;FALSE;NA;NA;NA;Discrete;FALSE
 DEL;gamlss;FALSE;FALSE;NA;NA;NA;Discrete;FALSE
