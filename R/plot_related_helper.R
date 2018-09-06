@@ -48,14 +48,6 @@ limits <- function(fam_name, predictions) {
     lims <- c(lower = lower, upper = upper)
   }
 
-  # Third case - categorical variables
-  if (lim_type == "cat_limits") {
-    # if we are categorical do this
-
-    # (binomial should also be categorical, actually...)
-
-    # probably have to write a function that catches the data from gamlss/bamlss models and uses it here...
-  }
   return(lims)
 }
 
