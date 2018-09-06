@@ -77,8 +77,7 @@ plot_moments <- function(model, int_var, pred_data, palette = "default", ex_fun 
     return(plot_multinom_exp(model, int_var, pred_data, m_data, palette, coltype))
 
   # Now make predictions and find out expected value and variance
-  to_predict <- pred_data %>%
-    subset(select = -c(id, prediction))
+  to_predict <- pred_data[, !colnames(pred_data) %in% c("id", "prediction")]
   preds <- preds(model, newdata = to_predict)
   all_preds <- moments(par = preds, fam_name = fam_obtainer(model))
   if (!is.null(ex_fun)) {
@@ -153,8 +152,7 @@ plot_moments <- function(model, int_var, pred_data, palette = "default", ex_fun 
 
 plot_multinom_exp <- function(model, int_var, pred_data, m_data, palette, coltype) {
     # Get predictions for each class dep on int_var
-    preds <- pred_data %>%
-      subset(select = -c(id, prediction)) %>%
+    preds <- pred_data[, !colnames(pred_data) %in% c("id", "prediction")] %>%
       preds(model, newdata = .) %>%
       mult_trans(., model) %>%
       inset("id", value = row.names(.))

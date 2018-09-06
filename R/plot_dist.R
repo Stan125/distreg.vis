@@ -96,7 +96,7 @@ pdfcdf_continuous <- function(lims, funs, type, p_m, palette) {
     }
   } else if (type == "pdf") {
     # Assemble plot
-    ground <- ggplot(data = data.frame(x = lims), aes(x)) +
+    ground <- ggplot(data = data.frame(x = lims), aes_("x")) +
       ggtitle("Predicted distribution(s)") +
       labs(x = "y", y = "f(y)")
 
