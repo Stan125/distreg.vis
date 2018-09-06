@@ -1,7 +1,7 @@
 dists <-
   read.table(
     "inst/extdata/dist_df.csv",
-    sep = ",",
+    sep = ";",
     dec = ".",
     header = TRUE,
     stringsAsFactors = FALSE
