@@ -13,6 +13,7 @@ f_disp <- function(model) {
 #' Model formulas printer
 #'
 #' Prints the model formulas of all parameters
+#' @importFrom methods is
 #' @keywords internal
 formula_printer <- function(model) {
 
@@ -34,6 +35,7 @@ formula_printer <- function(model) {
 #' Model link functions printer
 #'
 #' Prints the model links of all parameters
+#' @importFrom methods is
 #' @keywords internal
 link_printer <- function(model) {
 

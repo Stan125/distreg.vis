@@ -1,6 +1,8 @@
 #' Model data getter
 #'
 #' Get the data from the models
+#' @importFrom methods is
+#' @importFrom stats model.frame
 #' @keywords internal
 model_data <- function(model) {
 
@@ -29,6 +31,7 @@ model_data <- function(model) {
 
 #' Internal: Function to obtain all explanatory variables used to fit
 #'   a model, without the dependent variables
+#' @importFrom methods is
 #' @keywords internal
 expl_vars <- function(model) {
   all_data <- model_data(model)

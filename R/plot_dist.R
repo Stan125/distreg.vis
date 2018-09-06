@@ -83,7 +83,7 @@ plot_dist <- function(model, pred_params, palette = "default",
 pdfcdf_continuous <- function(lims, funs, type, p_m, palette) {
   if (type == "cdf") {
     # Assemble plot
-    ground <- ggplot(data = data.frame(y = c(0, 1), x = lims), aes(x, y)) +
+    ground <- ggplot(data = data.frame(y = c(0, 1), x = lims), aes_("x", "y")) +
       ggtitle("Predicted distribution(s)") +
       labs(x = "y", y = "F(y)")
 
@@ -149,7 +149,7 @@ pdfcdf_discrete <- function(pred_params, palette, fam_name, type, model, lims) {
 
   if (type == "pdf") {
     # Assemble plot
-    ground <- ggplot(pred_df, aes(xvals, y = value, fill = rownames)) +
+    ground <- ggplot(pred_df, aes_("xvals", y = "value", fill = "rownames")) +
       geom_bar(stat = "identity", position = position_dodge()) +
       labs(x = "y", y = "f(y)") +
       ggtitle("Predicted distributions(s)")
@@ -173,7 +173,7 @@ pdfcdf_discrete <- function(pred_params, palette, fam_name, type, model, lims) {
 
   } else if (type == "cdf") {
     # Assemble plot
-    ground <- ggplot(pred_df, aes(xvals, value, col = rownames)) +
+    ground <- ggplot(pred_df, aes("xvals", "value", col = "rownames")) +
       geom_step(linetype = 2) +
       labs(x = "x", y = "F(x)") +
       ggtitle("Predicted distribution(s)")
@@ -253,7 +253,7 @@ pdfcdf_2d <- function(p_m, model, type = "pdf", display = "perspective",
       set_colnames(c("x", "y"))
     comb_vals$z <- apply(comb_vals, 1, function(x)
       return(density_f(matrix(x, ncol = 2), par = p)))
-    plot <- ggplot(comb_vals, aes(x, y, fill = z)) +
+    plot <- ggplot(comb_vals, aes_("x", "y", fill = "z")) +
       geom_tile() +
       ggtitle("Predicted distribution") +
       theme_classic() +
