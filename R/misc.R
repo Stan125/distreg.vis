@@ -94,3 +94,33 @@ tidy_c <- function(x)
   return(tidy_source(text = x, output = FALSE, width.cutoff = 45))$text.tidy
 
 
+#' Obtain d&p&q&r functions
+#'
+#' Takes a family name and what kind of function you want and gives the right one back
+
+fam_fun_getter <- function(fam_name, type) {
+
+  # Test which type is wanted
+  if (!type %in% c("d", "p", "q", "r"))
+    stop("Specified wrong type!")
+
+  # GAMLSS
+  if (is.gamlss(fam_name)) {
+    raw_name <- paste0(type, fam_name)
+    fun <- function(x, par)
+      return(do.call(get(force(raw_name), envir = as.environment("package:gamlss.dist")),
+                     c(list(x), par))) # why does it preserve d_raw_name even if this function is used outside of this environment? http://adv-r.had.co.nz/Functions.html
+  }
+
+  if (is.bamlss(fam_name)) {
+    raw_name <- paste0(fam_name, "_bamlss")
+    fam_called <- do.call(get(force(raw_name), envir = as.environment("package:bamlss")),
+                          args = list())
+    fun <- fam_called[[type]]
+    if (is.null(fun))
+      stop(paste(type, "function not implemented."))
+  }
+
+  # Return the function
+  return(fun)
+}

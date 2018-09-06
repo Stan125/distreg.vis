@@ -17,6 +17,9 @@ library("patchwork")
 ## Delete everything
 rm(list = ls())
 
+## Context
+testthat::context("Test all dists")
+
 ##### Complete function #####
 test_core <- function(fam_name) {
 

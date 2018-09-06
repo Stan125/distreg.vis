@@ -82,91 +82,52 @@ lims_getter <- function(fam_name) {
 #'
 #' @importFrom stats dpois ppois reshape
 #' @keywords internal
-disc_trans <- function(predictions, family, type, model) {
-  if (family == "binomial") {
-    if (type == "pdf") {
-      predictions$pi_inv <- 1 - predictions$pi
-      predictions$rownames <- row.names(predictions)
-      colnames(predictions) <- c("v.0", "v.1", "rownames") # v. are the names that need transforming
-      tf_df <- reshape(predictions, varying = seq_len(2), idvar = "rownames", direction = "long")
-      colnames(tf_df) <- c("rownames", "type", "value")
-      rownames(tf_df) <- seq_len(nrow(tf_df))
-      tf_df$type <- as.factor(tf_df$type)
-    } else if (type == "cdf") {
-      predictions$pi_inv <- 1
-      predictions$rownames <- row.names(predictions)
-      colnames(predictions) <- c("v.0", "v.1", "rownames") # v. are the names that need transforming
-      tf_df <- reshape(predictions, varying = seq_len(2), idvar = "rownames", direction = "long")
-      colnames(tf_df) <- c("rownames", "type", "value")
-      rownames(tf_df) <- seq_len(nrow(tf_df))
-      tf_df <- rbind(tf_df, data.frame(rownames = unique(tf_df$rownames),
-                                       type = rep(-1e-100, (nrow(tf_df)/ 2)), # this is because starting point has to be left by just a little margin for plot...
-                                       value = rep(0, (nrow(tf_df)/ 2))))
+disc_trans <- function(pred_params, fam_name, type, model, lims) {
 
-    }
-  } else if (family %in% c("poisson", "PO")) {
-    if (is.gamlss(family))
-      lambda <- predictions$mu
-    else
-      lambda <- predictions$lambda
-    # PDF
-    if (type == "pdf"){
-      limits <- 0:((max(lambda)*2) + 3) # what lim should preds be?
-      tf_df_unshaped <- apply(predictions, 1, FUN = function(x) return(dpois(limits, x)))
-      tf_df_unshaped <- cbind(tf_df_unshaped, limits)
+  if (fam_name != "multinomial") {
+    # Get discrete sequence (x axis for distribution plots)
+    xvals <- seq.int(from = lims["lower"], to = lims["upper"])
 
-      # New colnames for easier reshaping
-      colnames(tf_df_unshaped) <- c(paste0("rn.", row.names(predictions)), "type")
-      tf_df_unshaped <- as.data.frame(tf_df_unshaped)
-      tf_df_unshaped$type <- as.character(tf_df_unshaped$type)
+    # Get right function
+    if (type == "pdf")
+      fun <- fam_fun_getter(fam_name, "d")
+    if (type == "cdf")
+      fun <- fam_fun_getter(fam_name, "p")
 
-      # Reshape with base - to get rid of tidyr dependency
-      tf_df <-
-        reshape(
-          tf_df_unshaped,
-          varying = seq_len(nrow(predictions)),
-          idvar = "type",
-          direction = "long"
-        )
-      colnames(tf_df) <- c("type", "rownames", "value")
-      tf_df$type <- as.numeric(tf_df$type)
-      tf_df$rownames <- as.factor(tf_df$rownames)
-    }
-    # CDF
-    if (type == "cdf") {
-      limits <- 0:((max(lambda)*2) + 3) # what lim should preds be?
-      tf_df_unshaped <- apply(predictions, 1, FUN = function(x) return(ppois(limits, x)))
-      tf_df_unshaped <- cbind(tf_df_unshaped, limits)
+    # Get y values and construct df
+    compl_df <- apply(pred_params, 1, FUN = function(x) {
+      fun(xvals, par = as.list(x))
+    })
+    compl_df <- as.data.frame(compl_df)
+    colnames(compl_df) <- paste0("pn.", row.names(pred_params))
+    compl_df$xvals <- xvals
 
-      # New colnames for easier reshaping
-      colnames(tf_df_unshaped) <- c(paste0("rn.", row.names(predictions)), "type")
-      tf_df_unshaped <- as.data.frame(tf_df_unshaped)
-      tf_df_unshaped$type <- as.character(tf_df_unshaped$type)
+    # If cdf then add a new row b.c. of visual reasons
+    if (type == "cdf")
+      compl_df <- rbind(c(rep(0, nrow(pred_params)), -1e-100), compl_df)
 
-      # Reshape with base - to get rid of tidyr dependency
-      tf_df <-
-        reshape(
-          tf_df_unshaped,
-          varying = seq_len(nrow(predictions)),
-          idvar = "type",
-          direction = "long"
-        )
-      colnames(tf_df) <- c("type", "rownames", "value")
-      tf_df$type <- as.numeric(tf_df$type)
-      tf_df$rownames <- as.factor(tf_df$rownames)
+    # Wide to long
+    compl_reshaped <- reshape(
+      compl_df,
+      direction = "long",
+      idvar = "xvals",
+      varying = seq_len(nrow(pred_params))
+    )
+    row.names(compl_reshaped) <- seq_len(nrow(compl_reshaped))
+    colnames(compl_reshaped) <- c("xvals", "rownames", "value")
+    compl_reshaped$rownames <- as.character(compl_reshaped$rownames)
 
-      # Reshape again for plotting purposes
-      tf_df <- rbind(data.frame(type = 0, rownames = row.names(predictions),
-                                value = -1e-100), # this is because starting point has to be left by just a little margin for plot...
-                     tf_df)
-    }
-  } else if (family == "multinomial") {
+    # Return it
+    return(compl_reshaped)
+  }
+
+  if (fam_name == "multinomial") {
     if (type == "pdf") {
       ## Transform the predictions such that probabilities for all classes are given
       levels <- levels(model$model.frame[, 1])
-      psums <- rowSums(predictions) + 1
+      psums <- rowSums(pred_params) + 1
       p0 <- 1 / psums
-      trans_preds <- cbind(p0, matrix(apply(predictions, 2, FUN = function(x)
+      trans_preds <- cbind(p0, matrix(apply(pred_params, 2, FUN = function(x)
         return(x * p0)), ncol = length(levels) - 1)) # matrix because else it will not work with just one row
       trans_preds <- as.data.frame(trans_preds)
       colnames(trans_preds) <- paste0("lv.", levels)
@@ -175,15 +136,15 @@ disc_trans <- function(predictions, family, type, model) {
                        varying = seq_len(length(levels)),
                        idvar = "rownames",
                        direction = "long")
-      colnames(tf_df) <- c("rownames", "type", "value")
+      colnames(tf_df) <- c("rownames", "xvals", "value")
       rownames(tf_df) <- seq_len(nrow(tf_df))
-      tf_df$type <- factor(tf_df$type, labels = levels)
+      tf_df$xvals <- factor(tf_df$xvals, labels = levels)
+      return(tf_df)
     }
     if (type == "cdf") {
       stop("CDF of Multinomial Family not feasible")
     }
   }
-  return(tf_df)
 }
 
 #' Internal: Get colour palettes for 3D plots
@@ -198,53 +159,6 @@ palette_getter <- function(name = "default") {
   if (any(name == c("Spectral", "RdYlBu", "RdYlGn")))
     return(brewer.pal(9, name))
 }
-
-#' Internal: PDF and CDF getter
-#'
-#' Obtain the right PDF and CDF for the modeled distribution for a given model class and distribution
-#'
-#' @keywords internal
-pdf_cdf_getter <- function(model) {
-  # Stop if not gamlss or bamlss model
-  if (!any(class(model) %in% c("gamlss", "bamlss")))
-    stop("Only GAMLSS and BAMLSS classes supported.")
-
-  # GAMLSS
-  if (any(class(model) == "gamlss")) {
-    fam_name <- fam_obtainer(model)
-
-    # Probability distribution function
-    d_raw_name <- paste0("d", fam_name)
-    pdf <- function(x, par)
-      return(do.call(get(force(d_raw_name), envir = as.environment("package:gamlss.dist")),
-                     c(list(x = x), par))) # why does it preserve d_raw_name even if this function is used outside of this environment? http://adv-r.had.co.nz/Functions.html
-
-    # Cumulative distribution function
-    p_raw_name <- paste0("p", fam_name)
-    cdf <- function(q, par)
-      return(do.call(get(force(p_raw_name), envir = as.environment("package:gamlss.dist")),
-                    c(list(q = q), par)))
-
-    # Put p and d together
-    dist_functions <- list(pdf = pdf, cdf = cdf)
-  }
-
-  # BAMLSS
-  if (any(class(model) == "bamlss")) {
-    family <- family(model)# here we need the whole family function
-    pdf <- family$d
-    cdf <- family$p
-
-    # Stop when there is no pdf - AFAIK only in bamlss/multinomial case...
-    if (is.null(p))
-      stop(paste("Family", family, "does not have a CDF!"))
-
-    # Put p and d together
-    dist_functions <- list(pdf = pdf, cdf = cdf)
-  }
-  return(dist_functions)
-}
-
 #' Internal: Family obtainer
 #'
 #' Gets the right family (in character) from a given model

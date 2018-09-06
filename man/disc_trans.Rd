@@ -4,7 +4,7 @@
 \alias{disc_trans}
 \title{Internal: Transform discrete predictions into a usable df}
 \usage{
-disc_trans(predictions, family, type, model)
+disc_trans(pred_params, fam_name, type, model, lims)
 }
 \description{
 Internal: Transform discrete predictions into a usable df
