@@ -97,6 +97,7 @@ tidy_c <- function(x)
 #' Obtain d&p&q&r functions
 #'
 #' Takes a family name and what kind of function you want and gives the right one back
+#' @keywords internal
 
 fam_fun_getter <- function(fam_name, type) {
 

@@ -9,3 +9,4 @@ fam_fun_getter(fam_name, type)
 \description{
 Takes a family name and what kind of function you want and gives the right one back
 }
+\keyword{internal}
