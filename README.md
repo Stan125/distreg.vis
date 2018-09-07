@@ -65,18 +65,19 @@ dists %>%
 #> 15          RG gamlss
 #> 16         SN1 gamlss
 #> 17         SN2 gamlss
-#> 18          TF gamlss
-#> 19         TF2 gamlss
-#> 20        beta bamlss
-#> 21    binomial bamlss
-#> 22       cnorm bamlss
-#> 23       gamma bamlss
-#> 24    gaussian bamlss
-#> 25   gaussian2 bamlss
-#> 26      glogis bamlss
-#> 27     gpareto bamlss
-#> 28 multinomial bamlss
-#> 29     poisson bamlss
+#> 18         SST gamlss
+#> 19          TF gamlss
+#> 20         TF2 gamlss
+#> 21        beta bamlss
+#> 22    binomial bamlss
+#> 23       cnorm bamlss
+#> 24       gamma bamlss
+#> 25    gaussian bamlss
+#> 26   gaussian2 bamlss
+#> 27      glogis bamlss
+#> 28     gpareto bamlss
+#> 29 multinomial bamlss
+#> 30     poisson bamlss
 ```
 
 The rest of the distributions are mostly supported, but only in

@@ -73,7 +73,7 @@ SI;gamlss;FALSE;FALSE;one_limit;0;NA;Discrete;FALSE
 SICHEL;gamlss;TRUE;FALSE;one_limit;0;NA;Discrete;FALSE
 SN1;gamlss;TRUE;TRUE;no_limits;NA;NA;Continuous;FALSE
 SN2;gamlss;TRUE;TRUE;no_limits;NA;NA;Continuous;FALSE
-SST;gamlss;TRUE;FALSE;no_limits;NA;NA;Continuous;FALSE
+SST;gamlss;TRUE;TRUE;no_limits;NA;NA;Continuous;FALSE
 ST1;gamlss;TRUE;FALSE;no_limits;NA;NA;Continuous;FALSE
 ST2;gamlss;TRUE;FALSE;no_limits;NA;NA;Continuous;FALSE
 ST3;gamlss;TRUE;FALSE;no_limits;NA;NA;Continuous;FALSE
