@@ -7,8 +7,7 @@ rm(list = ls())
 testthat::context("Miscellaneous")
 
 # Libraries
-library(dplyr)
-library(distreg.vis)
+library("distreg.vis")
 
 ### -- Mult_trans --- ###
 
