@@ -11,7 +11,6 @@ library("bamlss")
 library("gamlss")
 library("testthat")
 library("ggplot2")
-library("gridExtra")
 library("patchwork")
 
 ## Delete everything
