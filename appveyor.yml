@@ -24,6 +24,7 @@ build_script:
   - travis-tool.sh install_deps
 
 environment:
+  USE_RTOOLS: true
   global:
     WARNINGS_ARE_ERRORS: 1
   matrix:
