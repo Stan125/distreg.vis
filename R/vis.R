@@ -4,7 +4,6 @@
 #'   package.
 #' @import shiny
 #' @import rhandsontable
-#' @importFrom plotly renderPlotly plotlyOutput ggplotly plotly_empty
 #' @importFrom utils capture.output
 #' @importFrom stats family
 #' @importFrom formatR tidy_source
@@ -303,26 +302,12 @@ vis <- function() {
           selectInput("type_choices", label = "PDF or CDF?",
                       choices = c("pdf", "cdf"))
 
-        if (is.2d(m())) {
-          # Contour/Image Slider for 3D - only for 2d dists
-          ui_list[[2]] <-
-            selectInput("display", label = "3D Plot type",
-                        choices = c("perspective", "contour",
-                                    "image"))
-          ui_list[[3]] <-
-            selectInput("pal_choices", label = "Colour Palette",
-                        choices = c("default", "Spectral", "RdYlBu",
-                                    "RdYlGn","Blues", "Greens",
-                                    "OrRd", "Purples"))
-
-        } else {
-          # Palette Choices, inly for 1d dists
-          ui_list[[2]] <-
-            selectInput("pal_choices", label = "Colour Palette",
-                        choices = c("default", "viridis", "Accent", "Dark2",
-                                    "Pastel1", "Pastel2", "Set1", "Set2",
-                                    "Paired", "Set3"))
-        }
+        # Palette Choices
+        ui_list[[2]] <-
+          selectInput("pal_choices", label = "Colour Palette",
+                      choices = c("default", "viridis", "Accent", "Dark2",
+                                  "Pastel1", "Pastel2", "Set1", "Set2",
+                                  "Paired", "Set3"))
 
         # Action Button for console pasting
         ui_list[[length(ui_list) + 1]] <-

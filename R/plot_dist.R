@@ -17,10 +17,6 @@
 #'   \code{"Spectral"}, \code{"RdYlBu"}, \code{"RdYlGn"}.
 #' @param type Do you want the probability distribution function ("pdf") or
 #'   the cumulative distribution function ("cdf")?
-#' @param display Only specify this when creating plots for two-dimensional
-#'   distributions. Can be either \code{"perspective"} for a perspective plot,
-#'   \code{"contour"} for a contour plot or \code{"image"} for an
-#'   image plot.
 #' @return A ggplot2 object.
 #' @examples
 #' # Generating data

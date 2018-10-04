@@ -10,5 +10,6 @@ install:
   - R -e "install.packages('bamlss', repos = 'http://R-Forge.R-project.org')"
   - R -e "install.packages('tibble')"
   - R -e "install.packages('glogis')"
+  - R -e "install.packages('devtools')"
   - R -e "devtools::install_github('Stan125/gamlss.dist')"
   - R -e "devtools::install_github('thomasp85/patchwork')"

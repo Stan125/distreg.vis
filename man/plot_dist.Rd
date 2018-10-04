@@ -23,11 +23,6 @@ suggest you use one of the qualitative ones: Accent, Dark2, etc. Since 0.5.0
 
 \item{type}{Do you want the probability distribution function ("pdf") or
 the cumulative distribution function ("cdf")?}
-
-\item{display}{Only specify this when creating plots for two-dimensional
-distributions. Can be either \code{"perspective"} for a perspective plot,
-\code{"contour"} for a contour plot or \code{"image"} for an
-image plot.}
 }
 \value{
 A ggplot2 object.
