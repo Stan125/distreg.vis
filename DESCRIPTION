@@ -15,7 +15,6 @@ Imports:
         gamlss (>= 5.0-6),
         ggplot2 (>= 2.2.1),
         rhandsontable (>= 0.3.4),
-        plotly (>= 4.7.0),
         magrittr (>= 1.5),
         mvtnorm (>= 1.0-6),
         viridis (>= 0.4.0),

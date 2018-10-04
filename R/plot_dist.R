@@ -39,8 +39,7 @@
 #' plot_dist(beta_model, param_preds, palette = "Dark2")
 #' @export
 
-plot_dist <- function(model, pred_params, palette = "default",
-                      type = "pdf", display = "perspective") {
+plot_dist <- function(model, pred_params, palette = "default", type = "pdf") {
 
   # Check whether the function is even applied to the right classes
   if (!any(class(model) %in% c("bamlss", "gamlss")))
@@ -62,9 +61,7 @@ plot_dist <- function(model, pred_params, palette = "default",
   lims <- limits(fam_name, pred_params)
 
   # Different plots depending on type of distribution
-  if (is.2d(model))
-    plot <- pdfcdf_2d(pred_params, model, type, display = display, palette = palette)
-  else if (is.continuous(fam_name))
+  if (is.continuous(fam_name))
     plot <- pdfcdf_continuous(lims, funs_list, type, pred_params, palette)
   else if (!is.continuous(fam_name))
     plot <- pdfcdf_discrete(pred_params, palette, fam_name, type, model, lims)
@@ -83,7 +80,8 @@ plot_dist <- function(model, pred_params, palette = "default",
 pdfcdf_continuous <- function(lims, funs, type, p_m, palette) {
   if (type == "cdf") {
     # Assemble plot
-    ground <- ggplot(data = data.frame(y = c(0, 1), x = lims), aes_("x", "y")) +
+    ground <- ggplot(data = data.frame(y = c(0, 1), x = lims),
+                     aes_string(x = "x", y = "y")) +
       ggtitle("Predicted distribution(s)") +
       labs(x = "y", y = "F(y)")
 
@@ -96,7 +94,7 @@ pdfcdf_continuous <- function(lims, funs, type, p_m, palette) {
     }
   } else if (type == "pdf") {
     # Assemble plot
-    ground <- ggplot(data = data.frame(x = lims), aes_("x")) +
+    ground <- ggplot(data = data.frame(x = lims), aes_string(x = "x")) +
       ggtitle("Predicted distribution(s)") +
       labs(x = "y", y = "f(y)")
 
@@ -149,7 +147,7 @@ pdfcdf_discrete <- function(pred_params, palette, fam_name, type, model, lims) {
 
   if (type == "pdf") {
     # Assemble plot
-    ground <- ggplot(pred_df, aes_("xvals", y = "value", fill = "rownames")) +
+    ground <- ggplot(pred_df, aes_string(x = "xvals", y = "value", fill = "rownames")) +
       geom_bar(stat = "identity", position = position_dodge()) +
       labs(x = "y", y = "f(y)") +
       ggtitle("Predicted distributions(s)")
@@ -198,70 +196,4 @@ pdfcdf_discrete <- function(pred_params, palette, fam_name, type, model, lims) {
 
   # Return plot
   return(ground)
-}
-
-#' Internal: Create 3D pdf/cdf plot
-#'
-#' @importFrom plotly plot_ly add_surface layout %>% colorbar
-#' @importFrom magrittr set_colnames
-#' @importFrom viridis scale_colour_viridis scale_fill_viridis
-#' @keywords internal
-
-pdfcdf_2d <- function(p_m, model, type = "pdf", display = "perspective",
-                      palette = "default") {
-  # First we look whether cdf or pdf
-  if (type == "pdf") {
-    # Function that generates z values
-    density_f <- mvnorm_bamlss()$d
-    # Description for z values
-    desc <- "f(x, y)"
-  } else if (type == "cdf") {
-    density_f <- real_pmvnorm
-    desc <- "F(x, y)"
-  }
-  # Here possible values are computed
-  p <- p_m[nrow(p_m), ] # only last predicton will be evaluated
-  xval <- seq(p$mu1 - 3 * p$sigma1, p$mu1 + 3 * p$sigma1, length.out = 100)
-  yval <- seq(p$mu2 - 3 * p$sigma2, p$mu2 + 3 * p$sigma2, length.out = 100)
-
-  # Make the palette
-  cols <- palette_getter(palette)
-
-  # Here these values are displayed in different ways
-  if (display != "image") { # We have to first check for image because it uses different data structure (column), which is hella annoying
-    z <- matrix(0, nrow = 100, ncol = 100)
-    for (i in 1:100)
-      for (j in 1:100)
-        z[i, j] <- density_f(cbind(xval[i], yval[j]), par = p)
-    if (display == "perspective") {
-      plot <- plot_ly(x = xval, y = yval, z = z) %>%
-        add_surface(colors = cols) %>%
-        layout(title = "\nPredicted Distribution",
-               scene = list(xaxis = list(title = "x"),
-                            yaxis = list(title = "y"),
-                            zaxis = list(title = desc)))
-    } else if (display == "contour") {
-      plot <- plot_ly(x = xval, y = yval, z = z, type = "contour",
-                      colors = cols) %>%
-        colorbar(title = desc) %>%
-        layout(xaxis = list(title = "x"),
-               yaxis = list(title = "y"),
-               title = "Predicted distribution")
-    }
-  } else if (display == "image") {
-    comb_vals <- expand.grid(xval, yval) %>%
-      set_colnames(c("x", "y"))
-    comb_vals$z <- apply(comb_vals, 1, function(x)
-      return(density_f(matrix(x, ncol = 2), par = p)))
-    plot <- ggplot(comb_vals, aes_("x", "y", fill = "z")) +
-      geom_tile() +
-      ggtitle("Predicted distribution") +
-      theme_classic() +
-      scale_colour_viridis() +
-      scale_fill_viridis()
-    if (!is.null(cols))
-      plot <- plot + scale_fill_gradientn(colors = cols)
-    plot$labels$fill <- desc
-  }
-  return(plot)
 }

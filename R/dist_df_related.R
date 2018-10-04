@@ -65,16 +65,3 @@ is.gamlss <- function(name) {
 is.bamlss <- function(name) {
   return(any(distreg.vis::dists[distreg.vis::dists$dist_name == name, "class"] == "bamlss"))
 }
-
-#' Internal: Function to check whether the modeled response is bivariate
-#'
-#' @keywords internal
-is.2d <- function(model) {
-  fam_name <- fam_obtainer(model)
-  is.mv <- as.logical(distreg.vis::dists[distreg.vis::dists$dist_name == fam_name, "is_multivariate"])
-  links <- link_printer(model)
-  if (is.mv && length(links) == 5)
-    return(TRUE)
-  else
-    FALSE
-}

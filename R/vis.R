@@ -38,7 +38,7 @@ vis <- function() {
                         #verbatimTextOutput("testprint"))
                         fluidRow(
                           column(width = 9,
-                                 uiOutput("condition_plot")),
+                                 plotOutput("plot")),
                           column(width = 3, br(),
                                  uiOutput("plotbar"))
                         )
@@ -282,47 +282,12 @@ vis <- function() {
 
     ## --- Plot Tab --- ##
 
-    ## PLotly is rendered here, condition is checked with conditionalPanel
-    output$plotly <- renderPlotly({
-      if (gmad()) {
-        if (is.2d(m())) {
-          p <- plot_dist(m(), cur_pred(), palette = input$pal_choices,
-                         type = input$type_choices, display = input$display)
-          p$elementId <- NULL
-          p
-        } else {
-          # This and ...
-          p <- plotly_empty(type = "scatter", mode = "markers")
-          p$elementId <- NULL
-          p
-        }
-      } else {
-        # ...this are only to prevent annoying error messages from plotly
-        p <- plotly_empty(type = "scatter", mode = "markers")
-        p$elementId <- NULL
-        p
-      }
-    })
-
-    ## Plot is rendered here, condition is checked with conditionalPanel
+    ## Plot is rendered here
     output$plot <- renderPlot({
-      if (gmad())
-        if (!is.2d(m()))
-          plot_dist(m(), cur_pred(), palette = input$pal_choices,
-                    type = input$type_choices)
-      else
-        NULL
-    })
-
-    ## The Plot Ui element itself is rendered here
-    ## It checks the conditions for plot and then decides if plotly or plot
-    output$condition_plot <- renderUI({
       if (gmad()) {
-        if (is.2d(m())) {
-          plotlyOutput("plotly")
-        } else {
-          plotOutput("plot")
-        }
+        plot_dist(m(), cur_pred(),
+                  palette = input$pal_choices,
+                  type = input$type_choices)
       } else {
         NULL
       }

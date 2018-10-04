@@ -134,7 +134,7 @@ plot_moments <- function(model, int_var, pred_data, palette = "default", ex_fun 
       geom_line()
   } else if (coltype == "cat") {
     plot <- ground +
-      geom_bar(aes(fill = "prediction"),
+      geom_bar(aes_string(fill = "prediction"),
                stat = "identity",
                position = position_dodge())
   }
