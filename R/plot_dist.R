@@ -17,6 +17,7 @@
 #'   \code{"Spectral"}, \code{"RdYlBu"}, \code{"RdYlGn"}.
 #' @param type Do you want the probability distribution function ("pdf") or
 #'   the cumulative distribution function ("cdf")?
+#' @param rug If TRUE, creates a rug plot
 #' @return A ggplot2 object.
 #' @examples
 #' # Generating data
@@ -35,7 +36,8 @@
 #' plot_dist(beta_model, param_preds, palette = "Dark2")
 #' @export
 
-plot_dist <- function(model, pred_params, palette = "default", type = "pdf") {
+plot_dist <- function(model, pred_params, palette = "default", type = "pdf",
+                      rug = FALSE) {
 
   # Check whether the function is even applied to the right classes
   if (!any(class(model) %in% c("bamlss", "gamlss")))
@@ -43,6 +45,10 @@ plot_dist <- function(model, pred_params, palette = "default", type = "pdf") {
 
   # Get right family
   fam_name <- fam_obtainer(model)
+
+  # Obtain dependent variable
+  if (rug)
+    depvar <-
 
   # Check here whether distribution is even implemented
   if (!is.implemented(fam_name))
@@ -58,9 +64,9 @@ plot_dist <- function(model, pred_params, palette = "default", type = "pdf") {
 
   # Different plots depending on type of distribution
   if (is.continuous(fam_name))
-    plot <- pdfcdf_continuous(lims, funs_list, type, pred_params, palette)
+    plot <- pdfcdf_continuous(lims, funs_list, type, pred_params, palette, rug)
   else if (!is.continuous(fam_name))
-    plot <- pdfcdf_discrete(pred_params, palette, fam_name, type, model, lims)
+    plot <- pdfcdf_discrete(pred_params, palette, fam_name, type, model, lims, rug)
 
   # Return it
   return(plot)

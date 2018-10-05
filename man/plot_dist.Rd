@@ -4,7 +4,8 @@
 \alias{plot_dist}
 \title{Plot predicted bamlss distribution families with ggplot2}
 \usage{
-plot_dist(model, pred_params, palette = "default", type = "pdf")
+plot_dist(model, pred_params, palette = "default", type = "pdf",
+  rug = FALSE)
 }
 \arguments{
 \item{model}{A fitted bamlss object.}
@@ -23,6 +24,8 @@ suggest you use one of the qualitative ones: Accent, Dark2, etc. Since 0.5.0
 
 \item{type}{Do you want the probability distribution function ("pdf") or
 the cumulative distribution function ("cdf")?}
+
+\item{rug}{If TRUE, creates a rug plot}
 }
 \value{
 A ggplot2 object.
