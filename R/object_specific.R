@@ -3,8 +3,10 @@
 #' Get the data from the models
 #' @importFrom methods is
 #' @importFrom stats model.frame
+#' @param model A gamlss or bamlss object
+#' @param dep If TRUE, then only the dependent variable is returned
 #' @keywords internal
-model_data <- function(model) {
+model_data <- function(model, dep = FALSE) {
 
   # GAMLSS
   if (is(model, "gamlss")) {
@@ -20,13 +22,21 @@ model_data <- function(model) {
     # Here we check wether we have splines or identical columns
     all_data <- gamlss_data_cleaner(all_data)
 
-    return(as.data.frame(all_data))
+    # Make data.frame out of this
+    return_object <- as.data.frame(all_data)
+
+    # If dep then return only dependent variable
+    if (dep)
+      return_object <- return_object[[dep_name]]
   }
 
   # BAMLSS
   if (is(model, "bamlss")) {
-    return(model$model.frame)
+    return_object <- model$model.frame
+    if (dep)
+      return_object <- c(model$y)[[1]]
   }
+  return(return_object)
 }
 
 #' Internal: Function to obtain all explanatory variables used to fit

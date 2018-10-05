@@ -58,9 +58,9 @@ test_core <- function(fam_name) {
   ndata <- art_data[sample(seq_len(nrow(art_data)), 5),
                     !colnames(art_data) %in% fam_name]
   pred_params <- preds(model, newdata = ndata)
-  plots_dist <- plot_dist(model, pred_params) # pdf
+  plots_dist <- plot_dist(model, pred_params, rug = TRUE) # pdf
   if (fam_name != "multinomial")
-    plots_dist <- plots_dist + plot_dist(model, pred_params, type = "cdf") # cdf
+    plots_dist <- plots_dist + plot_dist(model, pred_params, type = "cdf", rug = TRUE) # cdf
 
   ## Save the plots
   ggsave(filename = paste0("plot_", fam_name, "_dist.png"), height = 6, width = 12,

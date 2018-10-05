@@ -48,7 +48,9 @@ plot_dist <- function(model, pred_params, palette = "default", type = "pdf",
 
   # Obtain dependent variable
   if (rug)
-    depvar <-
+    depvar <- model_data(model, dep = TRUE)
+  else
+    depvar <- NULL
 
   # Check here whether distribution is even implemented
   if (!is.implemented(fam_name))
@@ -64,9 +66,9 @@ plot_dist <- function(model, pred_params, palette = "default", type = "pdf",
 
   # Different plots depending on type of distribution
   if (is.continuous(fam_name))
-    plot <- pdfcdf_continuous(lims, funs_list, type, pred_params, palette, rug)
+    plot <- pdfcdf_continuous(lims, funs_list, type, pred_params, palette, depvar)
   else if (!is.continuous(fam_name))
-    plot <- pdfcdf_discrete(pred_params, palette, fam_name, type, model, lims, rug)
+    plot <- pdfcdf_discrete(pred_params, palette, fam_name, type, model, lims, depvar)
 
   # Return it
   return(plot)
@@ -79,7 +81,8 @@ plot_dist <- function(model, pred_params, palette = "default", type = "pdf",
 #' @importFrom viridis scale_fill_viridis scale_colour_viridis
 #' @keywords internal
 
-pdfcdf_continuous <- function(lims, funs, type, p_m, palette) {
+pdfcdf_continuous <- function(lims, funs, type, p_m, palette, depvar) {
+
   if (type == "cdf") {
     # Assemble plot
     ground <- ggplot(data = data.frame(y = c(0, 1), x = lims),
@@ -131,6 +134,15 @@ pdfcdf_continuous <- function(lims, funs, type, p_m, palette) {
     ground$labels$colour <- "Predictions"
   }
 
+  # This rug really ties the room together
+  if (!is.null(depvar)) {
+    ground <- ground +
+      geom_rug(data = data.frame(depvar),
+               aes_string(y = "0",
+                          x = "depvar"),
+               sides = "b")
+  }
+
   # Return plot
   return(ground)
 }
@@ -142,7 +154,7 @@ pdfcdf_continuous <- function(lims, funs, type, p_m, palette) {
 #' @importFrom viridis scale_fill_viridis scale_colour_viridis
 #' @keywords internal
 
-pdfcdf_discrete <- function(pred_params, palette, fam_name, type, model, lims) {
+pdfcdf_discrete <- function(pred_params, palette, fam_name, type, model, lims, depvar) {
 
   # Transform discrete predictions
   pred_df <- disc_trans(pred_params, fam_name, type, model, lims)
@@ -171,9 +183,22 @@ pdfcdf_discrete <- function(pred_params, palette, fam_name, type, model, lims) {
     # Legend label
     ground$labels$fill <- "Predictions"
 
+    # This rug really ties the room together
+    if (!is.null(depvar)) {
+      suppressWarnings({
+        ground <- ground +
+          geom_rug(data = data.frame(depvar, fill = unique(pred_df$rownames)[1]), # weird bug with rownames not specified
+                   aes_string(y = "1L",
+                              x = "depvar",
+                              fill = "fill"),
+                   sides = "b", position = "jitter",
+                   alpha = 0.5)
+      })
+    }
+
   } else if (type == "cdf") {
     # Assemble plot
-    ground <- ggplot(pred_df, aes("xvals", "value", col = "rownames")) +
+    ground <- ggplot(pred_df, aes_string("xvals", "value", col = "rownames")) +
       geom_step(linetype = 2) +
       labs(x = "x", y = "F(x)") +
       ggtitle("Predicted distribution(s)")
@@ -194,6 +219,19 @@ pdfcdf_discrete <- function(pred_params, palette, fam_name, type, model, lims) {
 
     # Legend label
     ground$labels$colour <- "Predictions"
+
+    # This rug really ties the room together
+    if (!is.null(depvar)) {
+      suppressWarnings({
+        ground <- ground +
+          geom_rug(data = data.frame(depvar, colour = unique(pred_df$rownames)[1]), # weird bug with rownames not specified
+                   aes_string(y = "1L",
+                              x = "depvar",
+                              colour = "colour"),
+                   sides = "b", position = "jitter",
+                   alpha = 0.5, colour = "black")
+      })
+    }
   }
 
   # Return plot

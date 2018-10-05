@@ -4,7 +4,12 @@
 \alias{model_data}
 \title{Model data getter}
 \usage{
-model_data(model)
+model_data(model, dep = FALSE)
+}
+\arguments{
+\item{model}{A gamlss or bamlss object}
+
+\item{dep}{If TRUE, then only the dependent variable is returned}
 }
 \description{
 Get the data from the models

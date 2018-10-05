@@ -4,7 +4,7 @@
 \alias{pdfcdf_discrete}
 \title{Internal: Create the pdf/cdf for discrete covariates}
 \usage{
-pdfcdf_discrete(pred_params, palette, fam_name, type, model, lims)
+pdfcdf_discrete(pred_params, palette, fam_name, type, model, lims, depvar)
 }
 \description{
 Returns a plot
