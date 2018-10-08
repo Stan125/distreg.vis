@@ -199,7 +199,7 @@ pdfcdf_discrete <- function(pred_params, palette, fam_name, type, model, lims, d
 
   } else if (type == "cdf") {
 
-    if (fam_nam == "multinomial")
+    if (fam_name == "multinomial")
       stop("CDF for multinomial dist not feasible")
 
     # Assemble plot

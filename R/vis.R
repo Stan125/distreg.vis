@@ -374,20 +374,31 @@ vis <- function() {
       if (gmad()) {
         # Plot UI - sidebar
         infl_sidebar <- list()
-        infl_sidebar[[1]] <-
+
+        # Interested Variable
+        infl_sidebar[[length(infl_sidebar) + 1]] <-
           selectInput(inputId = "infl_int_var",
                       choices = colnames(expl_vars(m())),
                       label = "Expl. variable for plotting influence")
-        infl_sidebar[[2]] <-
+
+        # Colour Palette
+        infl_sidebar[[length(infl_sidebar) + 1]] <-
           selectInput("infl_pal_choices", label = "Colour Palette",
                       choices = c("default", "viridis", "Accent", "Dark2",
                                   "Pastel1", "Pastel2", "Set1", "Set2",
                                   "Paired", "Set3"))
-        infl_sidebar[[3]] <-
+
+        # Rug Plot
+        infl_sidebar[[length(infl_sidebar) + 1]] <-
+
+        # Get the code
+        infl_sidebar[[length(infl_sidebar) + 1]] <-
           actionButton("infl_pastecode", icon = icon("code"),
                        label = "Obtain Code!", style = "color:white;
                        background-color:red")
-        infl_sidebar[[4]] <-
+
+        # Include your own function
+        infl_sidebar[[length(infl_sidebar) + 1]] <-
           selectInput(inputId = "infl_exfun", choices = search_funs(),
                       label = "Include own function")
 
