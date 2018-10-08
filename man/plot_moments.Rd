@@ -5,7 +5,7 @@
 \title{Plot function: Display the influence of a covariate}
 \usage{
 plot_moments(model, int_var, pred_data, palette = "default",
-  ex_fun = NULL)
+  ex_fun = NULL, rug = FALSE)
 }
 \arguments{
 \item{model}{A fitted model on which the plots are based.}
@@ -22,6 +22,8 @@ later processing.}
 \item{ex_fun}{An external function \code{function(par) {...}} which
 calculates a measure, which dependency from a certain variable is of
 interest.}
+
+\item{rug}{Should the resulting plot be a rug plot?}
 }
 \description{
 This function takes a dataframe of predictions with one row per prediction

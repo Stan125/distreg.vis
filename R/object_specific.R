@@ -5,8 +5,9 @@
 #' @importFrom stats model.frame
 #' @param model A gamlss or bamlss object
 #' @param dep If TRUE, then only the dependent variable is returned
+#'
 #' @keywords internal
-model_data <- function(model, dep = FALSE) {
+model_data <- function(model, dep = FALSE, varname = NULL) {
 
   # GAMLSS
   if (is(model, "gamlss")) {
@@ -26,15 +27,26 @@ model_data <- function(model, dep = FALSE) {
     return_object <- as.data.frame(all_data)
 
     # If dep then return only dependent variable
-    if (dep)
+    if (dep & is.null(varname))
       return_object <- return_object[[dep_name]]
+
+    # If varname then return varname
+    if (!dep & !is.null(varname))
+      return_object <- return_object[[varname]]
+
   }
 
   # BAMLSS
   if (is(model, "bamlss")) {
     return_object <- model$model.frame
-    if (dep)
+
+    # Return dependent variable if wanted
+    if (dep & is.null(varname))
       return_object <- c(model$y)[[1]]
+
+    # Return a specific variable
+    if (!dep & !is.null(varname))
+      return_object <- return_object[[varname]]
   }
   return(return_object)
 }

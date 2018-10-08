@@ -16,6 +16,7 @@
 #' @param ex_fun An external function \code{function(par) {...}} which
 #'   calculates a measure, which dependency from a certain variable is of
 #'   interest.
+#' @param rug Should the resulting plot be a rug plot?
 #' @importFrom magrittr %>% extract inset set_colnames set_rownames
 #' @importFrom viridis scale_fill_viridis scale_colour_viridis
 #' @import ggplot2
@@ -29,7 +30,8 @@
 #' plot_moments(model, int_var = "norm2", pred_data = ndata)
 #' @export
 
-plot_moments <- function(model, int_var, pred_data, palette = "default", ex_fun = NULL) {
+plot_moments <- function(model, int_var, pred_data, palette = "default",
+                         ex_fun = NULL, rug = FALSE) {
 
   # Are the moments even implemented?
   if (!has.moments(fam_obtainer(model)))
@@ -137,6 +139,18 @@ plot_moments <- function(model, int_var, pred_data, palette = "default", ex_fun 
       geom_bar(aes_string(fill = "prediction"),
                stat = "identity",
                position = position_dodge())
+  }
+
+  # Add rug if necessary
+  if (rug) {
+    var <- model_data(model, varname = int_var)
+    plot <- plot +
+      geom_rug(data =
+                 data.frame(var,
+                            prediction = unique(preds$prediction)[1],
+                            value = 0),
+               aes_string(x = "var"),
+               sides = "b", alpha = 0.5, color = "black")
   }
   return(plot)
 }

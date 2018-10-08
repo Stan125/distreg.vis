@@ -4,7 +4,7 @@
 \alias{model_data}
 \title{Model data getter}
 \usage{
-model_data(model, dep = FALSE)
+model_data(model, dep = FALSE, varname = NULL)
 }
 \arguments{
 \item{model}{A gamlss or bamlss object}
