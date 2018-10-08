@@ -28,6 +28,7 @@
 #'                 data = dat, family = "LOGNO")
 #' ndata <- dat[sample(seq_len(nrow(dat)), 5), c("norm2", "binomial1")]
 #' plot_moments(model, int_var = "norm2", pred_data = ndata)
+#' plot_moments(model, int_var = "norm2", pred_data = ndata, rug = TRUE)
 #' @export
 
 plot_moments <- function(model, int_var, pred_data, palette = "default",

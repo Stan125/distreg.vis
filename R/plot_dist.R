@@ -34,6 +34,7 @@
 #' plot_dist(beta_model, param_preds)
 #' plot_dist(beta_model, param_preds, type = "cdf")
 #' plot_dist(beta_model, param_preds, palette = "Dark2")
+#' plot_dist(beta_model, param_preds, rug = TRUE)
 #' @export
 
 plot_dist <- function(model, pred_params, palette = "default", type = "pdf",
@@ -184,7 +185,7 @@ pdfcdf_discrete <- function(pred_params, palette, fam_name, type, model, lims, d
     ground$labels$fill <- "Predictions"
 
     # This rug really ties the room together
-    if (!is.null(depvar)) {
+    if (!is.null(depvar) & fam_name != "multinomial") {
       suppressWarnings({
         ground <- ground +
           geom_rug(data = data.frame(depvar, fill = unique(pred_df$rownames)[1]), # weird bug with rownames not specified
@@ -197,6 +198,10 @@ pdfcdf_discrete <- function(pred_params, palette, fam_name, type, model, lims, d
     }
 
   } else if (type == "cdf") {
+
+    if (fam_nam == "multinomial")
+      stop("CDF for multinomial dist not feasible")
+
     # Assemble plot
     ground <- ggplot(pred_df, aes_string("xvals", "value", col = "rownames")) +
       geom_step(linetype = 2) +

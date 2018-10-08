@@ -6,11 +6,11 @@ BCPE;gamlss;TRUE;FALSE;one_limit;0;NA;Continuous;FALSE
 BCPEo;gamlss;TRUE;FALSE;one_limit;0;NA;Continuous;FALSE
 BCT;gamlss;TRUE;FALSE;one_limit;0;NA;Continuous;FALSE
 BCTo;gamlss;TRUE;FALSE;one_limit;0;NA;Continuous;FALSE
-BE;gamlss;TRUE;FALSE;both_limits;0;1;Continuous;FALSE
+BE;gamlss;TRUE;TRUE;both_limits;0;1;Continuous;FALSE
 BEINF;gamlss;TRUE;FALSE;both_limits;0;1;Mixed;FALSE
 BEINF0;gamlss;TRUE;FALSE;both_limits;0;1;Mixed;FALSE
 BEINF1;gamlss;TRUE;FALSE;both_limits;0;1;Mixed;FALSE
-BEo;gamlss;TRUE;FALSE;both_limits;0;1;Continuous;FALSE
+BEo;gamlss;TRUE;TRUE;both_limits;0;1;Continuous;FALSE
 BEOI;gamlss;TRUE;FALSE;both_limits;0;1;Mixed;FALSE
 BEZI;gamlss;TRUE;FALSE;both_limits;0;1;Mixed;FALSE
 BI;gamlss;TRUE;FALSE;both_limits;0;1;Discrete;FALSE
@@ -24,8 +24,8 @@ EXP;gamlss;TRUE;TRUE;one_limit;0;NA;Continuous;FALSE
 GA;gamlss;TRUE;TRUE;one_limit;0;NA;Continuous;FALSE
 GB1;gamlss;TRUE;FALSE;both_limits;0;1;Continuous;FALSE
 GB2;gamlss;TRUE;FALSE;one_limit;0;NA;Continuous;FALSE
-GEOM;gamlss;TRUE;FALSE;one_limit;0;NA;Discrete;FALSE
-GEOMo;gamlss;TRUE;FALSE;one_limit;0;NA;Discrete;FALSE
+GEOM;gamlss;TRUE;TRUE;one_limit;0;NA;Discrete;FALSE
+GEOMo;gamlss;TRUE;TRUE;one_limit;0;NA;Discrete;FALSE
 GG;gamlss;TRUE;TRUE;one_limit;0;NA;Continuous;FALSE
 GIG;gamlss;TRUE;FALSE;one_limit;0;NA;Continuous;FALSE
 GP;gamlss;TRUE;FALSE;one_limit;0;NA;Continuous;FALSE
@@ -36,7 +36,7 @@ IG;gamlss;TRUE;TRUE;one_limit;0;NA;Continuous;FALSE
 IGAMMA;gamlss;TRUE;TRUE;one_limit;0;NA;Continuous;FALSE
 JSU;gamlss;TRUE;TRUE;no_limits;NA;NA;Continuous;FALSE
 JSUo;gamlss;TRUE;TRUE;no_limits;NA;NA;Continuous;FALSE
-LG;gamlss;TRUE;FALSE;one_limit;0;NA;Discrete;FALSE
+LG;gamlss;TRUE;TRUE;one_limit;0;NA;Discrete;FALSE
 LNO;gamlss;FALSE;FALSE;one_limit;0;NA;Continuous;FALSE
 LO;gamlss;TRUE;TRUE;no_limits;NA;NA;Continuous;FALSE
 LOGITNO;gamlss;TRUE;FALSE;one_limit;0;NA;Continuous;FALSE
@@ -53,7 +53,7 @@ NET;gamlss;FALSE;FALSE;NA;NA;NA;Continuous;FALSE
 NO;gamlss;TRUE;TRUE;no_limits;NA;NA;Continuous;FALSE
 NO2;gamlss;TRUE;TRUE;no_limits;NA;NA;Continuous;FALSE
 NOF;gamlss;TRUE;TRUE;no_limits;NA;NA;Continuous;FALSE
-PARETO2;gamlss;TRUE;FALSE;one_limit;0;NA;Continuous;FALSE
+PARETO2;gamlss;TRUE;TRUE;one_limit;0;NA;Continuous;FALSE
 PARETO2o;gamlss;TRUE;TRUE;one_limit;0;NA;Continuous;FALSE
 PE;gamlss;TRUE;TRUE;no_limits;NA;NA;Continuous;FALSE
 PE2;gamlss;TRUE;TRUE;no_limits;NA;NA;Continuous;FALSE
@@ -91,7 +91,7 @@ ZABB;gamlss;TRUE;FALSE;one_limit;0;NA;Discrete;FALSE
 ZABI;gamlss;TRUE;FALSE;one_limit;0;NA;Discrete;FALSE
 ZABNB;gamlss;FALSE;FALSE;NA;NA;NA;Discrete;FALSE
 ZAGA;gamlss;TRUE;TRUE;one_limit;0;NA;Mixed;FALSE
-ZAIG;gamlss;TRUE;FALSE;one_limit;0;NA;Mixed;FALSE
+ZAIG;gamlss;TRUE;TRUE;one_limit;0;NA;Mixed;FALSE
 ZALG;gamlss;TRUE;FALSE;one_limit;0;NA;Discrete;FALSE
 ZANBI;gamlss;TRUE;FALSE;one_limit;0;NA;Discrete;FALSE
 ZAP;gamlss;TRUE;FALSE;one_limit;0;NA;Discrete;FALSE

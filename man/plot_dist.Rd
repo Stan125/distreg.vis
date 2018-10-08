@@ -50,4 +50,5 @@ param_preds <- preds(beta_model, pred_df)
 plot_dist(beta_model, param_preds)
 plot_dist(beta_model, param_preds, type = "cdf")
 plot_dist(beta_model, param_preds, palette = "Dark2")
+plot_dist(beta_model, param_preds, rug = TRUE)
 }
