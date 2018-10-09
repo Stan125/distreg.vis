@@ -29,14 +29,13 @@ framework.
 
 `distreg.vis` is not on CRAN, but only on GitHub at the moment. Run the
 following code to install the package and all its extensions. The code
-also installs new versions for `gamlss.dist` and `bamlss`, which are not
-on CRAN yet but include necessary functions.
+also installs a new version of `bamlss`, which is not on CRAN yet but
+includes necessary functions.
 
 ``` r
 if (!require(devtools))
   install.packages("devtools")
 library(devtools)
-install_github("Stan125/gamlss.dist")
 install_github("rforge/bayesr/pkg/bamlss")
 install_github("Stan125/distreg.vis")
 ```
@@ -50,46 +49,53 @@ dists %>%
   filter(moment_funs) %>%
   dplyr::select(dist_name, class)
 #>      dist_name  class
-#> 1         EGB2 gamlss
-#> 2       exGAUS gamlss
-#> 3          EXP gamlss
-#> 4           GA gamlss
-#> 5           GG gamlss
-#> 6           GT gamlss
-#> 7           GU gamlss
-#> 8           IG gamlss
-#> 9       IGAMMA gamlss
-#> 10         JSU gamlss
-#> 11        JSUo gamlss
-#> 12          LO gamlss
-#> 13       LOGNO gamlss
-#> 14          NO gamlss
-#> 15         NO2 gamlss
-#> 16         NOF gamlss
-#> 17    PARETO2o gamlss
-#> 18          PE gamlss
-#> 19         PE2 gamlss
-#> 20          PO gamlss
-#> 21          RG gamlss
-#> 22         SN1 gamlss
-#> 23         SN2 gamlss
-#> 24         SST gamlss
-#> 25          TF gamlss
-#> 26         TF2 gamlss
-#> 27         WEI gamlss
-#> 28        WEI2 gamlss
-#> 29        WEI3 gamlss
-#> 30        ZAGA gamlss
-#> 31        beta bamlss
-#> 32    binomial bamlss
-#> 33       cnorm bamlss
-#> 34       gamma bamlss
-#> 35    gaussian bamlss
-#> 36   gaussian2 bamlss
-#> 37      glogis bamlss
-#> 38     gpareto bamlss
-#> 39 multinomial bamlss
-#> 40     poisson bamlss
+#> 1           BE gamlss
+#> 2          BEo gamlss
+#> 3         EGB2 gamlss
+#> 4       exGAUS gamlss
+#> 5          EXP gamlss
+#> 6           GA gamlss
+#> 7         GEOM gamlss
+#> 8        GEOMo gamlss
+#> 9           GG gamlss
+#> 10          GT gamlss
+#> 11          GU gamlss
+#> 12          IG gamlss
+#> 13      IGAMMA gamlss
+#> 14         JSU gamlss
+#> 15        JSUo gamlss
+#> 16          LG gamlss
+#> 17          LO gamlss
+#> 18       LOGNO gamlss
+#> 19          NO gamlss
+#> 20         NO2 gamlss
+#> 21         NOF gamlss
+#> 22     PARETO2 gamlss
+#> 23    PARETO2o gamlss
+#> 24          PE gamlss
+#> 25         PE2 gamlss
+#> 26          PO gamlss
+#> 27          RG gamlss
+#> 28         SN1 gamlss
+#> 29         SN2 gamlss
+#> 30         SST gamlss
+#> 31          TF gamlss
+#> 32         TF2 gamlss
+#> 33         WEI gamlss
+#> 34        WEI2 gamlss
+#> 35        WEI3 gamlss
+#> 36        ZAGA gamlss
+#> 37        ZAIG gamlss
+#> 38        beta bamlss
+#> 39    binomial bamlss
+#> 40       cnorm bamlss
+#> 41       gamma bamlss
+#> 42    gaussian bamlss
+#> 43   gaussian2 bamlss
+#> 44      glogis bamlss
+#> 45     gpareto bamlss
+#> 46 multinomial bamlss
+#> 47     poisson bamlss
 ```
 
 The rest of the distributions are mostly supported, but only in

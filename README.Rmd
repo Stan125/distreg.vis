@@ -32,12 +32,11 @@ distreg.vis
 The implementation is an interactive application using the Shiny framework.
 
 ### Install
-`distreg.vis` is not on CRAN, but only on GitHub at the moment. Run the following code to install the package and all its extensions. The code also installs new versions for `gamlss.dist` and `bamlss`, which are not on CRAN yet but include necessary functions.
+`distreg.vis` is not on CRAN, but only on GitHub at the moment. Run the following code to install the package and all its extensions. The code also installs a new version of `bamlss`, which is not on CRAN yet but includes necessary functions.
 ```{r, eval = FALSE}
 if (!require(devtools))
   install.packages("devtools")
 library(devtools)
-install_github("Stan125/gamlss.dist")
 install_github("rforge/bayesr/pkg/bamlss")
 install_github("Stan125/distreg.vis")
 ```
