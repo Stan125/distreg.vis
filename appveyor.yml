@@ -16,13 +16,11 @@ cache:
 # Adapt as necessary starting from here
 
 build_script:
+  - travis-tool.sh install_deps
   - travis-tool.sh install_github rforge/bayesr/pkg/bamlss
-  - travis-tool.sh install_github Stan125/gamlss.dist
   - travis-tool.sh install_github thomasp85/patchwork
   - travis-tool.sh install_r tibble
   - travis-tool.sh install_r glogis
-  - travis-tool.sh install_deps
-
 environment:
   USE_RTOOLS: true
   global:
