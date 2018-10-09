@@ -286,7 +286,8 @@ vis <- function() {
       if (gmad()) {
         plot_dist(m(), cur_pred(),
                   palette = input$pal_choices,
-                  type = input$type_choices)
+                  type = input$type_choices,
+                  rug = input$rug)
       } else {
         NULL
       }
@@ -298,16 +299,21 @@ vis <- function() {
         ui_list <- list()
 
         # CDF/PDF Choice
-        ui_list[[1]] <-
+        ui_list[[length(ui_list) + 1]] <-
           selectInput("type_choices", label = "PDF or CDF?",
                       choices = c("pdf", "cdf"))
 
+
         # Palette Choices
-        ui_list[[2]] <-
+        ui_list[[length(ui_list) + 1]] <-
           selectInput("pal_choices", label = "Colour Palette",
                       choices = c("default", "viridis", "Accent", "Dark2",
                                   "Pastel1", "Pastel2", "Set1", "Set2",
                                   "Paired", "Set3"))
+
+        # Rug Plot
+        ui_list[[length(ui_list) + 1]] <-
+          checkboxInput("rug", label = "Rug Plot?", value = TRUE)
 
         # Action Button for console pasting
         ui_list[[length(ui_list) + 1]] <-
@@ -338,11 +344,11 @@ vis <- function() {
           c_plot <- call("plot_dist", model = as.name(input$model),
                          pred_params = quote(pred_data),
                          type = input$type_choices)
-          if (!is.null(input$display))# Type of 3D plot if specified
-            c_plot[["display"]] <- input$display
-          if (!is.null(input$pal_choices)) # Palette if specified, could be NULL when we have 3D graph
+          if (!is.null(input$pal_choices)) # Palette if specified
             if (input$pal_choices != "default")
               c_plot[["palette"]] <- input$pal_choices
+          if (input$rug)
+            c_plot[["rug"]] <- TRUE
           c_plot <- deparse(c_plot, width.cutoff = 200) # Make call into character
           c_plot <- tidy_c(c_plot)
 
@@ -361,10 +367,19 @@ vis <- function() {
     })
 
     # output$testprint <- renderPrint({
-    #   if (!is.null(pred$data))
-    #     pred$data
-    #   else
-    #     cat("no scenario selected")
+    #   # if (!is.null(pred$data))
+    #   #   pred$data
+    #   # else
+    #   #   cat("no scenario selected")
+    #   if (gmad()) {
+    #     print(m())
+    #     print(cur_pred())
+    #     print(input$pal_choices)
+    #     print(input$type_choices)
+    #     print(input$rug)
+    #   } else {
+    #     NULL
+    #   }
     # })
 
     ## --- Properties Tab --- ##
@@ -390,6 +405,7 @@ vis <- function() {
 
         # Rug Plot
         infl_sidebar[[length(infl_sidebar) + 1]] <-
+          checkboxInput("infl_rug", label = "Rug Plot?", value = TRUE)
 
         # Get the code
         infl_sidebar[[length(infl_sidebar) + 1]] <-
@@ -410,7 +426,7 @@ vis <- function() {
                  infl_sidebar)
         )
         plot_ui_panel <- tabPanel(title = "Influence graph", br(),
-                            plot_ui)
+                                  plot_ui)
 
         # Table UI
         table_ui <- tabPanel(title = "Table",
@@ -422,7 +438,6 @@ vis <- function() {
         exvx_ui[[2]] <- tabsetPanel(plot_ui_panel, table_ui, type = "pills")
         exvx_ui
       }
-
     })
 
     ## What happens when infl_pastecode button is pressed
@@ -441,6 +456,8 @@ vis <- function() {
         infl_c_plot[["palette"]] <- input$infl_pal_choices
       if (input$infl_exfun != "" | input$infl_exfun == "NO FUNCTION")
         infl_c_plot[["ex_fun"]] <- input$infl_exfun
+      if (input$infl_rug)
+        infl_c_plot[["rug"]] <- TRUE
       infl_c_plot <- deparse(infl_c_plot, width.cutoff = 100) # Make call into character
       infl_c_plot <- tidy_c(infl_c_plot)
 
@@ -466,11 +483,15 @@ vis <- function() {
     # Server-Rendering of Influence graph
     output$influence_graph <- renderPlot({
       if (gmad())
-        plot_moments(m(), input$infl_int_var, pred$data,
+        plot_moments(m(),
+                     input$infl_int_var,
+                     pred$data,
                      palette = input$infl_pal_choices,
-                     ex_fun = input$infl_exfun)
+                     ex_fun = input$infl_exfun,
+                     rug = input$infl_rug)
     })
 
   }
-  shinyApp(ui, server)
+  shinyApp(ui, server, options = list(launch.browser = TRUE,
+                                      shiny.reactlog = TRUE))
 }
