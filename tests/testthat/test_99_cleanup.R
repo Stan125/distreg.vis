@@ -1,5 +1,8 @@
 ## -- Clean Up -- ##
 
+# Skip on CRAN
+testthat::skip_on_cran()
+
 # Options to old options
 options(warn = 0)
 

@@ -5,13 +5,16 @@
 
 ########   ---    Preliminaries   ---    ########
 
+## Skip on Cran
+testthat::skip_on_cran()
+
 ## Libraries
 library("distreg.vis")
 library("bamlss")
 library("gamlss")
 library("testthat")
 library("ggplot2")
-library("patchwork")
+library("gridExtra")
 
 ## Delete everything
 rm(list = ls())
@@ -60,7 +63,9 @@ test_core <- function(fam_name) {
   pred_params <- preds(model, newdata = ndata)
   plots_dist <- plot_dist(model, pred_params, rug = TRUE) # pdf
   if (fam_name != "multinomial")
-    plots_dist <- plots_dist + plot_dist(model, pred_params, type = "cdf", rug = TRUE) # cdf
+    plots_dist <- grid.arrange(plots_dist,
+                               plot_dist(model, pred_params, type = "cdf", rug = TRUE),
+                               ncol = 2) # cdf
 
   ## Save the plots
   ggsave(filename = paste0("plot_", fam_name, "_dist.png"), height = 6, width = 12,
@@ -82,17 +87,21 @@ test_core <- function(fam_name) {
   ## Create plots and save them if available
   if (distreg.vis:::has.moments(fam_name)) {
     # Create
-    plots_moments <-
-      plot_moments(model, "norm2", pred_data = ndata) +
-      plot_moments(model, "binomial1", pred_data = ndata)
+    plots_moments <- grid.arrange(
+      plot_moments(model, "norm2", pred_data = ndata),
+      plot_moments(model, "binomial1", pred_data = ndata),
+      ncol = 2
+    )
 
     if (fam_name == "LOGNO") {
       ineq <<- function(par) {
         2 * pnorm((par[["sigma"]] / 2) * sqrt(2)) - 1
       }
-      plots_moments <- plots_moments +
-        plot_moments(model, "norm2", pred_data = ndata, ex_fun = "ineq") +
-        plot_moments(model, "binomial1", pred_data = ndata, ex_fun = "ineq")
+      plots_moments <- grid.arrange(
+        plot_moments(model, "norm2", pred_data = ndata, ex_fun = "ineq"),
+        plot_moments(model, "binomial1", pred_data = ndata, ex_fun = "ineq"),
+        ncol = 2
+      )
     }
 
     # Save
