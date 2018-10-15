@@ -69,7 +69,7 @@ vis <- function() {
     includeScript(system.file("srcjs/highlight.pack.js", package = "distreg.vis")),
 
     # Title
-    titlePanel("Visualize your bamlss predictions"),
+    titlePanel("Visualize your distreg predictions"),
 
     # Sidebar
     sidebarLayout(
