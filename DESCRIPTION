@@ -22,7 +22,7 @@ Imports:
         RColorBrewer (>= 1.1-2),
         formatR (>= 1.5)
 Suggests: testthat, gridExtra, glogis
-Description: distreg.vis calls a Shiny app where one can compare different predictions depending on varying covariate values.
+Description: Functions for visualizing distributional regression models fitted using the gamlss or bamlss R package. The core of the package is a Shiny app, where the model results can be interactively explored and visualized.
 License: GPL-3
 LazyData: TRUE
 URL: https://github.com/Stan125/distreg.vis
