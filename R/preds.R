@@ -11,12 +11,11 @@
 #'   variable \code{intercept}.
 #' @examples
 #' # Generating data
-#' data_fam <- model_fam_data(fam_name = "beta")
+#' data_fam <- model_fam_data(fam_name = "BE")
 #' # Fit model
-#' library("bamlss")
-#' beta_model <- bamlss(list(beta ~ norm2 + binomial1,
-#'   sigma2 ~ norm2 + binomial1),
-#'   data = data_fam, family = beta_bamlss())
+#' library("gamlss")
+#' beta_model <- gamlss(BE ~ norm2 + binomial1,
+#'   data = data_fam, family = BE())
 #' # Get 3 predictions
 #' pred_df <- data_fam[sample(1:nrow(data_fam), 3), c("binomial1", "norm2")]
 #' param_preds <- preds(beta_model, pred_df)

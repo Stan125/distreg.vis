@@ -14,6 +14,7 @@
 #' @param fam_name The name of the distribution family to which the first
 #'   dimension of the uniform distribution should be transformed to.
 #' @import bamlss
+#' @import gamlss.dist
 #' @importFrom stats rmultinom qbeta qbinom qgamma runif qpois qnorm
 #' @return A data.frame with columns for differently distributed data.
 #' @export
@@ -89,8 +90,7 @@ model_fam_data <- function(nrow = 500, seed = 1408, fam_name = "NO") {
     # Get quantile function
     q_raw_name <- paste0("q", fam_name)
     qfun <- function(p)
-      return(do.call(get(force(q_raw_name),
-                         envir = as.environment("package:gamlss.dist")),
+      return(do.call(get(force(q_raw_name)),
                      args = list(p = p)))
     tfvec <- sapply(u_data$v1, FUN = qfun) # use apply here because I'm not sure if all q functions are vectorized
   }
