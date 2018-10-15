@@ -7,6 +7,17 @@
 #' @importFrom utils capture.output
 #' @importFrom stats family
 #' @importFrom formatR tidy_source
+#' @examples
+#' library("gamlss")
+#' library("bamlss")
+#' # A gamlss model
+#' normal_gamlss <- gamlss(NO ~ binomial1 + ps(norm2),
+#'                         sigma.formula = ~ binomial1 + ps(norm2),
+#'                         data = model_fam_data(),
+#'                         trace = FALSE)
+#'
+#' # Start the App
+#' distreg.vis::vis()
 #' @export
 
 ### --- Shiny App --- ###
