@@ -28,15 +28,12 @@ framework.
 ### Install
 
 `distreg.vis` is not on CRAN, but only on GitHub at the moment. Run the
-following code to install the package and all its extensions. The code
-also installs a new version of `bamlss`, which is not on CRAN yet but
-includes necessary functions.
+following code to install the package and all its extensions:
 
 ``` r
 if (!require(devtools))
   install.packages("devtools")
 library(devtools)
-install_github("rforge/bayesr/pkg/bamlss")
 install_github("Stan125/distreg.vis")
 ```
 
