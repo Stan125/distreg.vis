@@ -11,6 +11,7 @@ Function to call the distreg.vis Shiny App which represents the core of this
   package.
 }
 \examples{
+\dontrun{
 library("gamlss")
 library("bamlss")
 # A gamlss model
@@ -21,4 +22,5 @@ normal_gamlss <- gamlss(NO ~ binomial1 + ps(norm2),
 
 # Start the App
 distreg.vis::vis()
+}
 }

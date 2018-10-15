@@ -8,6 +8,7 @@
 #' @importFrom stats family
 #' @importFrom formatR tidy_source
 #' @examples
+#' \dontrun{
 #' library("gamlss")
 #' library("bamlss")
 #' # A gamlss model
@@ -18,6 +19,8 @@
 #'
 #' # Start the App
 #' distreg.vis::vis()
+#' }
+
 #' @export
 
 ### --- Shiny App --- ###
