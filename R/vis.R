@@ -313,7 +313,7 @@ vis <- function() {
 
         # Rug Plot
         ui_list[[length(ui_list) + 1]] <-
-          checkboxInput("rug", label = "Rug Plot?", value = TRUE)
+          checkboxInput("rug", label = "Rug Plot?", value = FALSE)
 
         # Action Button for console pasting
         ui_list[[length(ui_list) + 1]] <-
