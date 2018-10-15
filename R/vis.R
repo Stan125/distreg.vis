@@ -81,7 +81,7 @@ vis <- function() {
     # Reactive model
     m <- reactive(
       if (input$model != "" & !is.null(input$model))
-        get(input$model)
+        get(input$model, envir = .GlobalEnv)
       else
         NULL
     )
