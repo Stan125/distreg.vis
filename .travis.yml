@@ -9,6 +9,5 @@ notifications:
 install:
   - R -e "install.packages('devtools')"
   - R -e 'devtools::install_deps(dep = T)'
-  - R -e "install.packages('tibble')"
   - R -e "install.packages('glogis')"
 
