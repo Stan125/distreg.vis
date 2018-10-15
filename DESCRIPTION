@@ -2,8 +2,8 @@ Package: distreg.vis
 Type: Package
 Title: Framework for the visualization of distributional regression models
 Version: 1.0.0
-Authors@R: person("Stanislaus", "Stadlmann", email = "stanislaus@stadlmann.cm", role = c("cre", "ctb"))
-Maintainer: Stanislaus Stadlmann <stanislaus@stadlmann.cm>
+Authors@R: person("Stanislaus", "Stadlmann", email = "stadlmann@uni-goettingen.de", role = c("cre", "ctb"))
+Maintainer: Stanislaus Stadlmann <stadlmann@uni-goettingen.de>
 Depends: 
         R (>= 3.3.0)
 Imports: 
