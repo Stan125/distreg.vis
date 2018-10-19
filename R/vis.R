@@ -67,6 +67,7 @@ vis <- function() {
     # Use CSS and ShinyJS for Code Highlighting
     includeCSS(system.file("srcjs/solarized-dark.css", package = "distreg.vis")),
     includeScript(system.file("srcjs/highlight.pack.js", package = "distreg.vis")),
+    includeScript(system.file("iframeResizer.contentWindow.min.js", package = "distreg.vis")),
 
     # Title
     titlePanel("Visualize your distreg predictions"),
