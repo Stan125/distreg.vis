@@ -8,7 +8,6 @@
 #' @importFrom stats family
 #' @importFrom formatR tidy_source
 #' @examples
-#' \dontrun{
 #' library("gamlss")
 #' library("bamlss")
 #' # A gamlss model
@@ -17,7 +16,8 @@
 #'                         data = model_fam_data(),
 #'                         trace = FALSE)
 #'
-#' # Start the App
+#' # Start the App - only in interactive modes
+#' if (interactive()) {
 #' distreg.vis::vis()
 #' }
 

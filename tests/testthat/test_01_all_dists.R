@@ -68,8 +68,9 @@ test_core <- function(fam_name) {
                                ncol = 2) # cdf
 
   ## Save the plots
-  ggsave(filename = paste0("plot_", fam_name, "_dist.png"), height = 6, width = 12,
-         plot = plots_dist)
+  fileloc <- tempfile(pattern = paste0("plot_", fam_name, "_dist"),
+                      fileext = ".png")
+  ggsave(filename = fileloc, height = 6, width = 12, plot = plots_dist)
 
   ########   ---    moments()   ---    ########
 
@@ -105,8 +106,9 @@ test_core <- function(fam_name) {
     }
 
     # Save
-    ggsave(filename = paste0("plot_", fam_name, "_moments.png"), height = 6, width = 12,
-           plot = plots_moments)
+    fileloc <- tempfile(pattern = paste0("plot_", fam_name, "_moments"),
+                        fileext = ".png")
+    ggsave(filename = fileloc, height = 6, width = 12, plot = plots_moments)
   } else {
     expect_error(plot_moments(model, "norm2", pred_data = ndata))
   }
