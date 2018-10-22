@@ -14,6 +14,7 @@ library("bamlss")
 library("gamlss")
 library("testthat")
 library("ggplot2")
+library("cowplot")
 library("gridExtra")
 
 ## Delete everything
@@ -63,14 +64,17 @@ test_core <- function(fam_name) {
   pred_params <- preds(model, newdata = ndata)
   plots_dist <- plot_dist(model, pred_params, rug = TRUE) # pdf
   if (fam_name != "multinomial")
-    plots_dist <- grid.arrange(plots_dist,
-                               plot_dist(model, pred_params, type = "cdf", rug = TRUE),
-                               ncol = 2) # cdf
+    plots_dist <- arrangeGrob(plots_dist,
+                              plot_dist(model, pred_params, type = "cdf", rug = TRUE),
+                              ncol = 2,
+                              nrow = 1) # cdf
 
   ## Save the plots
   fileloc <- tempfile(pattern = paste0("plot_", fam_name, "_dist"),
                       fileext = ".png")
-  ggsave(filename = fileloc, height = 6, width = 12, plot = plots_dist)
+
+  ggsave(filename = fileloc, height = 6, width = 12, plot = plots_dist,
+         units = "cm", device = "png")
 
   ########   ---    moments()   ---    ########
 
@@ -88,27 +92,30 @@ test_core <- function(fam_name) {
   ## Create plots and save them if available
   if (distreg.vis:::has.moments(fam_name)) {
     # Create
-    plots_moments <- grid.arrange(
+    plots_moments <- arrangeGrob(
       plot_moments(model, "norm2", pred_data = ndata),
-      plot_moments(model, "binomial1", pred_data = ndata),
-      ncol = 2
+      plot_moments(model, "binomial1", pred_data = ndata,
+                   ncol = 2,
+                   nrow = 1)
     )
 
     if (fam_name == "LOGNO") {
       ineq <<- function(par) {
         2 * pnorm((par[["sigma"]] / 2) * sqrt(2)) - 1
       }
-      plots_moments <- grid.arrange(
+      plots_moments <- arrangeGrob(
         plot_moments(model, "norm2", pred_data = ndata, ex_fun = "ineq"),
         plot_moments(model, "binomial1", pred_data = ndata, ex_fun = "ineq"),
-        ncol = 2
+        ncol = 2,
+        nrow = 1
       )
     }
 
     # Save
     fileloc <- tempfile(pattern = paste0("plot_", fam_name, "_moments"),
                         fileext = ".png")
-    ggsave(filename = fileloc, height = 6, width = 12, plot = plots_moments)
+    ggsave(filename = fileloc, height = 6, width = 12, plot = plots_moments,
+           units = "cm", device = "png")
   } else {
     expect_error(plot_moments(model, "norm2", pred_data = ndata))
   }
@@ -116,5 +123,9 @@ test_core <- function(fam_name) {
 
 ## Now test the function with all implemented distributions
 families <- dists[dists$implemented, "dist_name"]
-for (fam in families)
+for (fam in families[1:5])
   test_core(fam)
+
+## Delete empty Rplots.pdf file if exists
+if (file.exists("Rplots.pdf"))
+  file.remove("Rplots.pdf")
