@@ -14,7 +14,6 @@ library("bamlss")
 library("gamlss")
 library("testthat")
 library("ggplot2")
-library("cowplot")
 library("gridExtra")
 
 ## Delete everything
