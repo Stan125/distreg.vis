@@ -2,6 +2,8 @@
 distreg.vis
 ===========
 
+[![CRAN
+Version](https://www.r-pkg.org/badges/version/distreg.vis)](https://cran.r-project.org/package=distreg.vis)
 [![Build
 Status](https://api.travis-ci.org/Stan125/distreg.vis.svg?branch=master)](https://travis-ci.org/Stan125/distreg.vis)
 [![AppVeyor Build
@@ -27,14 +29,18 @@ framework.
 
 ### Install
 
-`distreg.vis` is not on CRAN, but only on GitHub at the moment. Run the
-following code to install the package and all its extensions:
+`distreg.vis` is now on CRAN. Run the following code to install the
+package and all its extensions:
 
 ``` r
-if (!require(devtools))
-  install.packages("devtools")
-library(devtools)
-install_github("Stan125/distreg.vis")
+install.packages("distreg.vis")
+```
+
+Or, if you would like to have the newest version, install the GitHub
+variant:
+
+``` r
+devtools::install_github("Stan125/distreg.vis")
 ```
 
 ### Supported distributions

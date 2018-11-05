@@ -20,7 +20,7 @@ suppressPackageStartupMessages({
 
 distreg.vis
 ==============
-[![Build Status](https://api.travis-ci.org/Stan125/distreg.vis.svg?branch=master)](https://travis-ci.org/Stan125/distreg.vis) [![AppVeyor Build Status](https://ci.appveyor.com/api/projects/status/github/Stan125/distreg.vis?branch=master&svg=true)](https://ci.appveyor.com/project/Stan125/distreg.vis)
+[![CRAN Version](https://www.r-pkg.org/badges/version/distreg.vis)](https://cran.r-project.org/package=distreg.vis) [![Build Status](https://api.travis-ci.org/Stan125/distreg.vis.svg?branch=master)](https://travis-ci.org/Stan125/distreg.vis) [![AppVeyor Build Status](https://ci.appveyor.com/api/projects/status/github/Stan125/distreg.vis?branch=master&svg=true)](https://ci.appveyor.com/project/Stan125/distreg.vis)
 
 ### What is `distreg.vis`?
 
@@ -32,12 +32,14 @@ distreg.vis
 The implementation is an interactive application using the Shiny framework.
 
 ### Install
-`distreg.vis` is not on CRAN, but only on GitHub at the moment. Run the following code to install the package and all its extensions:
+`distreg.vis` is now on CRAN. Run the following code to install the package and all its extensions:
 ```{r, eval = FALSE}
-if (!require(devtools))
-  install.packages("devtools")
-library(devtools)
-install_github("Stan125/distreg.vis")
+install.packages("distreg.vis")
+```
+
+Or, if you would like to have the newest version, install the GitHub variant:
+```{r, eval = FALSE}
+devtools::install_github("Stan125/distreg.vis")
 ```
 
 ### Supported distributions
