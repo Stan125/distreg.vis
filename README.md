@@ -4,6 +4,7 @@ distreg.vis
 
 [![CRAN
 Version](https://www.r-pkg.org/badges/version/distreg.vis)](https://cran.r-project.org/package=distreg.vis)
+[![](https://cranlogs.r-pkg.org/badges/distreg.vis)](https://cran.r-project.org/package=distreg.vis)
 [![Build
 Status](https://api.travis-ci.org/Stan125/distreg.vis.svg?branch=master)](https://travis-ci.org/Stan125/distreg.vis)
 [![AppVeyor Build
