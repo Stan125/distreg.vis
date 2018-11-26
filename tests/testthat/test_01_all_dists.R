@@ -93,9 +93,9 @@ test_core <- function(fam_name) {
     # Create
     plots_moments <- arrangeGrob(
       plot_moments(model, "norm2", pred_data = ndata),
-      plot_moments(model, "binomial1", pred_data = ndata,
-                   ncol = 2,
-                   nrow = 1)
+      plot_moments(model, "binomial1", pred_data = ndata),
+      ncol = 2,
+      nrow = 1
     )
 
     if (fam_name == "LOGNO") {
