@@ -122,7 +122,7 @@ test_core <- function(fam_name) {
 
 ## Now test the function with all implemented distributions
 families <- dists[dists$implemented, "dist_name"]
-for (fam in families[1:5])
+for (fam in families)
   test_core(fam)
 
 ## Delete empty Rplots.pdf file if exists
