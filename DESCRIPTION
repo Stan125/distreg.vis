@@ -27,4 +27,4 @@ License: GPL-3
 LazyData: TRUE
 URL: https://github.com/Stan125/distreg.vis
 BugReports: https://github.com/Stan125/distreg.vis/issues
-RoxygenNote: 6.1.0
+RoxygenNote: 6.1.1
