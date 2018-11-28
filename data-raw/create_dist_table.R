@@ -52,4 +52,4 @@ dist_df2 <- data.frame(dist_name = as.character(funs_b_name),
 dist_compl <- rbind(dist_df, dist_df2)
 
 ## Write table
-write.table(dist_compl, sep = ";", file = "dist_df.csv", row.names = FALSE)
+write.table(dist_compl, sep = ",", file = "dist_df.csv", row.names = FALSE)
