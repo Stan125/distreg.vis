@@ -36,7 +36,7 @@ moments <- function(par, fam_name) {
     fam_called <- fam()
 
     if (is.null(fam_called$mean) | is.null(fam_called$variance))
-      stop("Not all momoment functions implemented")
+      stop("Not all moment functions implemented")
 
     # Get moments for each row of par
     moms_raw <- apply(par, 1, function(x) {

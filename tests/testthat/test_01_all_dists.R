@@ -73,7 +73,7 @@ test_core <- function(fam_name) {
                       fileext = ".png")
 
   ggsave(filename = fileloc, height = 6, width = 12, plot = plots_dist,
-         units = "cm", device = "png")
+         units = "cm", device = "png", scale = 2)
 
   ########   ---    moments()   ---    ########
 
