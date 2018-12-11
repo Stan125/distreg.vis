@@ -4,7 +4,7 @@
 \alias{preds}
 \title{Predict distributional parameters of a bamlss family with a bamlss model}
 \usage{
-preds(model, newdata, what = "default")
+preds(model, newdata, what = "mean")
 }
 \arguments{
 \item{model}{A fitted bamlss model object, created with \code{\link{bamlss}}.}
@@ -14,7 +14,7 @@ with the combinations you want to do predictions for. Furthermore, whether
 or not to include the intercept has to be specified via a logical variable
 \code{intercept}.}
 
-\item{what}{One of \code{"default"}, \code{"mean"} or \code{"samples"}. The
+\item{what}{One of \code{"mean"} or \code{"samples"}. The
 default for bamlss models is "samples", while the default for gamlss models
 is "mean". This argument changes how the mean of the parameter is
 calculated. See details for details.}

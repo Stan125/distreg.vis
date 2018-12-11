@@ -9,7 +9,7 @@
 #'   with the combinations you want to do predictions for. Furthermore, whether
 #'   or not to include the intercept has to be specified via a logical variable
 #'   \code{intercept}.
-#' @param what One of \code{"default"}, \code{"mean"} or \code{"samples"}. The
+#' @param what One of \code{"mean"} or \code{"samples"}. The
 #'   default for bamlss models is "samples", while the default for gamlss models
 #'   is "mean". This argument changes how the mean of the parameter is
 #'   calculated. See details for details.
@@ -29,7 +29,7 @@
 #' @importFrom gamlss predictAll
 #' @export
 
-preds <- function(model, newdata, what = "default") {
+preds <- function(model, newdata, what = "mean") {
 
   # Check and convert to data.frame
   if (is(newdata, "data.frame"))
@@ -58,9 +58,6 @@ preds <- function(model, newdata, what = "default") {
     pred_par <- pred_par[, !colnames(pred_par) %in% "y", drop = FALSE] # goddamn
 
   } else if (is(model, "bamlss")) {
-
-    if (what == "default") # Defaults to samples
-      what <- "samples"
 
     if (what == "mean") {
       pred_par <-

@@ -17,6 +17,9 @@
 #'   calculates a measure, which dependency from a certain variable is of
 #'   interest.
 #' @param rug Should the resulting plot be a rug plot?
+#' @param samples If the provided model is a bamlss model, should the moment
+#'   values be "correctly" calculated, using the transformed samples? See
+#'   details for details.
 #' @importFrom magrittr %>% extract inset set_colnames set_rownames
 #' @importFrom viridis scale_fill_viridis scale_colour_viridis
 #' @import ggplot2
@@ -32,7 +35,7 @@
 #' @export
 
 plot_moments <- function(model, int_var, pred_data, palette = "default",
-                         ex_fun = NULL, rug = FALSE) {
+                         ex_fun = NULL, rug = FALSE, samples = TRUE) {
 
   # Are the moments even implemented?
   if (!has.moments(fam_obtainer(model)))
@@ -81,7 +84,13 @@ plot_moments <- function(model, int_var, pred_data, palette = "default",
 
   # Now make predictions and find out expected value and variance
   to_predict <- pred_data[, !colnames(pred_data) %in% c("id", "prediction")]
-  preds <- preds(model, newdata = to_predict)
+
+  # Calculate predicted parameters with/without samples
+  if (!samples)
+    preds <- preds(model, newdata = to_predict, what = "mean")
+  if (samples)
+    preds <- preds(model, newdata = to_predict, what = "samples")
+
   all_preds <- moments(par = preds, fam_name = fam_obtainer(model))
   if (!is.null(ex_fun)) {
     tryCatch({
