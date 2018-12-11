@@ -9,10 +9,10 @@
 #'   with the combinations you want to do predictions for. Furthermore, whether
 #'   or not to include the intercept has to be specified via a logical variable
 #'   \code{intercept}.
-#' @param what One of \code{mean}, \code{upperlimit}, \code{lowerlimit}. If it
-#'   is \code{mean} (which is also the default), then the mean of the parameter
-#'   samples is calculated. 2.5% and 97.5% quantiles are calculated for
-#'   \code{lowerlimit} and \code{upperlimit}, respectively.
+#' @param what One of \code{"default"}, \code{"mean"} or \code{"samples"}. The
+#'   default for bamlss models is "samples", while the default for gamlss models
+#'   is "mean". This argument changes how the mean of the parameter is
+#'   calculated. See details for details.
 #' @examples
 #' # Generating data
 #' data_fam <- model_fam_data(fam_name = "BE")
@@ -29,10 +29,10 @@
 #' @importFrom gamlss predictAll
 #' @export
 
-preds <- function(model, newdata, what = "mean") {
+preds <- function(model, newdata, what = "default") {
 
   # Check and convert to data.frame
-  if ("data.frame" %in% class(newdata))
+  if (is(newdata, "data.frame"))
     newdata <- as.data.frame(newdata)
   else
     stop("Newdata has to be in a data.frame format")
@@ -46,7 +46,7 @@ preds <- function(model, newdata, what = "mean") {
   if (is(model, "gamlss")) {
 
     # Only mean possible to be calculated
-    if (what != "mean")
+    if (!what %in% c("mean", "default"))
       stop("For gamlss models only mean can be calculated")
 
     # Predicted parameters - gamlss
@@ -59,35 +59,23 @@ preds <- function(model, newdata, what = "mean") {
 
   } else if (is(model, "bamlss")) {
 
-    # Mean
+    if (what == "default") # Defaults to samples
+      what <- "samples"
+
     if (what == "mean") {
-      # Predicted parameters - bamlss - mean
       pred_par <-
         as.data.frame(predict(model, newdata = newdata, drop = FALSE,
                               type = "parameter", intercept = TRUE),
                       row.names = rnames)
     }
 
-    # 2.5% Quantile
-    if (what == "lowerlimit") {
-      # Predicted parameters - bamlss - 2.5%
-      pred_par <-
-        as.data.frame(predict(model, newdata = newdata, drop = FALSE,
-                              type = "parameter", intercept = TRUE,
-                              FUN = function(x)
-                                quantile(x, 0.025, na.rm = TRUE)),
-                      row.names = rnames)
-    }
-
-    # 97.5% Quantile
-    if (what == "lowerlimit") {
-      # Predicted parameters - bamlss - 2.5%
-      pred_par <-
-        as.data.frame(predict(model, newdata = newdata, drop = FALSE,
-                              type = "parameter", intercept = TRUE,
-                              FUN = function(x)
-                                quantile(x, 0.975, na.rm = TRUE)),
-                      row.names = rnames)
+    if (what == "samples") {
+      # Predicted parameters - bamlss - mean
+      samples_raw <-
+        predict(model, newdata = newdata, drop = FALSE,
+                type = "parameter", intercept = TRUE,
+                FUN = function(x) return(x))
+      pred_par <- preds_transformer(samples_raw, newdata = newdata)
     }
 
   } else {
@@ -96,5 +84,40 @@ preds <- function(model, newdata, what = "mean") {
 
   # Return it here
   return(pred_par)
+}
+
+#' Sample transformer
+#'
+#' This functions transforms the bamlss samples from a list for every parameter
+#' to a list for every prediction. This makes it easier to use the moments()
+#' function.
+#'
+#' @keywords internal
+
+preds_transformer <- function(samp_list, newdata) {
+
+  # Names of parameters
+  params <- names(samp_list)
+
+  # Transpose matrices
+  samp_list <- lapply(samp_list, FUN = t)
+
+  # Make colnames
+  samp_list <- lapply(samp_list, function(x) {
+    colnames(x) <- row.names(newdata)
+    x <- as.data.frame(x)
+    return(x)
+  })
+
+  # Reshape
+  resh <- lapply(seq_len(nrow(newdata)), FUN = function(num) {
+    sapply(samp_list, function(df) {
+      return(df[, num])
+    })
+  })
+  names(resh) <- row.names(newdata)
+
+  # Give back result
+  return(resh)
 }
 

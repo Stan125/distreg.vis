@@ -4,7 +4,7 @@
 \alias{preds}
 \title{Predict distributional parameters of a bamlss family with a bamlss model}
 \usage{
-preds(model, newdata, what = "mean")
+preds(model, newdata, what = "default")
 }
 \arguments{
 \item{model}{A fitted bamlss model object, created with \code{\link{bamlss}}.}
@@ -14,10 +14,10 @@ with the combinations you want to do predictions for. Furthermore, whether
 or not to include the intercept has to be specified via a logical variable
 \code{intercept}.}
 
-\item{what}{One of \code{mean}, \code{upperlimit}, \code{lowerlimit}. If it
-is \code{mean} (which is also the default), then the mean of the parameter
-samples is calculated. 2.5% and 97.5% quantiles are calculated for
-\code{lowerlimit} and \code{upperlimit}, respectively.}
+\item{what}{One of \code{"default"}, \code{"mean"} or \code{"samples"}. The
+default for bamlss models is "samples", while the default for gamlss models
+is "mean". This argument changes how the mean of the parameter is
+calculated. See details for details.}
 }
 \value{
 A data.frame with one column for every distributional parameter and a
