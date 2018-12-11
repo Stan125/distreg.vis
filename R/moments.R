@@ -123,7 +123,7 @@ moments <- function(par, fam_name, what = "mean") {
   }
 
   if (exists("moms"))
-    return(moms)
+    return(as.data.frame(moms))
   else
     stop("Something went wrong")
 }
