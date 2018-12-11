@@ -35,7 +35,7 @@
 #' @export
 
 plot_moments <- function(model, int_var, pred_data, palette = "default",
-                         ex_fun = NULL, rug = FALSE, samples = TRUE) {
+                         ex_fun = NULL, rug = FALSE, samples = FALSE) {
 
   # Are the moments even implemented?
   if (!has.moments(fam_obtainer(model)))
@@ -83,7 +83,7 @@ plot_moments <- function(model, int_var, pred_data, palette = "default",
     return(plot_multinom_exp(model, int_var, pred_data, m_data, palette, coltype))
 
   # Now make predictions and find out expected value and variance
-  to_predict <- pred_data[, !colnames(pred_data) %in% c("id", "prediction")]
+  to_predict <- pred_data[, !colnames(pred_data) %in% c("id", "prediction"), drop = FALSE]
 
   # Calculate predicted parameters with/without samples
   if (!samples)
@@ -91,7 +91,9 @@ plot_moments <- function(model, int_var, pred_data, palette = "default",
   if (samples)
     preds <- preds(model, newdata = to_predict, what = "samples")
 
+  # Compute moments
   all_preds <- moments(par = preds, fam_name = fam_obtainer(model))
+
   if (!is.null(ex_fun)) {
     tryCatch({
       all_preds$ex_fun <- ex_f(preds, ex_fun)

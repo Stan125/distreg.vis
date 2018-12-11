@@ -5,7 +5,7 @@
 \title{Plot function: Display the influence of a covariate}
 \usage{
 plot_moments(model, int_var, pred_data, palette = "default",
-  ex_fun = NULL, rug = FALSE, samples = TRUE)
+  ex_fun = NULL, rug = FALSE, samples = FALSE)
 }
 \arguments{
 \item{model}{A fitted model on which the plots are based.}
