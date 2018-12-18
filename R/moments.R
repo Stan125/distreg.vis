@@ -1,6 +1,8 @@
 #' Return expected first two moments of a distribution, given the predicted
 #' parameters
 #'
+#' This is basically a wrapper for pred.bamlss and pred.gamlss with the added ability to compute special figures that are functions of parameters as well
+#'
 #' @importFrom stats pnorm dnorm
 #' @param par Parameters of the modeled distribution in a data.frame form. Can
 #'   be Output of \code{\link{preds}}, for example.
@@ -12,16 +14,48 @@
 #'   If it is \code{mean} (which is also the default), then the mean of the
 #'   parameter samples is calculated. 2.5% and 97.5% quantiles are calculated
 #'   for \code{lowerlimit} and \code{upperlimit}, respectively.
+#' @param ex_fun An external function \code{function(par) {...}} which
+#'   calculates a measure, which dependency from a certain variable is of
+#'   interest.
 #' @import bamlss
 #' @export
 
-moments <- function(par, fam_name, what = "mean") {
+moments <- function(par, fam_name, what = "mean", ex_fun = NULL) {
   # get rownames
   rnames <- row.names(par)
 
   # Stop if neither gamlss nor bamlss
   if (!is.gamlss(fam_name) && !is.bamlss(fam_name))
     stop("This function only works for bamlss/gamlss models")
+
+  # This checks whether we have samples (list format) or not (data.frame format)
+  if (is.list(par) && !is.data.frame(par))
+    samples <- TRUE
+  else if (is.data.frame(par))
+    samples <- FALSE
+  else
+    stop("par has to be either a data.frame or a list")
+
+  # What to do if ex_fun is an empty string - this is for easier shiny app handling
+  if (!is.null(ex_fun)) {
+    if (ex_fun == "" || ex_fun == "NO FUNCTION") {
+      ex_fun <- NULL
+    }
+  }
+
+  # Try out if the external function works
+  funworks <- FALSE # Only do the computation if the external function is specified correctly
+  if (!is.null(ex_fun)) {
+    tryCatch({
+      if (samples)
+        ex_fun(as.list(par[[1]][1, ])) # List of dataframes
+      if (!samples)
+        ex_fun(as.list(par[1, ])) # dataframe
+      funworks <- TRUE
+    }, error = function(e) {
+      stop("External function not specified correctly!")
+    })
+  }
 
   # gamlss moments
   if (is.gamlss(fam_name)) {
@@ -34,12 +68,23 @@ moments <- function(par, fam_name, what = "mean") {
     fam <- get(fam_name, envir = as.environment("package:gamlss.dist"))
     fam_called <- fam()
 
-    # Get moments for each row of par
-    moms_raw <- apply(par, 1, function(x) {
-      ex <- do.call(fam_called$mean, args = as.list(x)) # Expected value
-      vx <- do.call(fam_called$variance, args = as.list(x)) # Variance
-      return(c(Expected_Value = ex, Variance = vx))
-    })
+    if (!funworks) {
+      # Get moments for each row of par
+      moms_raw <- apply(par, 1, function(x) {
+        ex <- do.call(fam_called$mean, args = as.list(x)) # Expected value
+        vx <- do.call(fam_called$variance, args = as.list(x)) # Variance
+        return(c(Expected_Value = ex, Variance = vx))
+      })
+    }
+    if (funworks) {
+      # Get moments for each row of par
+      moms_raw <- apply(par, 1, function(x) {
+        ex <- do.call(fam_called$mean, args = as.list(x)) # Expected value, use do.call because gamlss doesnt have par as parameter but only the named parameters...
+        vx <- do.call(fam_called$variance, args = as.list(x)) # Variance
+        ex_fun <- do.call(ex_fun, args = as.list(x)) # External function
+        return(c(Expected_Value = ex, Variance = vx, ex_fun = ex_fun))
+      })
+    }
 
     # Make into nice format
     moms <- as.data.frame(t(moms_raw), row.names = rnames)
@@ -47,14 +92,6 @@ moments <- function(par, fam_name, what = "mean") {
 
   # bamlss moments
   if (is.bamlss(fam_name)) {
-
-    # This checks whether we have samples (list format) or not (data.frame format)
-    if (is.list(par) && !is.data.frame(par))
-      samples <- TRUE
-    else if (is.data.frame(par))
-      samples <- FALSE
-    else
-      stop("par has to be either a data.frame or a list")
 
     # This checks whether we can obtain CI's from samples
     if (what != "mean" && !samples)
@@ -68,13 +105,29 @@ moments <- function(par, fam_name, what = "mean") {
     if (is.null(fam_called$mean) | is.null(fam_called$variance))
       stop("Not all moment functions implemented")
 
+    # If we don't want to do it with transforming samples
     if (what == "mean" && !samples) {
-      # Get moments for each row of par
-      moms_raw <- apply(par, 1, function(x) {
-        ex <- fam_called$mean(as.list(x)) # Expected value
-        vx <- fam_called$variance(as.list(x)) # Variance
-        return(c(Expected_Value = ex, Variance = vx))
-      })
+
+      # If we don't have external_function
+      if (!funworks) {
+        # Get moments for each row of par
+        moms_raw <- apply(par, 1, function(x) {
+          ex <- fam_called$mean(as.list(x)) # Expected value
+          vx <- fam_called$variance(as.list(x)) # Variance
+          return(c(Expected_Value = ex, Variance = vx))
+        })
+      }
+
+      # If we have external function
+      if (funworks) {
+        # Get moments for each row of par
+        moms_raw <- apply(par, 1, function(x) {
+          ex <- fam_called$mean(as.list(x)) # Expected value
+          vx <- fam_called$variance(as.list(x)) # Variance
+          ex_fun <- ex_fun(as.list(x))
+          return(c(Expected_Value = ex, Variance = vx, ex_fun = ex_fun))
+        })
+      }
 
       # Make into nice format
       moms <- as.data.frame(t(moms_raw), row.names = rnames) # lots of reshaping here... no me gusta
@@ -82,21 +135,44 @@ moments <- function(par, fam_name, what = "mean") {
 
     if (samples) {
 
-      # Get moments for each sample and each prediction
-      moms_raw <- lapply(par, function(listparts) {
-        apply(listparts, 1, FUN = function(x) {
-          ex <- fam_called$mean(as.list(x)) # Expected value
-          vx <- fam_called$variance(as.list(x)) # Variance
-          return(c(ex, vx))
+      # If we have no external function
+      if (!funworks) {
+        # Get moments for each sample and each prediction
+        moms_raw <- lapply(par, function(listparts) {
+          apply(listparts, 1, FUN = function(x) {
+            ex <- fam_called$mean(as.list(x)) # Expected value
+            vx <- fam_called$variance(as.list(x)) # Variance
+            return(c(Expected_value = ex, Variance = vx))
+          })
         })
-      })
 
-      # Reshaping necessary
-      moms_raw <- lapply(moms_raw, FUN = function(x) {
-        x <- t(x)
-        colnames(x) <- c("Expected_Value", "Variance")
-        return(x)
-      })
+        # Reshaping necessary
+        moms_raw <- lapply(moms_raw, FUN = function(x) {
+          x <- t(x)
+          colnames(x) <- c("Expected_Value", "Variance")
+          return(x)
+        })
+      }
+
+      # If we have external function
+      if (funworks) {
+        # Get moments for each sample and each prediction
+        moms_raw <- lapply(par, function(listparts) {
+          apply(listparts, 1, FUN = function(x) {
+            ex <- fam_called$mean(as.list(x)) # Expected value
+            vx <- fam_called$variance(as.list(x)) # Variance
+            ex_fun <- ex_fun(as.list(x))
+            return(c(Expected_Value = ex, Variance = vx, ex_fun = ex_fun))
+          })
+        })
+
+        # Reshaping necessary
+        moms_raw <- lapply(moms_raw, FUN = function(x) {
+          x <- t(x)
+          colnames(x) <- c("Expected_Value", "Variance", "ex_fun")
+          return(x)
+        })
+      }
 
       # Mean
       if (what == "mean") {

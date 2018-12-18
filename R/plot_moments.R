@@ -20,6 +20,9 @@
 #' @param samples If the provided model is a bamlss model, should the moment
 #'   values be "correctly" calculated, using the transformed samples? See
 #'   details for details.
+#' @param uncertainty If \code{TRUE}, displays uncertainty measures about the
+#'   covariate influences. Can only be \code{TRUE} if samples is also
+#'   \code{TRUE}.
 #' @importFrom magrittr %>% extract inset set_colnames set_rownames
 #' @importFrom viridis scale_fill_viridis scale_colour_viridis
 #' @import ggplot2
@@ -35,16 +38,12 @@
 #' @export
 
 plot_moments <- function(model, int_var, pred_data, palette = "default",
-                         ex_fun = NULL, rug = FALSE, samples = FALSE) {
+                         rug = FALSE, samples = FALSE, uncertainty = FALSE,
+                         ex_fun = NULL) {
 
   # Are the moments even implemented?
   if (!has.moments(fam_obtainer(model)))
     stop("The modeled distribution does not have implemented moment functions.")
-
-  # What to do if ex_fun is an empty string - this is for easier shiny app handling
-  if (!is.null(ex_fun))
-    if (ex_fun == "" | ex_fun == "NO FUNCTION")
-      ex_fun <- NULL
 
   # Get model data
   m_data <- model_data(model)
@@ -92,39 +91,39 @@ plot_moments <- function(model, int_var, pred_data, palette = "default",
     preds <- preds(model, newdata = to_predict, what = "samples")
 
   # Compute moments
-  all_preds <- moments(par = preds, fam_name = fam_obtainer(model))
+  preds_mean <- moments(par = preds, fam_name = fam_obtainer(model))
 
-  if (!is.null(ex_fun)) {
-    tryCatch({
-      all_preds$ex_fun <- ex_f(preds, ex_fun)
-    }, error = function(e) {
-      stop("External function not specified correctly!")
-    })
+  # Compute empirical quantiles of moments
+  if (samples && uncertainty) {
+    preds_lowlim <- moments(par = preds, fam_name = fam_obtainer(model),
+                            what = "lowerlimit")
+    preds_upperlim <- moments(par = preds, fam_name = fam_obtainer(model),
+                              what = "upperlimit")
   }
-  all_preds$id <- row.names(all_preds)
 
-  # Which params are interesting?
-  int_params <- colnames(all_preds)[colnames(all_preds) != "id"]
+  # Reshape into long
+  preds_reshaped_mean <- reshape_into_long(preds_mean, pred_data, int_var,
+                                           int_params, samples)
 
-  # Merge predictions with pred_data, transform into long and to numerics
-  preds <- all_preds %>%
-    merge(y = pred_data, by.x = "id") %>%
-    extract(, c(int_var, "prediction", int_params)) %>%
-    set_colnames(c(int_var, "prediction", paste0("mom.", int_params))) %>%
-    reshape(., direction = "long",
-            varying = seq_along(int_params) + 2, # because moments start after 2
-            idvar = c(int_var, "prediction")) %>%
-    set_rownames(seq_along(rownames(.))) %>%
-    set_colnames(c(int_var, "prediction", "moment", "value"))
+  # Upper and lower limits for samples
+  if (samples && uncertainty) {
 
-  if (coltype == "num") { # if we have a numeric column trans to num
-    preds[[int_var]] <- as.numeric(preds[[int_var]])
-  } else if (coltype == "cat") { # if not then make character
-    preds[[int_var]] <- as.character(preds[[int_var]])
+    # Lower Limit
+    preds_reshaped_lowlim <- reshape_into_long(preds_lowlim, pred_data,
+                                               int_var, int_params, samples)
+
+    # Upper Limit
+    preds_reshaped_upperlim <- reshape_into_long(preds_upperlim, pred_data,
+                                                 int_var, int_params, samples)
+
+    # Merge it with both
+    preds_reshaped_mean$lowerlim <- preds_reshaped_lowlim$value
+    preds_reshaped_mean$upperlim <- preds_reshaped_upperlim$value
   }
 
   # Now make plot
-  ground <- ggplot(preds, aes_string(x = int_var, y = "value", col = "prediction")) +
+  ground <- ggplot(preds_reshaped_mean,
+                   aes_string(x = int_var, y = "value", col = "prediction")) +
     facet_wrap(~moment, scales = "free") +
     theme_bw() +
     labs(y = "Moment values") +
@@ -145,7 +144,10 @@ plot_moments <- function(model, int_var, pred_data, palette = "default",
   # Line if numeric
   if (coltype == "num") {
     plot <- ground +
-      geom_line()
+      geom_line() +
+      geom_ribbon(data = preds_reshaped_mean,
+                  aes_string(ymin = "lowerlim", ymax = "upperlim", color = NULL),
+                  alpha = 0.2)
   } else if (coltype == "cat") {
     plot <- ground +
       geom_bar(aes_string(fill = "prediction"),
@@ -225,4 +227,42 @@ plot_multinom_exp <- function(model, int_var, pred_data, m_data, palette, coltyp
         scale_colour_brewer(palette = palette)
     }
     return(ground)
+}
+
+#' Internal: Reshape into Long Format
+#'
+#' @param pred_intvar A data.frame with the moments as columns and the splitted
+#'   \code{int_var} as rows (default 100 values from min to max). There are
+#'   three ways which this data.frame can look like. First, as the mean of the
+#'   moments. secondly, as the upper and thirdly as the lower quantiles of the
+#'   moments.
+#' @keywords internal
+
+reshape_into_long <- function(preds_intvar, pred_data, int_var, int_params, samples) {
+
+  # Put id as extra var
+  preds_intvar$id <- row.names(preds_intvar)
+
+  # Which params are interesting?
+  int_params <- colnames(preds_intvar)[colnames(preds_intvar) != "id"]
+
+  # Merge predictions with pred_data, transform into long and to numerics
+  preds_reshaped <- preds_intvar %>%
+    merge(y = pred_data, by.x = "id") %>%
+    extract(, c(int_var, "prediction", int_params)) %>%
+    set_colnames(c(int_var, "prediction", paste0("mom.", int_params))) %>%
+    reshape(., direction = "long",
+            varying = seq_along(int_params) + 2, # because moments start after 2
+            idvar = c(int_var, "prediction")) %>%
+    set_rownames(seq_along(rownames(.))) %>%
+    set_colnames(c(int_var, "prediction", "moment", "value"))
+
+  if (coltype == "num") { # if we have a numeric column trans to num
+    preds_reshaped[[int_var]] <- as.numeric(preds_reshaped[[int_var]])
+  } else if (coltype == "cat") { # if not then make character
+    preds_reshaped[[int_var]] <- as.character(preds_reshaped[[int_var]])
+  }
+
+  # Return here
+  return(preds_reshaped)
 }

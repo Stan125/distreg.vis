@@ -2,23 +2,29 @@
 % Please edit documentation in R/moments.R
 \name{moments}
 \alias{moments}
-\title{Return expected first two moments of a distribution, given the predicted parameters}
+\title{Return expected first two moments of a distribution, given the predicted
+parameters}
 \usage{
-moments(par, fam_name, what = "mean")
+moments(par, fam_name, what = "mean", ex_fun = NULL)
 }
 \arguments{
 \item{par}{Parameters of the modeled distribution in a data.frame form. Can
 be Output of \code{\link{preds}}, for example.}
 
 \item{fam_name}{Name of the used family in character form. Can be one of
-\code{distreg.vis::dists$dist_name}. All gamlss.dist and exported bamlss families are
-supported. To obtain the family from a model in character form, use \code{\link{fam_obtainer}}.}
+\code{distreg.vis::dists$dist_name}. All gamlss.dist and exported bamlss
+families are supported. To obtain the family from a model in character
+form, use \code{\link{fam_obtainer}}.}
 
-\item{what}{One of \code{mean}, \code{upperlimit}, \code{lowerlimit}. If it
-is \code{mean} (which is also the default), then the mean of the parameter
-samples is calculated. 2.5% and 97.5% quantiles are calculated for
-\code{lowerlimit} and \code{upperlimit}, respectively.}
+\item{what}{One of \code{"mean"}, \code{"upperlimit"}, \code{"lowerlimit"}.
+If it is \code{mean} (which is also the default), then the mean of the
+parameter samples is calculated. 2.5% and 97.5% quantiles are calculated
+for \code{lowerlimit} and \code{upperlimit}, respectively.}
+
+\item{ex_fun}{An external function \code{function(par) {...}} which
+calculates a measure, which dependency from a certain variable is of
+interest.}
 }
 \description{
-Return expected first two moments of a distribution, given the predicted parameters
+This is basically a wrapper for pred.bamlss and pred.gamlss with the added ability to compute special figures that are functions of parameters as well
 }
