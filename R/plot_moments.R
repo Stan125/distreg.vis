@@ -144,15 +144,26 @@ plot_moments <- function(model, int_var, pred_data, palette = "default",
   # Line if numeric
   if (coltype == "num") {
     plot <- ground +
-      geom_line() +
-      geom_ribbon(data = preds_reshaped_mean,
-                  aes_string(ymin = "lowerlim", ymax = "upperlim", color = NULL),
-                  alpha = 0.2)
+      geom_line()
+
+    # Add uncertainty measure
+    if (samples && uncertainty)
+      plot <- plot + geom_ribbon(data = preds_reshaped_mean,
+                                 aes_string(ymin = "lowerlim", ymax = "upperlim", color = NULL),
+                                 alpha = 0.2)
   } else if (coltype == "cat") {
     plot <- ground +
       geom_bar(aes_string(fill = "prediction"),
                stat = "identity",
                position = position_dodge())
+
+    # Add uncertainty measure
+    if (samples && uncertainty)
+      plot <- plot +
+        geom_errorbar(data = preds_reshaped_mean,
+                      aes_string(ymin = "lowerlim", ymax = "upperlim"),
+                      alpha = 0.8,
+                      position = position_dodge(.9))
   }
 
   # Add rug if necessary
