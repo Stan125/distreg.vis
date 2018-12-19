@@ -149,21 +149,25 @@ plot_moments <- function(model, int_var, pred_data, palette = "default",
     # Add uncertainty measure
     if (samples && uncertainty)
       plot <- plot + geom_ribbon(data = preds_reshaped_mean,
-                                 aes_string(ymin = "lowerlim", ymax = "upperlim", color = NULL),
+                                 aes_string(ymin = "lowerlim",
+                                            ymax = "upperlim",
+                                            color = NULL),
                                  alpha = 0.2)
+
   } else if (coltype == "cat") {
     plot <- ground +
       geom_bar(aes_string(fill = "prediction"),
                stat = "identity",
-               position = position_dodge())
+               position = position_dodge(),
+               col = "black")
 
     # Add uncertainty measure
     if (samples && uncertainty)
       plot <- plot +
-        geom_errorbar(data = preds_reshaped_mean,
-                      aes_string(ymin = "lowerlim", ymax = "upperlim"),
-                      alpha = 0.8,
-                      position = position_dodge(.9))
+        geom_errorbar(aes_string(ymin = "lowerlim", ymax = "upperlim"),
+                      alpha = 0.6,
+                      position = position_dodge2(.05),
+                      col = "black")
   }
 
   # Add rug if necessary
