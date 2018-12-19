@@ -150,9 +150,8 @@ plot_moments <- function(model, int_var, pred_data, palette = "default",
     if (samples && uncertainty)
       plot <- plot + geom_ribbon(data = preds_reshaped_mean,
                                  aes_string(ymin = "lowerlim",
-                                            ymax = "upperlim",
-                                            color = NULL),
-                                 alpha = 0.2)
+                                            ymax = "upperlim"),
+                                 alpha = 0.6)
 
   } else if (coltype == "cat") {
     plot <- ground +
@@ -170,17 +169,25 @@ plot_moments <- function(model, int_var, pred_data, palette = "default",
                       col = "black")
   }
 
-  # Add rug if necessary
-  if (rug) {
+  # Add rug if wanted
+  if (rug && coltype == "num") {
     var <- model_data(model, varname = int_var)
     plot <- plot +
       geom_rug(data =
                  data.frame(var,
-                            prediction = unique(preds$prediction)[1],
+                            prediction =
+                              unique(preds_reshaped_mean$prediction)[1],
                             value = 0),
                aes_string(x = "var"),
                sides = "b", alpha = 0.5, color = "black")
   }
+
+  # Don't display rug in discrete cases
+  if (rug && coltype == "cat") {
+    stop("Cannot display a rug plot in discrete cases")
+  }
+
+  # Return plot here
   return(plot)
 }
 

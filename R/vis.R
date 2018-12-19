@@ -110,7 +110,7 @@ vis <- function() {
     # Reactive model family
     fam <- reactive({
       if (!is.null(m()))
-        family(m())
+        fam_obtainer(m())
     })
 
     # Got Model and data?
@@ -420,7 +420,20 @@ vis <- function() {
 
         # Rug Plot
         infl_sidebar[[length(infl_sidebar) + 1]] <-
-          checkboxInput("infl_rug", label = "Rug Plot?", value = TRUE)
+          checkboxInput("infl_rug", label = "Rug Plot?", value = FALSE)
+
+        # If we analyze a bamlss model there is the ability to compute estimate based on samples
+        if (is.bamlss(fam())) {
+          # Samples
+          infl_sidebar[[length(infl_sidebar) + 1]] <-
+            checkboxInput("infl_samples",
+                          label = "Compute estimate based on samples?",
+                          value = FALSE)
+
+          # Uncertainty Measures
+          infl_sidebar[[length(infl_sidebar) + 1]] <-
+            checkboxInput("infl_uncertainty", label = "Uncertainty measures", value = FALSE)
+        }
 
         # Get the code
         infl_sidebar[[length(infl_sidebar) + 1]] <-
@@ -503,7 +516,9 @@ vis <- function() {
                      pred$data,
                      palette = input$infl_pal_choices,
                      ex_fun = input$infl_exfun,
-                     rug = input$infl_rug)
+                     rug = input$infl_rug,
+                     samples = input$infl_samples,
+                     uncertainty = input$infl_uncertainty)
     })
 
   }
