@@ -46,8 +46,8 @@ preds <- function(model, newdata, what = "mean") {
   if (is(model, "gamlss")) {
 
     # Only mean possible to be calculated
-    if (!what %in% c("mean", "default"))
-      stop("For gamlss models only mean can be calculated")
+    if (what != "mean")
+      stop("In gamlss models there are no samples")
 
     # Predicted parameters - gamlss
     pred_par <-
