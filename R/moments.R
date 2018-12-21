@@ -1,7 +1,8 @@
 #' Return expected first two moments of a distribution, given the predicted
 #' parameters
 #'
-#' This is basically a wrapper for pred.bamlss and pred.gamlss with the added ability to compute special figures that are functions of parameters as well
+#' This is basically a wrapper for pred.bamlss and pred.gamlss with the added
+#' ability to compute special figures that are functions of parameters as well
 #'
 #' @importFrom stats pnorm dnorm
 #' @param par Parameters of the modeled distribution in a data.frame form. Can
