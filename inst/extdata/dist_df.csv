@@ -64,8 +64,8 @@ RGE;gamlss;FALSE;FALSE;NA;NA;NA;Continuous;FALSE
 SEP;gamlss;TRUE;FALSE;no_limits;NA;NA;Continuous;FALSE
 SEP1;gamlss;TRUE;FALSE;no_limits;NA;NA;Continuous;FALSE
 SEP2;gamlss;TRUE;FALSE;no_limits;NA;NA;Continuous;FALSE
-SEP3;gamlss;TRUE;TRUE;no_limits;NA;NA;Continuous;FALSE
-SEP4;gamlss;TRUE;TRUE;no_limits;NA;NA;Continuous;FALSE
+SEP3;gamlss;TRUE;FALSE;no_limits;NA;NA;Continuous;FALSE
+SEP4;gamlss;TRUE;FALSE;no_limits;NA;NA;Continuous;FALSE
 SHASH;gamlss;TRUE;FALSE;no_limits;NA;NA;Continuous;FALSE
 SHASHo;gamlss;TRUE;TRUE;no_limits;NA;NA;Continuous;FALSE
 SHASHo2;gamlss;TRUE;FALSE;no_limits;NA;NA;Continuous;FALSE
@@ -91,7 +91,7 @@ ZABB;gamlss;TRUE;FALSE;one_limit;0;NA;Discrete;FALSE
 ZABI;gamlss;TRUE;FALSE;one_limit;0;NA;Discrete;FALSE
 ZABNB;gamlss;FALSE;FALSE;NA;NA;NA;Discrete;FALSE
 ZAGA;gamlss;TRUE;TRUE;one_limit;0;NA;Mixed;FALSE
-ZAIG;gamlss;TRUE;TRUE;one_limit;0;NA;Mixed;FALSE
+ZAIG;gamlss;TRUE;FALSE;one_limit;0;NA;Mixed;FALSE
 ZALG;gamlss;TRUE;TRUE;one_limit;0;NA;Discrete;FALSE
 ZANBI;gamlss;TRUE;TRUE;one_limit;0;NA;Discrete;FALSE
 ZAP;gamlss;TRUE;TRUE;one_limit;0;NA;Discrete;FALSE
