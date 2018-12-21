@@ -1,10 +1,9 @@
 #' Return expected first two moments of a distribution, given the predicted
 #' parameters
 #'
-#' This is basically a wrapper for pred.bamlss and pred.gamlss with the added
-#' ability to compute special figures that are functions of parameters as well
+#' This is basically a wrapper for pred.bamlss and pred.gamlss with the added ability to compute special figures that are functions of parameters as well
 #'
-#' @importFrom stats pnorm dnorm
+#' @importFrom stats pnorm dnorm quantile
 #' @param par Parameters of the modeled distribution in a data.frame form. Can
 #'   be Output of \code{\link{preds}}, for example.
 #' @param fam_name Name of the used family in character form. Can be one of
