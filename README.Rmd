@@ -47,7 +47,8 @@ At the moment, the following distributions are fully supported:
 ```{r}
 dists %>%
   filter(moment_funs) %>%
-  dplyr::select(dist_name, class)
+  dplyr::select(dist_name, class) %>%
+  as.character()
 ```
 
 The rest of the distributions are mostly supported, but only in displaying their predicted distributions, and not their moments.

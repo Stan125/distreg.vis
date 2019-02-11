@@ -103,7 +103,7 @@ plot_moments <- function(model, int_var, pred_data, palette = "default",
 
   # Reshape into long
   preds_reshaped_mean <- reshape_into_long(preds_mean, pred_data, int_var,
-                                           int_params, samples)
+                                           int_params, samples, coltype)
 
   # Upper and lower limits for samples
   if (samples && uncertainty) {
@@ -260,7 +260,7 @@ plot_multinom_exp <- function(model, int_var, pred_data, m_data, palette, coltyp
 #'   moments.
 #' @keywords internal
 
-reshape_into_long <- function(preds_intvar, pred_data, int_var, int_params, samples) {
+reshape_into_long <- function(preds_intvar, pred_data, int_var, int_params, samples, coltype) {
 
   # Put id as extra var
   preds_intvar$id <- row.names(preds_intvar)

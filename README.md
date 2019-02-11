@@ -51,55 +51,10 @@ At the moment, the following distributions are fully supported:
 ``` r
 dists %>%
   filter(moment_funs) %>%
-  dplyr::select(dist_name, class)
-#>      dist_name  class
-#> 1           BE gamlss
-#> 2          BEo gamlss
-#> 3         EGB2 gamlss
-#> 4       exGAUS gamlss
-#> 5          EXP gamlss
-#> 6           GA gamlss
-#> 7         GEOM gamlss
-#> 8        GEOMo gamlss
-#> 9           GG gamlss
-#> 10          GT gamlss
-#> 11          GU gamlss
-#> 12          IG gamlss
-#> 13      IGAMMA gamlss
-#> 14         JSU gamlss
-#> 15        JSUo gamlss
-#> 16          LG gamlss
-#> 17          LO gamlss
-#> 18       LOGNO gamlss
-#> 19          NO gamlss
-#> 20         NO2 gamlss
-#> 21         NOF gamlss
-#> 22     PARETO2 gamlss
-#> 23    PARETO2o gamlss
-#> 24          PE gamlss
-#> 25         PE2 gamlss
-#> 26          PO gamlss
-#> 27          RG gamlss
-#> 28         SN1 gamlss
-#> 29         SN2 gamlss
-#> 30         SST gamlss
-#> 31          TF gamlss
-#> 32         TF2 gamlss
-#> 33         WEI gamlss
-#> 34        WEI2 gamlss
-#> 35        WEI3 gamlss
-#> 36        ZAGA gamlss
-#> 37        ZAIG gamlss
-#> 38        beta bamlss
-#> 39    binomial bamlss
-#> 40       cnorm bamlss
-#> 41       gamma bamlss
-#> 42    gaussian bamlss
-#> 43   gaussian2 bamlss
-#> 44      glogis bamlss
-#> 45     gpareto bamlss
-#> 46 multinomial bamlss
-#> 47     poisson bamlss
+  dplyr::select(dist_name, class) %>%
+  as.character()
+#> [1] "c(\"BE\", \"BEo\", \"BNB\", \"DEL\", \"EGB2\", \"exGAUS\", \"EXP\", \"GA\", \"GB2\", \"GEOM\", \"GEOMo\", \"GG\", \"GIG\", \"GPO\", \"GT\", \"GU\", \"IG\", \"IGAMMA\", \"JSU\", \"JSUo\", \"LG\", \"LO\", \"LOGNO\", \"NBF\", \"NBI\", \"NBII\", \"NO\", \"NO2\", \"NOF\", \"PARETO2\", \"PARETO2o\", \"PE\", \"PE2\", \"PIG\", \"PO\", \"RG\", \"SEP3\", \"SEP4\", \"SHASHo\", \"SICHEL\", \"SN1\", \"SN2\", \"SST\", \"ST2\", \"ST3\", \"ST3C\", \"ST4\", \"ST5\", \"TF\", \"TF2\", \"WEI\", \"WEI2\", \"WEI3\", \"ZAGA\", \"ZAIG\", \"ZALG\", \"ZANBI\", \"ZAP\", \"ZAPIG\", \"ZASICHEL\", \"ZAZIPF\", \"ZIBNB\", \"ZINBI\", \"ZIP\", \"ZIP2\", \"ZIPF\", \n\"ZIPIG\", \"ZISICHEL\", \"beta\", \"binomial\", \"cnorm\", \"gamma\", \"gaussian\", \"gaussian2\", \"glogis\", \"gpareto\", \"multinomial\", \"poisson\")"                                                                                                                                                 
+#> [2] "c(\"gamlss\", \"gamlss\", \"gamlss\", \"gamlss\", \"gamlss\", \"gamlss\", \"gamlss\", \"gamlss\", \"gamlss\", \"gamlss\", \"gamlss\", \"gamlss\", \"gamlss\", \"gamlss\", \"gamlss\", \"gamlss\", \"gamlss\", \"gamlss\", \"gamlss\", \"gamlss\", \"gamlss\", \"gamlss\", \"gamlss\", \"gamlss\", \"gamlss\", \"gamlss\", \"gamlss\", \"gamlss\", \"gamlss\", \"gamlss\", \"gamlss\", \"gamlss\", \"gamlss\", \"gamlss\", \"gamlss\", \"gamlss\", \"gamlss\", \"gamlss\", \"gamlss\", \"gamlss\", \"gamlss\", \"gamlss\", \"gamlss\", \"gamlss\", \"gamlss\", \"gamlss\", \"gamlss\", \"gamlss\", \"gamlss\", \"gamlss\", \n\"gamlss\", \"gamlss\", \"gamlss\", \"gamlss\", \"gamlss\", \"gamlss\", \"gamlss\", \"gamlss\", \"gamlss\", \"gamlss\", \"gamlss\", \"gamlss\", \"gamlss\", \"gamlss\", \"gamlss\", \"gamlss\", \"gamlss\", \"gamlss\", \"bamlss\", \"bamlss\", \"bamlss\", \"bamlss\", \"bamlss\", \"bamlss\", \"bamlss\", \"bamlss\", \"bamlss\", \"bamlss\")"
 ```
 
 The rest of the distributions are mostly supported, but only in
