@@ -11,6 +11,7 @@ library("gamlss")
 library("distreg.vis")
 library("mgcv")
 library("bamlss")
+library("testthat")
 
 ### -- Mult_trans --- ###
 
@@ -94,8 +95,8 @@ ba <- bamlss(list(GA ~ s(norm2) + binomial1,
              verbose = FALSE)
 
 # Preds
-ba_pred_samples_5 <- preds(ba, newdata = ndata, what = "default")
-ba_pred_samples_1 <- preds(ba, newdata = ndata[1, , drop = FALSE], what = "default")
+ba_pred_samples_5 <- preds(ba, newdata = ndata, what = "samples")
+ba_pred_samples_1 <- preds(ba, newdata = ndata[1, , drop = FALSE], what = "samples")
 ba_pred_mean_5 <- preds(ba, newdata = ndata, what = "mean")
 ba_pred_mean_1 <- preds(ba, newdata = ndata[1, , drop = FALSE], what = "mean")
 ga_pred_mean_5 <- preds(ga, newdata = ndata, what = "mean")
