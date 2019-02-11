@@ -7,7 +7,10 @@ rm(list = ls())
 testthat::context("Miscellaneous")
 
 # Libraries
+library("gamlss")
 library("distreg.vis")
+library("mgcv")
+library("bamlss")
 
 ### -- Mult_trans --- ###
 
@@ -69,3 +72,42 @@ DF <-
 )
 DF <- distreg.vis:::fac_check(DF)
 expect_false("ordered" %in% unlist(sapply(DF, class)))
+
+## --- Test for correct calculation of preds() function --- ##
+
+fam_name <- "GA"
+
+# Data
+art_data <- model_fam_data(fam_name = fam_name)
+ndata <- art_data[sample(seq_len(nrow(art_data)), 5),
+                  !colnames(art_data) %in% fam_name]
+
+# gamlss model fitting
+form <- as.formula(paste0(fam_name, "~ norm2 + binomial1"))
+ga <- gamlss(form, sigma.formula = ~ .,
+                data = art_data, family = fam_name, trace = FALSE)
+
+# bamlss model fitting
+ba <- bamlss(list(GA ~ s(norm2) + binomial1,
+                  sigma ~ s(norm2) + binomial1),
+             data = art_data, family = gamma_bamlss(),
+             verbose = FALSE)
+
+# Preds
+ba_pred_samples_5 <- preds(ba, newdata = ndata, what = "default")
+ba_pred_samples_1 <- preds(ba, newdata = ndata[1, , drop = FALSE], what = "default")
+ba_pred_mean_5 <- preds(ba, newdata = ndata, what = "mean")
+ba_pred_mean_1 <- preds(ba, newdata = ndata[1, , drop = FALSE], what = "mean")
+ga_pred_mean_5 <- preds(ga, newdata = ndata, what = "mean")
+
+# Moms
+ba_mom_samples_5_mean <-
+  moments(ba_pred_samples_5, fam_name = "gaussian", what = "mean")
+ba_mom_samples_5_ll <-
+  moments(ba_pred_samples_5, fam_name = "gaussian", what = "lowerlimit")
+ba_mom_samples_5_ul <-
+  moments(ba_pred_samples_5, fam_name = "gaussian", what = "upperlimit")
+ba_mom_samples_1_ul <-
+  moments(ba_pred_samples_1, fam_name = "gaussian", what = "upperlimit")
+ba_mom_mean_5_ul <-
+  moments(ba_pred_mean_5, fam_name = "gaussian", what = "mean")
