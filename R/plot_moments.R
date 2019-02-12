@@ -110,11 +110,13 @@ plot_moments <- function(model, int_var, pred_data, palette = "default",
 
     # Lower Limit
     preds_reshaped_lowlim <- reshape_into_long(preds_lowlim, pred_data,
-                                               int_var, int_params, samples)
+                                               int_var, int_params, samples,
+                                               coltype)
 
     # Upper Limit
     preds_reshaped_upperlim <- reshape_into_long(preds_upperlim, pred_data,
-                                                 int_var, int_params, samples)
+                                                 int_var, int_params, samples,
+                                                 coltype)
 
     # Merge it with both
     preds_reshaped_mean$lowerlim <- preds_reshaped_lowlim$value
