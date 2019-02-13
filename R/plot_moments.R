@@ -32,9 +32,20 @@
 #' model <- gamlss(LOGNO ~ ps(norm2) + binomial1,
 #'                 ~ ps(norm2) + binomial1,
 #'                 data = dat, family = "LOGNO")
-#' ndata <- dat[sample(seq_len(nrow(dat)), 5), c("norm2", "binomial1")]
+#' ndata <- dat[1:5, c("norm2", "binomial1")]
+#'
+#' # Normal plot
 #' plot_moments(model, int_var = "norm2", pred_data = ndata)
+#'
+#' # Rug Plot
 #' plot_moments(model, int_var = "norm2", pred_data = ndata, rug = TRUE)
+#'
+#' # Using an external function
+#' ineq <<- function(par) {
+#' 2 * pnorm((par[["sigma"]] / 2) * sqrt(2)) - 1
+#' }
+#' plot_moments(model, int_var = "norm2", pred_data = ndata, ex_fun = "ineq")
+#'
 #' @export
 
 plot_moments <- function(model, int_var, pred_data, palette = "default",
@@ -91,14 +102,18 @@ plot_moments <- function(model, int_var, pred_data, palette = "default",
     preds <- preds(model, newdata = to_predict, what = "samples")
 
   # Compute moments
-  preds_mean <- moments(par = preds, fam_name = fam_obtainer(model))
+  preds_mean <- moments(
+    par = preds,
+    fam_name = fam_obtainer(model),
+    ex_fun = ex_fun
+  )
 
   # Compute empirical quantiles of moments
   if (samples && uncertainty) {
     preds_lowlim <- moments(par = preds, fam_name = fam_obtainer(model),
-                            what = "lowerlimit")
+                            what = "lowerlimit", ex_fun = ex_fun)
     preds_upperlim <- moments(par = preds, fam_name = fam_obtainer(model),
-                              what = "upperlimit")
+                              what = "upperlimit", ex_fun = ex_fun)
   }
 
   # Reshape into long

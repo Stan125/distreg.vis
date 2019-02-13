@@ -47,7 +47,18 @@ dat <- model_fam_data(fam_name = "LOGNO")
 model <- gamlss(LOGNO ~ ps(norm2) + binomial1,
                 ~ ps(norm2) + binomial1,
                 data = dat, family = "LOGNO")
-ndata <- dat[sample(seq_len(nrow(dat)), 5), c("norm2", "binomial1")]
+ndata <- dat[1:5, c("norm2", "binomial1")]
+
+# Normal plot
 plot_moments(model, int_var = "norm2", pred_data = ndata)
+
+# Rug Plot
 plot_moments(model, int_var = "norm2", pred_data = ndata, rug = TRUE)
+
+# Using an external function
+ineq <<- function(par) {
+2 * pnorm((par[["sigma"]] / 2) * sqrt(2)) - 1
+}
+plot_moments(model, int_var = "norm2", pred_data = ndata, ex_fun = ineq)
+
 }
