@@ -468,6 +468,21 @@ vis <- function() {
       }
     })
 
+    # Check whether samples and uncertainty measures are clicked both
+
+    observe({
+      if (!is.null(fam())) {
+        if (is.bamlss(fam())) {
+          if (!is.null(input$infl_uncertainty) && !is.null(input$infl_samples)) {
+            if (input$infl_uncertainty && !input$infl_samples) {
+              showNotification("Uncertainty measures only possible if\n estimates were computed sample-based",
+                               type = "warning", duration = 10)
+            }
+          }
+        }
+      }
+    })
+
     ## What happens when infl_pastecode button is pressed
     observeEvent(input$infl_pastecode, {
       # First line of code
