@@ -501,6 +501,10 @@ vis <- function() {
         infl_c_plot[["ex_fun"]] <- input$infl_exfun
       if (input$infl_rug)
         infl_c_plot[["rug"]] <- TRUE
+      if (input$infl_samples)
+        infl_c_plot[["samples"]] <- TRUE
+      if (input$infl_samples && input$infl_uncertainty) # only when both are true we should have samples
+        infl_c_plot[["uncertainty"]] <- TRUE
       infl_c_plot <- deparse(infl_c_plot, width.cutoff = 100) # Make call into character
       infl_c_plot <- tidy_c(infl_c_plot)
 
