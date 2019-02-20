@@ -108,6 +108,9 @@ plot_moments <- function(model, int_var, pred_data, palette = "default",
     ex_fun = ex_fun
   )
 
+  # Which params are interesting?
+  int_params <- colnames(preds_mean)[colnames(preds_intvar) != "id"]
+
   # Compute empirical quantiles of moments
   if (samples && uncertainty) {
     preds_lowlim <- moments(par = preds, fam_name = fam_obtainer(model),
@@ -281,9 +284,6 @@ reshape_into_long <- function(preds_intvar, pred_data, int_var, int_params, samp
 
   # Put id as extra var
   preds_intvar$id <- row.names(preds_intvar)
-
-  # Which params are interesting?
-  int_params <- colnames(preds_intvar)[colnames(preds_intvar) != "id"]
 
   # Merge predictions with pred_data, transform into long and to numerics
   preds_reshaped <- preds_intvar %>%

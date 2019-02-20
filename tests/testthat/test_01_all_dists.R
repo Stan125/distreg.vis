@@ -91,8 +91,8 @@ test_core <- function(fam_name) {
   ## Create plots and save them if available
   if (distreg.vis:::has.moments(fam_name)) {
 
-    # GAMLSS (without samples)
-    if (distreg.vis:::is.gamlss(fam_name) & fam_name != "LOGNO") {
+    # Not specifying an external function
+    if (!fam_name %in% c("LOGNO", "gamma")) {
       plots_moments <- arrangeGrob(
         plot_moments(model, "norm2", pred_data = ndata),
         plot_moments(model, "binomial1", pred_data = ndata),
@@ -109,6 +109,18 @@ test_core <- function(fam_name) {
       plots_moments <- arrangeGrob(
         plot_moments(model, "norm2", pred_data = ndata, ex_fun = "ineq"),
         plot_moments(model, "binomial1", pred_data = ndata, ex_fun = "ineq"),
+        ncol = 2,
+        nrow = 1
+      )
+    }
+
+    # Obtaining samples and uncertainty (only one dist because otherwise test would be too long)
+    if (fam_name == "gamma") {
+      plots_moments <- arrangeGrob(
+        plot_moments(model, "norm2", pred_data = ndata, ex_fun = "ineq",
+                     samples = TRUE, uncertainty = TRUE),
+        plot_moments(model, "binomial1", pred_data = ndata, ex_fun = "ineq",
+                     samples = TRUE, uncertainty = TRUE),
         ncol = 2,
         nrow = 1
       )
