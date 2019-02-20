@@ -109,7 +109,7 @@ plot_moments <- function(model, int_var, pred_data, palette = "default",
   )
 
   # Which params are interesting?
-  int_params <- colnames(preds_mean)[colnames(preds_intvar) != "id"]
+  int_params <- colnames(preds_mean)[colnames(preds_mean) != "id"]
 
   # Compute empirical quantiles of moments
   if (samples && uncertainty) {
