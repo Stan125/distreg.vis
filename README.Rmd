@@ -46,11 +46,16 @@ devtools::install_github("Stan125/distreg.vis")
 ### Supported distributions
 At the moment, the following distributions are fully supported:
 ```{r}
-dists %>%
+dists_char <- dists %>%
   filter(moment_funs) %>%
-  dplyr::select(dist_name, class) %>%
-  as.data.frame() %>%
-  t()
+  dplyr::select(dist_name, class)
+
+# GAMLSS Families
+dists_char[dists_char$class == "gamlss", "dist_name"]
+
+# BAMLSS Families
+dists_char[dists_char$class == "bamlss", "dist_name"]
+
 ```
 
 The rest of the distributions are mostly supported, but only in displaying their predicted distributions, and not their moments.
@@ -102,7 +107,7 @@ All plots which were created can be reproduced with the code that appears when y
 </p>
 
 ```{r, echo = FALSE}
-options(max.print = 100)
+options(max.print = 1000)
 ```
 
 

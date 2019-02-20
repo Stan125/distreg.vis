@@ -50,47 +50,28 @@ devtools::install_github("Stan125/distreg.vis")
 At the moment, the following distributions are fully supported:
 
 ``` r
-dists %>%
+dists_char <- dists %>%
   filter(moment_funs) %>%
-  dplyr::select(dist_name, class) %>%
-  as.data.frame() %>%
-  t()
-#>           [,1]     [,2]     [,3]     [,4]     [,5]     [,6]     [,7]    
-#> dist_name "BE"     "BEo"    "BNB"    "DEL"    "EGB2"   "exGAUS" "EXP"   
-#> class     "gamlss" "gamlss" "gamlss" "gamlss" "gamlss" "gamlss" "gamlss"
-#>           [,8]     [,9]     [,10]    [,11]    [,12]    [,13]    [,14]   
-#> dist_name "GA"     "GB2"    "GEOM"   "GEOMo"  "GG"     "GIG"    "GPO"   
-#> class     "gamlss" "gamlss" "gamlss" "gamlss" "gamlss" "gamlss" "gamlss"
-#>           [,15]    [,16]    [,17]    [,18]    [,19]    [,20]    [,21]   
-#> dist_name "GT"     "GU"     "IG"     "IGAMMA" "JSU"    "JSUo"   "LG"    
-#> class     "gamlss" "gamlss" "gamlss" "gamlss" "gamlss" "gamlss" "gamlss"
-#>           [,22]    [,23]    [,24]    [,25]    [,26]    [,27]    [,28]   
-#> dist_name "LO"     "LOGNO"  "NBF"    "NBI"    "NBII"   "NO"     "NO2"   
-#> class     "gamlss" "gamlss" "gamlss" "gamlss" "gamlss" "gamlss" "gamlss"
-#>           [,29]    [,30]     [,31]      [,32]    [,33]    [,34]   
-#> dist_name "NOF"    "PARETO2" "PARETO2o" "PE"     "PE2"    "PIG"   
-#> class     "gamlss" "gamlss"  "gamlss"   "gamlss" "gamlss" "gamlss"
-#>           [,35]    [,36]    [,37]    [,38]    [,39]    [,40]    [,41]   
-#> dist_name "PO"     "RG"     "SHASHo" "SICHEL" "SN1"    "SN2"    "SST"   
-#> class     "gamlss" "gamlss" "gamlss" "gamlss" "gamlss" "gamlss" "gamlss"
-#>           [,42]    [,43]    [,44]    [,45]    [,46]    [,47]    [,48]   
-#> dist_name "ST2"    "ST3"    "ST3C"   "ST4"    "ST5"    "TF"     "TF2"   
-#> class     "gamlss" "gamlss" "gamlss" "gamlss" "gamlss" "gamlss" "gamlss"
-#>           [,49]    [,50]    [,51]    [,52]    [,53]    [,54]    [,55]   
-#> dist_name "WEI"    "WEI2"   "WEI3"   "ZAGA"   "ZALG"   "ZANBI"  "ZAP"   
-#> class     "gamlss" "gamlss" "gamlss" "gamlss" "gamlss" "gamlss" "gamlss"
-#>           [,56]    [,57]      [,58]    [,59]    [,60]    [,61]    [,62]   
-#> dist_name "ZAPIG"  "ZASICHEL" "ZAZIPF" "ZIBNB"  "ZINBI"  "ZIP"    "ZIP2"  
-#> class     "gamlss" "gamlss"   "gamlss" "gamlss" "gamlss" "gamlss" "gamlss"
-#>           [,63]    [,64]    [,65]      [,66]    [,67]      [,68]   
-#> dist_name "ZIPF"   "ZIPIG"  "ZISICHEL" "beta"   "binomial" "cnorm" 
-#> class     "gamlss" "gamlss" "gamlss"   "bamlss" "bamlss"   "bamlss"
-#>           [,69]    [,70]      [,71]       [,72]    [,73]     [,74]        
-#> dist_name "gamma"  "gaussian" "gaussian2" "glogis" "gpareto" "multinomial"
-#> class     "bamlss" "bamlss"   "bamlss"    "bamlss" "bamlss"  "bamlss"     
-#>           [,75]    
-#> dist_name "poisson"
-#> class     "bamlss"
+  dplyr::select(dist_name, class)
+
+# GAMLSS Families
+dists_char[dists_char$class == "gamlss", "dist_name"]
+#>  [1] "BE"       "BEo"      "BNB"      "DEL"      "EGB2"     "exGAUS"  
+#>  [7] "EXP"      "GA"       "GB2"      "GEOM"     "GEOMo"    "GG"      
+#> [13] "GIG"      "GPO"      "GT"       "GU"       "IG"       "IGAMMA"  
+#> [19] "JSU"      "JSUo"     "LG"       "LO"       "LOGNO"    "NBF"     
+#> [25] "NBI"      "NBII"     "NO"       "NO2"      "NOF"      "PARETO2" 
+#> [31] "PARETO2o" "PE"       "PE2"      "PIG"      "PO"       "RG"      
+#> [37] "SHASHo"   "SICHEL"   "SN1"      "SN2"      "SST"      "ST2"     
+#> [43] "ST3"      "ST3C"     "ST4"      "ST5"      "TF"       "TF2"     
+#> [49] "WEI"      "WEI2"     "WEI3"     "ZAGA"     "ZALG"     "ZANBI"   
+#> [55] "ZAP"      "ZAPIG"    "ZASICHEL" "ZAZIPF"   "ZIBNB"    "ZINBI"   
+#> [61] "ZIP"      "ZIP2"     "ZIPF"     "ZIPIG"    "ZISICHEL"
+
+# BAMLSS Families
+dists_char[dists_char$class == "bamlss", "dist_name"]
+#>  [1] "beta"        "binomial"    "cnorm"       "gamma"       "gaussian"   
+#>  [6] "gaussian2"   "glogis"      "gpareto"     "multinomial" "poisson"
 ```
 
 The rest of the distributions are mostly supported, but only in
