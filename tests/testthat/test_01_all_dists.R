@@ -103,7 +103,7 @@ test_core <- function(fam_name) {
 
     # Specifying an external function
     if (fam_name == "LOGNO") {
-      ineq <<- function(par) {
+      ineq <- function(par) {
         2 * pnorm((par[["sigma"]] / 2) * sqrt(2)) - 1
       }
       plots_moments <- arrangeGrob(

@@ -56,7 +56,7 @@ plot_moments(model, int_var = "norm2", pred_data = ndata)
 plot_moments(model, int_var = "norm2", pred_data = ndata, rug = TRUE)
 
 # Using an external function
-ineq <<- function(par) {
+ineq <- function(par) {
   2 * pnorm((par[["sigma"]] / 2) * sqrt(2)) - 1
 }
 plot_moments(model, int_var = "norm2", pred_data = ndata, ex_fun = "ineq")
