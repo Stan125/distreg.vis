@@ -72,7 +72,7 @@ test_core <- function(fam_name) {
   fileloc <- tempfile(pattern = paste0("plot_", fam_name, "_dist"),
                       fileext = ".png")
 
-  ggsave(filename = fileloc, height = 6, width = 12, plot = plots_dist,
+  ggsave(filename = fileloc, height = 12, width = 24, plot = plots_dist,
          units = "cm", device = "png", scale = 2)
 
   ########   ---    moments()   ---    ########
@@ -129,7 +129,7 @@ test_core <- function(fam_name) {
     # Save
     fileloc <- tempfile(pattern = paste0("plot_", fam_name, "_moments"),
                         fileext = ".png")
-    ggsave(filename = fileloc, height = 6, width = 12, plot = plots_moments,
+    ggsave(filename = fileloc, height = 12, width = 24, plot = plots_moments,
            units = "cm", device = "png")
   } else {
     expect_error(plot_moments(model, "norm2", pred_data = ndata))
