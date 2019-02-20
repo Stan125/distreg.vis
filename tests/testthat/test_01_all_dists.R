@@ -86,18 +86,22 @@ test_core <- function(fam_name) {
     }
   }
 
-  ########   ---    moments()   ---    ########
+  ########   ---    plot_moments()   ---    ########
 
   ## Create plots and save them if available
   if (distreg.vis:::has.moments(fam_name)) {
-    # Create
-    plots_moments <- arrangeGrob(
-      plot_moments(model, "norm2", pred_data = ndata),
-      plot_moments(model, "binomial1", pred_data = ndata),
-      ncol = 2,
-      nrow = 1
-    )
 
+    # GAMLSS (without samples)
+    if (distreg.vis:::is.gamlss(fam_name) & fam_name != "LOGNO") {
+      plots_moments <- arrangeGrob(
+        plot_moments(model, "norm2", pred_data = ndata),
+        plot_moments(model, "binomial1", pred_data = ndata),
+        ncol = 2,
+        nrow = 1
+      )
+    }
+
+    # Specifying an external function
     if (fam_name == "LOGNO") {
       ineq <<- function(par) {
         2 * pnorm((par[["sigma"]] / 2) * sqrt(2)) - 1
@@ -105,6 +109,18 @@ test_core <- function(fam_name) {
       plots_moments <- arrangeGrob(
         plot_moments(model, "norm2", pred_data = ndata, ex_fun = "ineq"),
         plot_moments(model, "binomial1", pred_data = ndata, ex_fun = "ineq"),
+        ncol = 2,
+        nrow = 1
+      )
+    }
+
+    # BAMLSS (with samples)
+    if (distreg.vis:::is.bamlss(fam_name)) {
+      plots_moments <- arrangeGrob(
+        plot_moments(model, "norm2", pred_data = ndata,
+                     samples = TRUE, uncertainty = TRUE),
+        plot_moments(model, "binomial1", pred_data = ndata,
+                     samples = TRUE, uncertainty = TRUE),
         ncol = 2,
         nrow = 1
       )

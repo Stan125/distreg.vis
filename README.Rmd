@@ -55,7 +55,6 @@ dists_char[dists_char$class == "gamlss", "dist_name"]
 
 # BAMLSS Families
 dists_char[dists_char$class == "bamlss", "dist_name"]
-
 ```
 
 The rest of the distributions are mostly supported, but only in displaying their predicted distributions, and not their moments.
@@ -105,9 +104,5 @@ All plots which were created can be reproduced with the code that appears when y
 <p align="center">
 <img src="images/05_obtain_code.gif"/>
 </p>
-
-```{r, echo = FALSE}
-options(max.print = 1000)
-```
 
 
