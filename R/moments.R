@@ -21,6 +21,7 @@
 #' @export
 
 moments <- function(par, fam_name, what = "mean", ex_fun = NULL) {
+
   # get rownames
   rnames <- row.names(par)
 
@@ -48,9 +49,9 @@ moments <- function(par, fam_name, what = "mean", ex_fun = NULL) {
   if (!is.null(ex_fun)) {
     tryCatch({
       if (samples)
-        ex_fun(as.list(par[[1]][1, ])) # List of dataframes
+        ex_f(as.list(par[[1]][1, ]), ex_fun, samples = samples) # List of dataframes
       if (!samples)
-        ex_fun(as.list(par[1, ])) # dataframe
+        ex_f(as.list(par[1, ]), ex_fun, samples = samples) # dataframe
       funworks <- TRUE
     }, error = function(e) {
       stop("External function not specified correctly!")
@@ -76,12 +77,13 @@ moments <- function(par, fam_name, what = "mean", ex_fun = NULL) {
         return(c(Expected_Value = ex, Variance = vx))
       })
     }
+
     if (funworks) {
       # Get moments for each row of par
       moms_raw <- apply(par, 1, function(x) {
         ex <- do.call(fam_called$mean, args = as.list(x)) # Expected value, use do.call because gamlss doesnt have par as parameter but only the named parameters...
         vx <- do.call(fam_called$variance, args = as.list(x)) # Variance
-        ex_fun <- do.call(ex_fun, args = as.list(x)) # External function
+        ex_fun <- do.call(ex_fun, args = list(x)) # External function, where we input it as a list
         return(c(Expected_Value = ex, Variance = vx, ex_fun = ex_fun))
       })
     }
