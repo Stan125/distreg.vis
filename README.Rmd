@@ -16,6 +16,7 @@ suppressPackageStartupMessages({
   library("dplyr")
   library("distreg.vis")
 })
+options(max.print = 1000)
 ```
 
 distreg.vis
@@ -24,7 +25,7 @@ distreg.vis
 
 ### What is `distreg.vis`?
 
-`distreg.vis` is built upon the R package `bamlss` ([CRAN Link](https://cran.r-project.org/web/packages/bamlss/index.html)) and `gamlss` ([CRAN Link](https://cran.r-project.org/web/packages/gamlss/index.html)), which fits distributional regression models. `distreg.vis` requires a fitted `bamlss` or `gamlss` object to achieve two goals:
+`distreg.vis` is built upon the R package `bamlss` ([CRAN Link](https://cran.r-project.org/web/packages/bamlss/index.html)) and `gamlss` ([CRAN Link](https://cran.r-project.org/web/packages/gamlss/index.html)), which fit distributional regression models. `distreg.vis` requires a fitted `bamlss` or `gamlss` object to achieve two goals:
 
 1. See and compare the expected distribution for chosen sets of covariates
 2. View the direct relationship between moments of the response distribution and a chosen explanatory variable, given a set of covariates.
@@ -48,7 +49,8 @@ At the moment, the following distributions are fully supported:
 dists %>%
   filter(moment_funs) %>%
   dplyr::select(dist_name, class) %>%
-  as.character()
+  as.data.frame() %>%
+  t()
 ```
 
 The rest of the distributions are mostly supported, but only in displaying their predicted distributions, and not their moments.
@@ -98,5 +100,9 @@ All plots which were created can be reproduced with the code that appears when y
 <p align="center">
 <img src="images/05_obtain_code.gif"/>
 </p>
+
+```{r, echo = FALSE}
+options(max.print = 100)
+```
 
 
