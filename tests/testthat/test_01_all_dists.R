@@ -15,7 +15,6 @@ library("gamlss")
 library("testthat")
 library("ggplot2")
 library("gridExtra")
-library("mgcv")
 
 ## Delete everything
 rm(list = ls())
