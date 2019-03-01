@@ -15,7 +15,7 @@
 #'   dimension of the uniform distribution should be transformed to.
 #' @import bamlss
 #' @import gamlss.dist
-#' @importFrom stats rmultinom qbeta qbinom qgamma runif qpois qnorm
+#' @importFrom stats rmultinom qbeta qbinom qgamma runif qpois qnorm qlnorm
 #' @return A data.frame with columns for differently distributed data.
 #' @export
 
