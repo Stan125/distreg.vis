@@ -82,6 +82,11 @@ model_fam_data <- function(nrow = 500, seed = 1408, fam_name = "NO") {
       tfvec <- sapply(u_data$v1, FUN = glogis_bamlss()$q,
                       par = list(mu = 1, sigma = 1, alpha = 1))
 
+    if (fam_name == "lognormal")
+      tfvec <- qlnorm(u_data$v1)
+
+    if (!exists("tfvec"))
+      stop("Family not yet implemented")
   }
 
   ### GAMLSS Families
