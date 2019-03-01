@@ -9,7 +9,6 @@ testthat::context("Miscellaneous")
 # Libraries
 library("gamlss")
 library("distreg.vis")
-library("mgcv")
 library("bamlss")
 library("testthat")
 

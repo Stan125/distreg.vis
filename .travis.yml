@@ -11,3 +11,7 @@ install:
   - R -e 'devtools::install_deps(dep = T)'
   - R -e "install.packages('glogis')"
 
+script:
+- R CMD build .
+- travis_wait R CMD check *tar.gz
+
