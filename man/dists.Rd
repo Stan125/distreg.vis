@@ -4,7 +4,7 @@
 \name{dists}
 \alias{dists}
 \title{Information about supported and not yet supported distribution families}
-\format{An object of class \code{data.frame} with 123 rows and 9 columns.}
+\format{An object of class \code{data.frame} with 124 rows and 9 columns.}
 \usage{
 dists
 }

@@ -71,7 +71,8 @@ dists_char[dists_char$class == "gamlss", "dist_name"]
 # BAMLSS Families
 dists_char[dists_char$class == "bamlss", "dist_name"]
 #>  [1] "beta"        "binomial"    "cnorm"       "gamma"       "gaussian"   
-#>  [6] "gaussian2"   "glogis"      "gpareto"     "multinomial" "poisson"
+#>  [6] "gaussian2"   "glogis"      "gpareto"     "lognormal"   "multinomial"
+#> [11] "poisson"
 ```
 
 The rest of the distributions are mostly supported, but only in
