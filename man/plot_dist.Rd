@@ -17,10 +17,7 @@ with the \code{distreg.vis} function \code{\link{preds}}.}
 \item{palette}{The colour palette used for colouring the plot. You can use
 any of the ones supplied in \code{\link[ggplot2]{scale_fill_brewer}} though I
 suggest you use one of the qualitative ones: Accent, Dark2, etc. Since 0.5.0
-\code{"viridis"} is included, to account for colour blindness. If you want to do
-3D plots, the accepted palettes are one of: \code{"default"}(viridis),
-\code{"Blues"}, \code{"Greens"}, \code{"OrRd"}, \code{"Purples"},
-\code{"Spectral"}, \code{"RdYlBu"}, \code{"RdYlGn"}.}
+\code{"viridis"} is included, to account for colour blindness.}
 
 \item{type}{Do you want the probability distribution function ("pdf") or
 the cumulative distribution function ("cdf")?}
