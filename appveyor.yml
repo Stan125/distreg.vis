@@ -18,6 +18,7 @@ cache:
 build_script:
   - travis-tool.sh install_deps
   - travis-tool.sh install_r glogis
+  - travis-tool.sh install_github rforge/bayesr/pkg/bamlss
 environment:
   USE_RTOOLS: true
   global:
