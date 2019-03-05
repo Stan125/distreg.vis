@@ -4,7 +4,7 @@
 \alias{plot_dist}
 \title{Plot predicted bamlss distribution families with ggplot2}
 \usage{
-plot_dist(model, pred_params, palette = "default", type = "pdf",
+plot_dist(model, pred_params, palette = "viridis", type = "pdf",
   rug = FALSE)
 }
 \arguments{

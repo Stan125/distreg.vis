@@ -30,7 +30,7 @@
 #' plot_dist(beta_model, param_preds, rug = TRUE)
 #' @export
 
-plot_dist <- function(model, pred_params, palette = "default", type = "pdf",
+plot_dist <- function(model, pred_params, palette = "viridis", type = "pdf",
                       rug = FALSE) {
 
   # Check whether the function is even applied to the right classes
