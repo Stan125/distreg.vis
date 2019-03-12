@@ -48,7 +48,7 @@
 #'
 #' @export
 
-plot_moments <- function(model, int_var, pred_data, palette = "default",
+plot_moments <- function(model, int_var, pred_data, palette = "viridis",
                          rug = FALSE, samples = FALSE, uncertainty = FALSE,
                          ex_fun = NULL) {
 
@@ -171,7 +171,7 @@ plot_moments <- function(model, int_var, pred_data, palette = "default",
       plot <- plot + geom_ribbon(data = preds_reshaped_mean,
                                  aes_string(ymin = "lowerlim",
                                             ymax = "upperlim"),
-                                 alpha = 0.6)
+                                 alpha = 0.2)
 
   } else if (coltype == "cat") {
     plot <- ground +
