@@ -72,7 +72,7 @@ lims_getter <- function(fam_name) {
 
 #' Internal: Transform discrete predictions into a usable df
 #'
-#' @importFrom stats dpois ppois reshape
+#' @importFrom stats reshape
 #' @keywords internal
 disc_trans <- function(pred_params, fam_name, type, model, lims) {
 

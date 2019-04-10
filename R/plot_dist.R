@@ -50,7 +50,7 @@ plot_dist <- function(model, pred_params, palette = "viridis", type = "pdf",
   if (!is.implemented(fam_name))
     stop("Family not implemented")
 
-  # Get correct pdf and cdf functions - pdf_cdf_getter should also check whether a cdf is even available
+  # Get correct pdf and cdf functions - fam_fun_getter should also check whether a cdf is even available
   if (is.continuous(fam_name))
     funs_list <- list(pdf = fam_fun_getter(fam_name, "d"),
                       cdf = fam_fun_getter(fam_name, "p"))
@@ -198,7 +198,7 @@ pdfcdf_discrete <- function(pred_params, palette, fam_name, type, model, lims, d
     # Assemble plot
     ground <- ggplot(pred_df, aes_string("xvals", "value", col = "rownames")) +
       geom_step(linetype = 2) +
-      labs(x = "x", y = "F(x)") +
+      labs(x = "y", y = "F(y)") +
       ggtitle("Predicted distribution(s)")
 
     # Classic theme
