@@ -2,7 +2,7 @@
 % Please edit documentation in R/plot_dist.R
 \name{plot_dist}
 \alias{plot_dist}
-\title{Plot predicted bamlss distribution families with ggplot2}
+\title{Plot predicted distributional regression models}
 \usage{
 plot_dist(model, pred_params, palette = "viridis", type = "pdf",
   rug = FALSE)

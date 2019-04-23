@@ -1,4 +1,4 @@
-#' Plot predicted bamlss distribution families with ggplot2
+#' Plot predicted distributional regression models
 #'
 #' This function plots the parameters of a predicted distribution (e.g. obtained
 #' through \code{\link{preds}}) with ggplot2. You can use all implemented
@@ -49,6 +49,10 @@ plot_dist <- function(model, pred_params, palette = "viridis", type = "pdf",
   # Check here whether distribution is even implemented
   if (!is.implemented(fam_name))
     stop("Family not implemented")
+
+  # Check here whether pred_params is in correct form
+  if (!is(pred_params, "data.frame"))
+    stop("Argument pred_params has to be in data.frame form")
 
   # Get correct pdf and cdf functions - fam_fun_getter should also check whether a cdf is even available
   if (is.continuous(fam_name))
