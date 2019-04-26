@@ -14,8 +14,8 @@
 #' @param model A fitted model on which the plots are based.
 #' @param palette See \code{\link{plot_dist}}
 #' @param ex_fun An external function \code{function(par) {...}} which
-#'   calculates a measure, which dependency from a certain variable is of
-#'   interest.
+#'   calculates a measure, whose dependency from a certain variable is of
+#'   interest. Has to be specified in character form.
 #' @param rug Should the resulting plot be a rug plot?
 #' @param samples If the provided model is a bamlss model, should the moment
 #'   values be "correctly" calculated, using the transformed samples? See
@@ -170,8 +170,9 @@ plot_moments <- function(model, int_var, pred_data, palette = "viridis",
     if (samples && uncertainty)
       plot <- plot + geom_ribbon(data = preds_reshaped_mean,
                                  aes_string(ymin = "lowerlim",
-                                            ymax = "upperlim"),
-                                 alpha = 0.2)
+                                            ymax = "upperlim",
+                                            fill = "prediction"),
+                                 alpha = 0.15, linetype = 2, col = NA)
 
   } else if (coltype == "cat") {
     plot <- ground +

@@ -4,7 +4,7 @@
 \alias{ex_f}
 \title{External Function Implementer}
 \usage{
-ex_f(pred_params, ex_fun, samples)
+ex_f(pred_params, unquotedfun)
 }
 \description{
 This function exists to extend \code{plot_moments} such that an external

@@ -30,8 +30,8 @@ covariate influences. Can only be \code{TRUE} if samples is also
 \code{TRUE}.}
 
 \item{ex_fun}{An external function \code{function(par) {...}} which
-calculates a measure, which dependency from a certain variable is of
-interest.}
+calculates a measure, whose dependency from a certain variable is of
+interest. Has to be specified in character form.}
 }
 \description{
 This function takes a dataframe of predictions with one row per prediction

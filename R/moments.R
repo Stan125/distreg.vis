@@ -22,9 +22,6 @@
 
 moments <- function(par, fam_name, what = "mean", ex_fun = NULL) {
 
-  # get rownames
-  rnames <- row.names(par)
-
   # Stop if neither gamlss nor bamlss
   if (!is.gamlss(fam_name) && !is.bamlss(fam_name))
     stop("This function only works for bamlss/gamlss models")
@@ -44,14 +41,18 @@ moments <- function(par, fam_name, what = "mean", ex_fun = NULL) {
     }
   }
 
+  if (!samples)
+    rnames <- row.names(par)
+
   # Try out if the external function works
   funworks <- FALSE # Only do the computation if the external function is specified correctly
   if (!is.null(ex_fun)) {
+    fun <- get(ex_fun, envir = .GlobalEnv)
     tryCatch({
       if (samples)
-        ex_f(as.list(par[[1]][1, ]), ex_fun, samples = samples) # List of dataframes
+        ex_f(as.list(par[[1]][1, ]), unquotedfun = fun) # List of dataframes
       if (!samples)
-        ex_f(as.list(par[1, ]), ex_fun, samples = samples) # dataframe
+        ex_f(as.list(par[1, ]), unquotedfun = fun) # dataframe
       funworks <- TRUE
     }, error = function(e) {
       stop("External function not specified correctly!")
@@ -122,12 +123,13 @@ moments <- function(par, fam_name, what = "mean", ex_fun = NULL) {
 
       # If we have external function
       if (funworks) {
+
         # Get moments for each row of par
         moms_raw <- apply(par, 1, function(x) {
           ex <- fam_called$mean(as.list(x)) # Expected value
           vx <- fam_called$variance(as.list(x)) # Variance
-          ex_fun <- ex_fun(as.list(x))
-          return(c(Expected_Value = ex, Variance = vx, ex_fun = ex_fun))
+          ex_fun_vals <- fun(as.list(x))
+          return(c(Expected_Value = ex, Variance = vx, ex_fun = ex_fun_vals))
         })
       }
 
@@ -158,13 +160,14 @@ moments <- function(par, fam_name, what = "mean", ex_fun = NULL) {
 
       # If we have external function
       if (funworks) {
+
         # Get moments for each sample and each prediction
         moms_raw <- lapply(par, function(listparts) {
           apply(listparts, 1, FUN = function(x) {
             ex <- fam_called$mean(as.list(x)) # Expected value
             vx <- fam_called$variance(as.list(x)) # Variance
-            ex_fun <- ex_fun(as.list(x))
-            return(c(Expected_Value = ex, Variance = vx, ex_fun = ex_fun))
+            ex_fun_vals <- fun(as.list(x))
+            return(c(Expected_Value = ex, Variance = vx, ex_fun = ex_fun_vals))
           })
         })
 
