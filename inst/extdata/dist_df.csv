@@ -62,10 +62,10 @@ PO;gamlss;TRUE;TRUE;one_limit;0;NA;Discrete
 RG;gamlss;TRUE;TRUE;no_limits;NA;NA;Continuous
 RGE;gamlss;FALSE;FALSE;NA;NA;NA;Continuous
 SEP;gamlss;TRUE;FALSE;no_limits;NA;NA;Continuous
-Sep 01;gamlss;TRUE;FALSE;no_limits;NA;NA;Continuous
-Sep 02;gamlss;TRUE;FALSE;no_limits;NA;NA;Continuous
-Sep 03;gamlss;TRUE;FALSE;no_limits;NA;NA;Continuous
-Sep 04;gamlss;TRUE;FALSE;no_limits;NA;NA;Continuous
+SEP1;gamlss;TRUE;FALSE;no_limits;NA;NA;Continuous
+SEP2;gamlss;TRUE;FALSE;no_limits;NA;NA;Continuous
+SEP3;gamlss;TRUE;FALSE;no_limits;NA;NA;Continuous
+SEP4;gamlss;TRUE;FALSE;no_limits;NA;NA;Continuous
 SHASH;gamlss;TRUE;FALSE;no_limits;NA;NA;Continuous
 SHASHo;gamlss;TRUE;TRUE;no_limits;NA;NA;Continuous
 SHASHo2;gamlss;TRUE;FALSE;no_limits;NA;NA;Continuous
