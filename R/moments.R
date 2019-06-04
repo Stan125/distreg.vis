@@ -84,8 +84,10 @@ moments <- function(par, fam_name, what = "mean", ex_fun = NULL) {
       moms_raw <- apply(par, 1, function(x) {
         ex <- do.call(fam_called$mean, args = as.list(x)) # Expected value, use do.call because gamlss doesnt have par as parameter but only the named parameters...
         vx <- do.call(fam_called$variance, args = as.list(x)) # Variance
-        ex_fun <- do.call(ex_fun, args = list(x)) # External function, where we input it as a list
-        return(c(Expected_Value = ex, Variance = vx, ex_fun = ex_fun))
+        ex_fun_vals <- do.call(ex_fun, args = list(x)) # External function, where we input it as a list
+        return_vec <- c(Expected_Value = ex, Variance = vx, ex_fun = ex_fun_vals)
+        names(return_vec)[names(return_vec) == "ex_fun"] <- ex_fun # Give it the name of the variable ex_fun
+        return(return_vec)
       })
     }
 
