@@ -141,6 +141,12 @@ plot_moments <- function(model, int_var, pred_data, palette = "viridis",
     preds_reshaped_mean$upperlim <- preds_reshaped_upperlim$value
   }
 
+  # Rename factor of moments
+  preds_reshaped_mean$moment <- factor(preds_reshaped_mean$moment,
+                                       levels = c("Expected_Value",
+                                                  "Variance",
+                                                  "ineq"))
+
   # Now make plot
   ground <- ggplot(preds_reshaped_mean,
                    aes_string(x = int_var, y = "value", col = "prediction")) +
