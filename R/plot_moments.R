@@ -145,7 +145,7 @@ plot_moments <- function(model, int_var, pred_data, palette = "viridis",
   preds_reshaped_mean$moment <- factor(preds_reshaped_mean$moment,
                                        levels = c("Expected_Value",
                                                   "Variance",
-                                                  "ineq"))
+                                                  ex_fun))
 
   # Now make plot
   ground <- ggplot(preds_reshaped_mean,
