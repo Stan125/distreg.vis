@@ -180,7 +180,7 @@ moments <- function(par, fam_name, what = "mean", ex_fun = NULL) {
         # Reshaping necessary
         moms_raw <- lapply(moms_raw, FUN = function(x) {
           x <- t(x)
-          colnames(x) <- c("Expected_Value", "Variance", "ex_fun")
+          colnames(x) <- c("Expected_Value", "Variance", ex_fun)
           return(x)
         })
       }
