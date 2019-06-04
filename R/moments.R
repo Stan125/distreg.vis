@@ -131,7 +131,9 @@ moments <- function(par, fam_name, what = "mean", ex_fun = NULL) {
           ex <- fam_called$mean(as.list(x)) # Expected value
           vx <- fam_called$variance(as.list(x)) # Variance
           ex_fun_vals <- fun(as.list(x))
-          return(c(Expected_Value = ex, Variance = vx, ex_fun = ex_fun_vals))
+          return_vec <- c(Expected_Value = ex, Variance = vx, ex_fun = ex_fun_vals)
+          names(return_vec)[names(return_vec) == "ex_fun"] <- ex_fun
+          return(return_vec)
         })
       }
 
@@ -169,7 +171,9 @@ moments <- function(par, fam_name, what = "mean", ex_fun = NULL) {
             ex <- fam_called$mean(as.list(x)) # Expected value
             vx <- fam_called$variance(as.list(x)) # Variance
             ex_fun_vals <- fun(as.list(x))
-            return(c(Expected_Value = ex, Variance = vx, ex_fun = ex_fun_vals))
+            return_vec <- c(Expected_Value = ex, Variance = vx, ex_fun = ex_fun_vals)
+            names(return_vec)[names(return_vec) == "ex_fun"] <- ex_fun
+            return(return_vec)
           })
         })
 
