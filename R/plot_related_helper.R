@@ -153,8 +153,16 @@ palette_getter <- function(name = "default") {
 }
 #' Internal: Family obtainer
 #'
-#' Gets the right family (in character) from a given model
+#' Gets the right family (in characters) from a given model
 #' @keywords internal
+#' @examples
+#' # Generating data
+#' data_fam <- model_fam_data(fam_name = "BE")
+#' # Fit model
+#' library("gamlss")
+#' beta_model <- gamlss(BE ~ norm2 + binomial1,
+#'   data = data_fam, family = BE())
+#' fam_obtainer(model = beta_model)
 #' @export
 fam_obtainer <- function(model) {
   # Check whether model is gamlss or bamlss

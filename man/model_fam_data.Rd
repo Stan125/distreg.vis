@@ -31,3 +31,7 @@ This function creates a 3-dimensional uniform distribution (with
   covariates). This procedure ensures that there is a dependency structure of
   the transformed first distribution and the other two.
 }
+\examples{
+# Beta distributed random values
+model_fam_data(nrow = 500, fam_name = "BE")
+}

@@ -16,6 +16,9 @@
 #' @import bamlss
 #' @import gamlss.dist
 #' @importFrom stats rmultinom qbeta qbinom qgamma runif qpois qnorm qlnorm
+#' @examples
+#' # Beta distributed random values
+#' model_fam_data(nrow = 500, fam_name = "BE")
 #' @return A data.frame with columns for differently distributed data.
 #' @export
 
