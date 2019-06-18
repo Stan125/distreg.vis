@@ -10,15 +10,9 @@ init:
 install:
   ps: Bootstrap
 
-cache:
-  - C:\RLibrary
 
 # Adapt as necessary starting from here
 
-build_script:
-  - travis-tool.sh install_deps
-  - travis-tool.sh install_r glogis
-  - travis-tool.sh install_r bamlss
 environment:
   USE_RTOOLS: true
   global:
@@ -30,6 +24,11 @@ environment:
 
   - R_VERSION: patched
     GCC_PATH: mingw_32
+
+build_script:
+  - travis-tool.sh install_deps
+  - travis-tool.sh install_r glogis
+  - travis-tool.sh install_r bamlss
 
 test_script:
   - travis-tool.sh run_tests
