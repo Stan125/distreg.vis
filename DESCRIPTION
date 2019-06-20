@@ -17,7 +17,6 @@ Imports:
         ggplot2 (>= 2.2.1),
         rhandsontable (>= 0.3.4),
         magrittr (>= 1.5),
-        mvtnorm (>= 1.0-6),
         viridis (>= 0.4.0),
         RColorBrewer (>= 1.1-2),
         formatR (>= 1.5)
