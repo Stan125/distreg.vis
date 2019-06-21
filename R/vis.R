@@ -70,7 +70,7 @@ vis <- function() {
     includeScript(system.file("srcjs/iframeResizer.contentWindow.min.js", package = "distreg.vis")),
 
     # Title
-    titlePanel("Visualize your distreg predictions"),
+    titlePanel("Visualize your distributional regression predictions"),
 
     # Sidebar
     sidebarLayout(
