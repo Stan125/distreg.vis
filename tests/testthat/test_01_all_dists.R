@@ -93,9 +93,17 @@ test_core <- function(fam_name) {
 
     # Not specifying an external function
     if (!fam_name %in% c("LOGNO", "gamma")) {
+      # With pred_data
       plots_moments <- arrangeGrob(
         plot_moments(model, "norm2", pred_data = ndata),
         plot_moments(model, "binomial1", pred_data = ndata),
+        ncol = 2,
+        nrow = 1
+      )
+      # Without pred_data
+      plots_moments_free <- arrangeGrob(
+        plot_moments(model, "norm2"),
+        plot_moments(model, "binomial1"),
         ncol = 2,
         nrow = 1
       )
@@ -116,6 +124,7 @@ test_core <- function(fam_name) {
 
     # Obtaining samples and uncertainty (only one dist because otherwise test would be too long)
     if (fam_name == "gamma") {
+      # With specifying pred_data
       plots_moments <- arrangeGrob(
         plot_moments(model, "norm2", pred_data = ndata,
                      samples = TRUE, uncertainty = TRUE),
@@ -124,14 +133,11 @@ test_core <- function(fam_name) {
         ncol = 2,
         nrow = 1
       )
-    }
-
-    # BAMLSS (with samples)
-    if (distreg.vis:::is.bamlss(fam_name)) {
-      plots_moments <- arrangeGrob(
-        plot_moments(model, "norm2", pred_data = ndata,
+      # Without specifying pred_data
+      plots_moments_free <- arrangeGrob(
+        plot_moments(model, "norm2",
                      samples = TRUE, uncertainty = TRUE),
-        plot_moments(model, "binomial1", pred_data = ndata,
+        plot_moments(model, "binomial1",
                      samples = TRUE, uncertainty = TRUE),
         ncol = 2,
         nrow = 1
@@ -141,7 +147,11 @@ test_core <- function(fam_name) {
     # Save
     fileloc <- tempfile(pattern = paste0("plot_", fam_name, "_moments"),
                         fileext = ".png")
-    ggsave(filename = fileloc, height = 12, width = 24, plot = plots_moments,
+    fileloc_free <- tempfile(pattern = paste0("plot_", fam_name, "_moments_free"),
+                             fileext = ".png")
+    ggsave(filename = fileloc, height = 7, width = 14, plot = plots_moments,
+           units = "cm", device = "png")
+    ggsave(filename = fileloc_free, height = 7, width = 14, plot = plots_moments_free,
            units = "cm", device = "png")
   } else {
     expect_error(plot_moments(model, "norm2", pred_data = ndata))

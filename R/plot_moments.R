@@ -5,7 +5,7 @@
 #' held constant while one specific variable is varied over it's whole range
 #' (min-max). Then, the constant variables with the varied interest variables
 #' are predicted and plotted against the expected value and the variance of the
-#' underlying distribution
+#' underlying distribution.
 #' @param int_var The variable for which influences of the moments shall be
 #'   graphically displayed. Has to be in character form.
 #' @param pred_data Combinations of covariate data, sometimes also known as
@@ -34,7 +34,8 @@
 #'                 data = dat, family = "LOGNO")
 #' ndata <- dat[1:5, c("norm2", "binomial1")]
 #'
-#' # Normal plot
+#' # Normal plot with and without specifying a newdata
+#' plot_moments(model, int_var = "norm2")
 #' plot_moments(model, int_var = "norm2", pred_data = ndata)
 #'
 #' # Rug Plot
@@ -48,9 +49,9 @@
 #'
 #' @export
 
-plot_moments <- function(model, int_var, pred_data, palette = "viridis",
+plot_moments <- function(model, int_var, pred_data = NULL, set_mean = TRUE,
                          rug = FALSE, samples = FALSE, uncertainty = FALSE,
-                         ex_fun = NULL) {
+                         ex_fun = NULL, palette = "viridis") {
 
   # Are the moments even implemented?
   if (!has.moments(fam_obtainer(model)))
@@ -72,6 +73,16 @@ plot_moments <- function(model, int_var, pred_data, palette = "viridis",
   } else {
     coltype <- "cat" # categorical
   }
+
+  ## Set the original variables to their mean/reference category ##
+  if ((is.null(pred_data) && !set_mean) | (!is.null(pred_data) && set_mean))
+    stop("The arguments `pred_data`` and `set_mean`` are mutually exclusive.")
+  if (is.null(pred_data) && !set_mean)
+    stop("Either specify `pred_data` or set `set_mean` to TRUE.")
+  if (is.null(pred_data) && set_mean)
+    pred_data <- set_mean(
+      model_data(model)
+    )
 
   # Make a range of the variable
   if (coltype == "num") {

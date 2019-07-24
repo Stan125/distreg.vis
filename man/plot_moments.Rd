@@ -4,8 +4,9 @@
 \alias{plot_moments}
 \title{Plot function: Display the influence of a covariate}
 \usage{
-plot_moments(model, int_var, pred_data, palette = "viridis",
-  rug = FALSE, samples = FALSE, uncertainty = FALSE, ex_fun = NULL)
+plot_moments(model, int_var, pred_data = NULL, set_mean = TRUE,
+  rug = FALSE, samples = FALSE, uncertainty = FALSE, ex_fun = NULL,
+  palette = "viridis")
 }
 \arguments{
 \item{model}{A fitted model on which the plots are based.}
@@ -16,8 +17,6 @@ graphically displayed. Has to be in character form.}
 \item{pred_data}{Combinations of covariate data, sometimes also known as
 "newdata", including the variable of interest, which will be ignored in
 later processing.}
-
-\item{palette}{See \code{\link{plot_dist}}}
 
 \item{rug}{Should the resulting plot be a rug plot?}
 
@@ -32,6 +31,8 @@ covariate influences. Can only be \code{TRUE} if samples is also
 \item{ex_fun}{An external function \code{function(par) {...}} which
 calculates a measure, whose dependency from a certain variable is of
 interest. Has to be specified in character form.}
+
+\item{palette}{See \code{\link{plot_dist}}}
 }
 \description{
 This function takes a dataframe of predictions with one row per prediction
@@ -39,7 +40,7 @@ and one column for every explanatory variable. Then, those predictions are
 held constant while one specific variable is varied over it's whole range
 (min-max). Then, the constant variables with the varied interest variables
 are predicted and plotted against the expected value and the variance of the
-underlying distribution
+underlying distribution.
 }
 \examples{
 library("gamlss")
@@ -49,7 +50,8 @@ model <- gamlss(LOGNO ~ ps(norm2) + binomial1,
                 data = dat, family = "LOGNO")
 ndata <- dat[1:5, c("norm2", "binomial1")]
 
-# Normal plot
+# Normal plot with and without specifying a newdata
+plot_moments(model, int_var = "norm2")
 plot_moments(model, int_var = "norm2", pred_data = ndata)
 
 # Rug Plot
