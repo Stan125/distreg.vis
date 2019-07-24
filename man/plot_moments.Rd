@@ -4,8 +4,8 @@
 \alias{plot_moments}
 \title{Plot function: Display the influence of a covariate}
 \usage{
-plot_moments(model, int_var, pred_data = NULL, set_mean = TRUE,
-  rug = FALSE, samples = FALSE, uncertainty = FALSE, ex_fun = NULL,
+plot_moments(model, int_var, pred_data = NULL, rug = FALSE,
+  samples = FALSE, uncertainty = FALSE, ex_fun = NULL,
   palette = "viridis")
 }
 \arguments{

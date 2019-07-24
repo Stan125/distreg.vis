@@ -49,7 +49,7 @@
 #'
 #' @export
 
-plot_moments <- function(model, int_var, pred_data = NULL, set_mean = TRUE,
+plot_moments <- function(model, int_var, pred_data = NULL,
                          rug = FALSE, samples = FALSE, uncertainty = FALSE,
                          ex_fun = NULL, palette = "viridis") {
 
@@ -75,11 +75,8 @@ plot_moments <- function(model, int_var, pred_data = NULL, set_mean = TRUE,
   }
 
   ## Set the original variables to their mean/reference category ##
-  if ((is.null(pred_data) && !set_mean) | (!is.null(pred_data) && set_mean))
-    stop("The arguments `pred_data`` and `set_mean`` are mutually exclusive.")
-  if (is.null(pred_data) && !set_mean)
-    stop("Either specify `pred_data` or set `set_mean` to TRUE.")
-  if (is.null(pred_data) && set_mean)
+  ## if pred_data is not provided ##
+  if (is.null(pred_data))
     pred_data <- set_mean(
       model_data(model)
     )
