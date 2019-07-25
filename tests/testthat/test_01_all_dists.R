@@ -114,9 +114,17 @@ test_core <- function(fam_name) {
       ineq <<- function(par) {
         2 * pnorm((par[["sigma"]] / 2) * sqrt(2)) - 1
       }
+      # With pred_data
       plots_moments <- arrangeGrob(
         plot_moments(model, "norm2", pred_data = ndata, ex_fun = "ineq"),
         plot_moments(model, "binomial1", pred_data = ndata, ex_fun = "ineq"),
+        ncol = 2,
+        nrow = 1
+      )
+      # Without pred_data
+      plots_moments_free <- arrangeGrob(
+        plot_moments(model, "norm2", ex_fun = "ineq"),
+        plot_moments(model, "binomial1", ex_fun = "ineq"),
         ncol = 2,
         nrow = 1
       )
