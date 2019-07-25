@@ -24,8 +24,10 @@ set_mean <- function(input) {
       def_x <- na.omit(x)[1]
 
     # If variable is factor take the first level
-    if (is.factor(x))
-      def_x <- levels(x)[1]
+    if (is.factor(x)) {
+      def_x <- as.factor(levels(x)[1])
+      levels(def_x) <- levels(x)
+    }
 
     # If variable is logical let it be FALSE
     if (is.logical(x))
