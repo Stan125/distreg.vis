@@ -4,7 +4,7 @@
 #' through \code{\link{preds}}) with ggplot2. You can use all implemented
 #' families in bamlss except the cox family.
 #'
-#' @param model A fitted bamlss object.
+#' @param model A fitted distributional regression model object. Check \link{search_distreg} to see which classes are supported.
 #' @param pred_params A data.frame with rows for every model prediction and
 #'   columns for every predicted parameter of the distribution. Is easily obtained
 #'   with the \code{distreg.vis} function \code{\link{preds}}.
