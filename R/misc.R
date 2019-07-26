@@ -43,9 +43,11 @@ search_funs <- function() {
 #' @keywords internal
 distreg_checker <- function(x) {
   obj <- get(x, envir = .GlobalEnv)
-  if (any(class(obj) == "bamlss"))
+  if (is(obj, "bamlss"))
     return(TRUE)
-  else if (any(class(obj) == "gamlss"))
+  else if (is(obj, "gamlss"))
+    return(TRUE)
+  else if (is(obj, "betareg"))
     return(TRUE)
   else
     return(FALSE)
@@ -94,7 +96,7 @@ tidy_c <- function(x)
   return(tidy_source(text = x, output = FALSE, width.cutoff = 45))$text.tidy
 
 
-#' Obtain d&p&q&r functions
+#' Obtain d&p functions
 #'
 #' Takes a family name and what kind of function you want and gives the right one back
 #' @keywords internal

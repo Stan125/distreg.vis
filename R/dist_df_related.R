@@ -65,3 +65,11 @@ is.gamlss <- function(name) {
 is.bamlss <- function(name) {
   return(any(distreg.vis::dists[distreg.vis::dists$dist_name == name, "class"] == "bamlss"))
 }
+
+#' Internal: Is betareg family?
+#'
+#' Check whether a given distribution comes from the betareg package
+#' @keywords internal
+is.betareg <- function(name) {
+  return(any(distreg.vis::dists[distreg.vis::dists$dist_name == name, "class"] == "betareg"))
+}

@@ -163,11 +163,12 @@ palette_getter <- function(name = "default") {
 #' beta_model <- gamlss(BE ~ norm2 + binomial1,
 #'   data = data_fam, family = BE())
 #' fam_obtainer(model = beta_model)
+#' @importFrom stats
 #' @export
 fam_obtainer <- function(model) {
   # Check whether model is gamlss or bamlss
-  if (!any(class(model) %in% c("gamlss", "bamlss")))
-    stop("Cannot deal with model class if not bamlss or gamlss")
+  if (!any(class(model) %in% c("gamlss", "bamlss", "betareg")))
+    stop("Cannot deal with model class if not bamlss, gamlss or betareg")
 
   # gamlss families
   if (any(class(model) == "gamlss"))
@@ -176,6 +177,10 @@ fam_obtainer <- function(model) {
   # bamlss families
   if (any(class(model) == "bamlss"))
     fam <- model$family$family
+
+  # betareg
+  if (any(class(model)) == "betareg")
+    fam <- "betareg"
 
   # Return it
   return(fam)

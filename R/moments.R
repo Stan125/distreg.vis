@@ -15,8 +15,8 @@
 #'   parameter samples is calculated. 2.5% and 97.5% quantiles are calculated
 #'   for \code{lowerlimit} and \code{upperlimit}, respectively.
 #' @param ex_fun An external function \code{function(par) {...}} which
-#'   calculates a measure, which dependency from a certain variable is of
-#'   interest.
+#'   calculates a measure, whose dependency from a certain variable is of
+#'   special interest.
 #' @import bamlss
 #' @export
 
