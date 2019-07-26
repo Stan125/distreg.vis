@@ -167,7 +167,7 @@ test_core <- function(fam_name) {
 }
 
 ## Now test the function with all implemented distributions
-families <- dists[dists$implemented, "dist_name"]
+families <- dists[dists$implemented & dists$dist_name != "lognormal", "dist_name"]
 for (fam in families)
   test_core(fam)
 
