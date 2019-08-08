@@ -4,16 +4,17 @@
 #' through \code{\link{preds}}) with ggplot2. You can use all implemented
 #' families in bamlss except the cox family.
 #'
-#' @param model A fitted distributional regression model object. Check \link{search_distreg} to see which classes are supported.
+#' @param model A fitted distributional regression model object. Check
+#'   \link{distreg_checker} to see which classes are supported.
 #' @param pred_params A data.frame with rows for every model prediction and
-#'   columns for every predicted parameter of the distribution. Is easily obtained
-#'   with the \code{distreg.vis} function \code{\link{preds}}.
+#'   columns for every predicted parameter of the distribution. Is easily
+#'   obtained with the \code{distreg.vis} function \code{\link{preds}}.
 #' @param palette The colour palette used for colouring the plot. You can use
-#'   any of the ones supplied in \code{\link[ggplot2]{scale_fill_brewer}} though I
-#'   suggest you use one of the qualitative ones: Accent, Dark2, etc. Since 0.5.0
-#'   \code{"viridis"} is included, to account for colour blindness.
-#' @param type Do you want the probability distribution function ("pdf") or
-#'   the cumulative distribution function ("cdf")?
+#'   any of the ones supplied in \code{\link[ggplot2]{scale_fill_brewer}} though
+#'   I suggest you use one of the qualitative ones: Accent, Dark2, etc. Since
+#'   0.5.0 \code{"viridis"} is included, to account for colour blindness.
+#' @param type Do you want the probability distribution function ("pdf") or the
+#'   cumulative distribution function ("cdf")?
 #' @param rug If TRUE, creates a rug plot
 #' @return A ggplot2 object.
 #' @examples
@@ -30,11 +31,11 @@
 #' plot_dist(beta_model, param_preds, rug = TRUE)
 #' @export
 
-plot_dist <- function(model, pred_params, palette = "viridis", type = "pdf",
-                      rug = FALSE) {
+plot_dist <- function(model, pred_params = preds(model), palette = "viridis",
+                      type = "pdf", rug = FALSE) {
 
   # Check whether the function is even applied to the right classes
-  if (!any(class(model) %in% c("bamlss", "gamlss")))
+  if (!distreg_checker(model))
     stop("This tool only works for bamlss/gamlss classes")
 
   # Get right family

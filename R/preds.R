@@ -26,16 +26,23 @@
 #' @return A data.frame with one column for every distributional parameter and a
 #'   row for every covariate combination that should be predicted.
 #' @importFrom stats na.omit predict
+#' @importFrom stats predict
 #' @importFrom gamlss predictAll
 #' @export
 
-preds <- function(model, newdata, what = "mean") {
+preds <- function(model, newdata = NULL, what = "mean") {
 
-  # Check and convert to data.frame
+  # Check and convert to data.frame (necessary for tibble-like datasets)
   if (is(newdata, "data.frame"))
     newdata <- as.data.frame(newdata)
-  else
+  if (!is.null(newdata) && !is(newdata, "data.frame"))
     stop("Newdata has to be in a data.frame format")
+
+  # If newdata is NULL set model data to mean (like in plot_moments)
+  if (is.null(newdata))
+    newdata <- set_mean(
+      model_data(model)
+    )
 
   # Omit NA's in prediction data
   newdata <- na.omit(newdata)
@@ -74,6 +81,16 @@ preds <- function(model, newdata, what = "mean") {
                 FUN = function(x) return(x))
       pred_par <- preds_transformer(samples_raw, newdata = newdata)
     }
+
+  } else if (is(model, "betareg")) {
+    if (what == "mean") {
+      pred_par <- data.frame(
+        mu = betareg:::predict.betareg(model, newdata = newdata, type = "response"),
+        phi = betareg:::predict.betareg(model, newdata = newdata, type = "precision"))
+    } else if (what != "mean") {
+      stop("betareg uses ML, so no samples available.")
+    }
+
 
   } else {
     stop("Class is neither bamlss nor gamlss, so can't make predictions!")

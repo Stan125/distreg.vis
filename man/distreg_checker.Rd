@@ -2,11 +2,19 @@
 % Please edit documentation in R/misc.R
 \name{distreg_checker}
 \alias{distreg_checker}
-\title{Checker if object is either gamlss or bamlss}
+\title{Check if object is a distributional regression object}
 \usage{
 distreg_checker(x)
 }
 \description{
-Checker if object is either gamlss or bamlss
+Check if object is a distributional regression object
+}
+\details{
+At the moment, the following classes are supported:
+\itemize{
+\item gamlss
+\item bamlss
+\item betareg
+}
 }
 \keyword{internal}

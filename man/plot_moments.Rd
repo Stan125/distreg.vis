@@ -32,7 +32,7 @@ covariate influences. Can only be \code{TRUE} if samples is also
 calculates a measure, whose dependency from a certain variable is of
 interest. Has to be specified in character form.}
 
-\item{palette}{See \code{\link{plot_dist}}}
+\item{palette}{See \code{\link{plot_dist}}.}
 }
 \description{
 This function takes a dataframe of predictions with one row per prediction

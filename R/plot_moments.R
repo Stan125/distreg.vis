@@ -12,7 +12,7 @@
 #'   "newdata", including the variable of interest, which will be ignored in
 #'   later processing.
 #' @param model A fitted model on which the plots are based.
-#' @param palette See \code{\link{plot_dist}}
+#' @param palette See \code{\link{plot_dist}}.
 #' @param ex_fun An external function \code{function(par) {...}} which
 #'   calculates a measure, whose dependency from a certain variable is of
 #'   interest. Has to be specified in character form.

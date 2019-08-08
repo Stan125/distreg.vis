@@ -19,7 +19,8 @@ Imports:
         magrittr (>= 1.5),
         viridis (>= 0.4.0),
         RColorBrewer (>= 1.1-2),
-        formatR (>= 1.5)
+        formatR (>= 1.5),
+        betareg (>= 3.1-2)
 Suggests: testthat, gridExtra, glogis
 Description: Functions for visualizing distributional regression models fitted using the 'gamlss' or 'bamlss' R package. The core of the package consists of a 'shiny' application, where the model results can be interactively explored and visualized.
 License: GPL-3

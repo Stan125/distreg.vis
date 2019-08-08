@@ -4,7 +4,7 @@
 \alias{preds}
 \title{Predict distributional parameters of a bamlss family with a bamlss model}
 \usage{
-preds(model, newdata, what = "mean")
+preds(model, newdata = NULL, what = "mean")
 }
 \arguments{
 \item{model}{A fitted bamlss model object, created with \code{\link{bamlss}}.}
