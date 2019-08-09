@@ -7,9 +7,10 @@
 #' @param input A \code{data.frame} object
 #' @param vary_by A character string with the name of a variable over which the output dataframe should vary.
 #' @return A \code{data.frame} object with one row
-#' @keywords internal
+#' @export
 
 set_mean <- function(input, vary_by = NULL) {
+
   if (!is(input, "data.frame"))
     stop("Argument `input` needs to be a data.frame object")
 
@@ -62,13 +63,21 @@ set_mean <- function(input, vary_by = NULL) {
     return(def_var)
   })
   if (is.null(vary_by)) {
-    new_df <- as.data.frame(new_df, row.names = c("default_vals"))
+    new_df <- as.data.frame(new_df,
+                            row.names = c("default_vals"))
+    colnames(new_df) <- colnames(input)
   } else if (!is.null(vary_by)) {
     new_df <- as.data.frame(
       new_df,
-      row.names = paste0("default_vals", seq_len(length(new_df)))
+      row.names = paste0("default_vals",
+                         seq_len(
+                           max(sapply(new_df, length))
+                         )
+      )
     )
+    colnames(new_df) <- colnames(input)
   }
+
   # Return new df
   return(new_df)
 }

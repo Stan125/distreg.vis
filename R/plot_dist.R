@@ -16,6 +16,7 @@
 #' @param type Do you want the probability distribution function ("pdf") or the
 #'   cumulative distribution function ("cdf")?
 #' @param rug If TRUE, creates a rug plot
+#' @param vary_by
 #' @return A ggplot2 object.
 #' @examples
 #' # Generating data
@@ -31,12 +32,16 @@
 #' plot_dist(beta_model, param_preds, rug = TRUE)
 #' @export
 
-plot_dist <- function(model, pred_params = preds(model), palette = "viridis",
-                      type = "pdf", rug = FALSE) {
+plot_dist <- function(model, pred_params = NULL, palette = "viridis",
+                      type = "pdf", rug = FALSE, vary_by = NULL) {
 
   # Check whether the function is even applied to the right classes
   if (!distreg_checker(model))
     stop("This tool only works for bamlss/gamlss classes")
+
+  # Compute mean values of expl variables if no pred_params is provided
+  if (is.null(pred_params))
+    pred_params <- preds(model, vary_by = vary_by)
 
   # Get right family
   fam_name <- fam_obtainer(model)

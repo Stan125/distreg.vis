@@ -19,4 +19,3 @@ This function purely exists for the \code{set_mean} argument of
 \code{\link{plot_moments}}. It takes a data.frame and obtains the mean values
 (numeric variables) and reference categories (categorical covariates).
 }
-\keyword{internal}

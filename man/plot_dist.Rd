@@ -4,8 +4,8 @@
 \alias{plot_dist}
 \title{Plot predicted distributional regression models}
 \usage{
-plot_dist(model, pred_params = preds(model), palette = "viridis",
-  type = "pdf", rug = FALSE)
+plot_dist(model, pred_params = NULL, palette = "viridis",
+  type = "pdf", rug = FALSE, vary_by = NULL)
 }
 \arguments{
 \item{model}{A fitted distributional regression model object. Check

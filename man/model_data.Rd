@@ -16,4 +16,3 @@ model_data(model, dep = FALSE, varname = NULL)
 \description{
 Get the data from the models
 }
-\keyword{internal}

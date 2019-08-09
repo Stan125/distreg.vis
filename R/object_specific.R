@@ -7,7 +7,7 @@
 #' @param dep If TRUE, then only the dependent variable is returned.
 #' @param varname Variable name in character form that should be returned.
 #'
-#' @keywords internal
+#' @export
 model_data <- function(model, dep = FALSE, varname = NULL) {
 
   # Check first if supported distributional regression model
