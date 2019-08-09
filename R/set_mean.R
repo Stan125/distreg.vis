@@ -5,39 +5,70 @@
 #' (numeric variables) and reference categories (categorical covariates).
 #'
 #' @param input A \code{data.frame} object
+#' @param vary_by A character string with the name of a variable over which the output dataframe should vary.
 #' @return A \code{data.frame} object with one row
 #' @keywords internal
 
-set_mean <- function(input) {
+set_mean <- function(input, vary_by = NULL) {
   if (!is(input, "data.frame"))
     stop("Argument `input` needs to be a data.frame object")
 
   # Do the operations
-  new_df <- lapply(input, FUN = function(x) {
+  new_df <- lapply(names(input), FUN = function(x) {
+
+    # Get variable
+    var <- input[[x]]
 
     # If variable is numeric take mean
-    if (is.numeric(x))
-      def_x <- mean(x, na.rm = TRUE)
+    if (is.numeric(var)) {
+      if (!is.null(vary_by) && x == vary_by) {
+        def_var <- quantile(var, c(seq(0.05, 0.95, length.out = 5)), # If we want to vary
+                            na.rm = TRUE)
+      } else {
+        def_var <- mean(var, na.rm = TRUE)
+      }
+    }
 
     # If variable is character take the first observation
-    if (is.character(x))
-      def_x <- na.omit(x)[1]
+    if (is.character(var)) {
+      if (!is.null(vary_by) && x == vary_by) {
+        def_var <- unique(na.omit(var))
+      } else {
+        def_var <- na.omit(var)[1]
+      }
+    }
 
     # If variable is factor take the first level
-    if (is.factor(x)) {
-      def_x <- as.factor(levels(x)[1])
-      levels(def_x) <- levels(x)
+    if (is.factor(var)) {
+      if (!is.null(vary_by) && x == vary_by) {
+        def_var <- levels(var)
+        levels(def_var) <- levels(var)
+      } else {
+        def_var <- as.factor(levels(var)[1])
+        levels(def_var) <- levels(var)
+      }
     }
 
     # If variable is logical let it be FALSE
-    if (is.logical(x))
-      def_x <- FALSE
+    if (is.logical(var)) {
+      if (!is.null(vary_by) && x == vary_by) {
+        def_var <- c(FALSE, TRUE)
+      } else {
+        def_var <- FALSE
+      }
+    }
 
     # Return it
-    return(def_x)
+    return(def_var)
   })
-  new_df <- as.data.frame(new_df, row.names = c("default_vals"))
-
+  if (is.null(vary_by)) {
+    new_df <- as.data.frame(new_df, row.names = c("default_vals"))
+  } else if (!is.null(vary_by)) {
+    new_df <- as.data.frame(
+      new_df,
+      row.names = paste0("default_vals", seq_len(length(new_df)))
+    )
+  }
   # Return new df
   return(new_df)
 }
