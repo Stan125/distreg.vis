@@ -103,6 +103,11 @@ model_fam_data <- function(nrow = 500, seed = 1408, fam_name = "NO") {
     tfvec <- sapply(u_data$v1, FUN = qfun) # use apply here because I'm not sure if all q functions are vectorized
   }
 
+  ### Betareg Family
+  if (is.betareg(fam_name)) {
+    tfvec <- qbeta(u_data$v1, 2, 5)
+  }
+
   ## Piece everything together
   data <- data.frame(tfvec = tfvec,
                      binomial1 = factor(qbinom(u_data$v2, 1, 0.5), labels = c("yes", "no")),
