@@ -3,11 +3,17 @@
 #' Get the data from the models
 #' @importFrom methods is
 #' @importFrom stats model.frame
-#' @param model A gamlss or bamlss object
-#' @param dep If TRUE, then only the dependent variable is returned
+#' @param model A gamlss or bamlss object.
+#' @param dep If TRUE, then only the dependent variable is returned.
+#' @param varname Variable name in character form that should be returned.
 #'
-#' @keywords internal
+#' @export
 model_data <- function(model, dep = FALSE, varname = NULL) {
+
+  # Check first if supported distributional regression model
+  if (!distreg_checker(model))
+    stop("Specified model is not a supported distributional regression object. \n
+         See ?distreg_checker for details")
 
   # GAMLSS
   if (is(model, "gamlss")) {
@@ -47,6 +53,22 @@ model_data <- function(model, dep = FALSE, varname = NULL) {
     # Return a specific variable
     if (!dep & !is.null(varname))
       return_object <- return_object[[varname]]
+  }
+
+  # Betareg
+  if (is(model, "betareg")) {
+    return_object <- model[["model"]]
+
+    # Return dependent variable if wanted
+    if (dep & is.null(varname))
+      return_object <- return_object[[1]]
+
+    if (!dep) {
+      if (!is.null(varname))
+        return_object <- return_object[[varname]]
+      else if (is.null(varname))
+        return_object <- return_object[, c(-1)]
+    }
   }
   return(return_object)
 }

@@ -8,11 +8,15 @@
 #' @param newdata A data.frame with explanatory variables as columns, and rows
 #'   with the combinations you want to do predictions for. Furthermore, whether
 #'   or not to include the intercept has to be specified via a logical variable
-#'   \code{intercept}.
-#' @param what One of \code{"mean"} or \code{"samples"}. The
-#'   default for bamlss models is "samples", while the default for gamlss models
-#'   is "mean". This argument changes how the mean of the parameter is
-#'   calculated. See details for details.
+#'   \code{intercept}. If omitted, the average of the explanatory variables is
+#'   used (see \link{set_mean}).
+#' @param what One of \code{"mean"} or \code{"samples"}. The default for bamlss
+#'   models is "samples", while the default for gamlss models is "mean". This
+#'   argument changes how the mean of the parameter is calculated. See details
+#'   for details.
+#' @param vary_by Variable name in character form over which to vary the
+#'   mean/reference values of explanatory variables. It is passed to
+#'   \link{set_mean}. See that documentation for further details.
 #' @examples
 #' # Generating data
 #' data_fam <- model_fam_data(fam_name = "BE")
@@ -26,16 +30,24 @@
 #' @return A data.frame with one column for every distributional parameter and a
 #'   row for every covariate combination that should be predicted.
 #' @importFrom stats na.omit predict
+#' @importFrom stats predict
 #' @importFrom gamlss predictAll
 #' @export
 
-preds <- function(model, newdata, what = "mean") {
+preds <- function(model, newdata = NULL, what = "mean", vary_by = NULL) {
 
-  # Check and convert to data.frame
+  # Check and convert to data.frame (necessary for tibble-like datasets)
   if (is(newdata, "data.frame"))
     newdata <- as.data.frame(newdata)
-  else
+  if (!is.null(newdata) && !is(newdata, "data.frame"))
     stop("Newdata has to be in a data.frame format")
+
+  # If newdata is NULL set model data to mean (like in plot_moments)
+  if (is.null(newdata))
+    newdata <- set_mean(
+      model_data(model),
+      vary_by = vary_by
+    )
 
   # Omit NA's in prediction data
   newdata <- na.omit(newdata)
@@ -74,6 +86,16 @@ preds <- function(model, newdata, what = "mean") {
                 FUN = function(x) return(x))
       pred_par <- preds_transformer(samples_raw, newdata = newdata)
     }
+
+  } else if (is(model, "betareg")) {
+    if (what == "mean") {
+      pred_par <- data.frame(
+        mu = betareg:::predict.betareg(model, newdata = newdata, type = "response"),
+        phi = betareg:::predict.betareg(model, newdata = newdata, type = "precision"))
+    } else if (what != "mean") {
+      stop("betareg uses ML, so no samples available.")
+    }
+
 
   } else {
     stop("Class is neither bamlss nor gamlss, so can't make predictions!")

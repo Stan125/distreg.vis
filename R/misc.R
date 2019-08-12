@@ -38,14 +38,26 @@ search_funs <- function() {
     return("NO FUNCTION")
 }
 
-#' Checker if object is either gamlss or bamlss
+#' Check if object is a distributional regression object
 #'
 #' @keywords internal
+#' @details At the moment, the following classes are supported:
+#' \itemize{
+#' \item gamlss
+#' \item bamlss
+#' \item betareg
+#' }
+
 distreg_checker <- function(x) {
-  obj <- get(x, envir = .GlobalEnv)
-  if (any(class(obj) == "bamlss"))
+  if (is.character(x))
+    obj <- get(x, envir = .GlobalEnv)
+  else
+    obj <- x
+  if (is(obj, "bamlss"))
     return(TRUE)
-  else if (any(class(obj) == "gamlss"))
+  else if (is(obj, "gamlss"))
+    return(TRUE)
+  else if (is(obj, "betareg"))
     return(TRUE)
   else
     return(FALSE)
@@ -75,6 +87,7 @@ fac_equ <- function(base_df, pred_df) {
 #' Checks whether some factor was unwantedly converted to an ordered factor
 #' which rhandsontable sometimes does
 #' @keywords internal
+
 fac_check <- function(DF) {
   rn <- row.names(DF)
  DF <- lapply(DF, FUN = function(x) {
@@ -90,29 +103,42 @@ fac_check <- function(DF) {
 #' Function for better use of formatR's tidy_source
 #' @keywords internal
 #' @importFrom formatR tidy_source
+
 tidy_c <- function(x)
   return(tidy_source(text = x, output = FALSE, width.cutoff = 45))$text.tidy
 
 
-#' Obtain d&p&q&r functions
+#' Obtain d&p&q functions
 #'
 #' Takes a family name and what kind of function you want and gives the right one back
 #' @keywords internal
+#' @importFrom stats dbeta pbeta
 
 fam_fun_getter <- function(fam_name, type) {
 
+  if (!is.distreg.fam(fam_name))
+    stop("Quants only obtainable for distreg families.")
+
   # Test which type is wanted
-  if (!type %in% c("d", "p", "q", "r"))
+  if (!type %in% c("d", "p", "q"))
     stop("Specified wrong type!")
 
   # GAMLSS
   if (is.gamlss(fam_name)) {
     raw_name <- paste0(type, fam_name)
-    fun <- function(x, par)
-      return(do.call(get(force(raw_name), envir = as.environment("package:gamlss.dist")),
-                     c(list(x), par))) # why does it preserve d_raw_name even if this function is used outside of this environment? http://adv-r.had.co.nz/Functions.html
+
+    if (type %in% c("d", "p")) {# this is necessary because of argument matching
+      fun <- function(x, par)
+        return(do.call(get(force(raw_name), envir = as.environment("package:gamlss.dist")),
+                       c(list(x), par))) # why does it preserve d_raw_name even if this function is used outside of this environment? http://adv-r.had.co.nz/Functions.html
+    } else if (type == "q") {
+      fun <- function(p, par)
+        return(do.call(get(force(raw_name), envir = as.environment("package:gamlss.dist")),
+                       c(list(p), par)))
+    }
   }
 
+  # BAMLSS
   if (is.bamlss(fam_name)) {
     raw_name <- paste0(fam_name, "_bamlss")
     fam_called <- do.call(get(force(raw_name), envir = as.environment("package:bamlss")),
@@ -120,6 +146,31 @@ fam_fun_getter <- function(fam_name, type) {
     fun <- fam_called[[type]]
     if (is.null(fun))
       stop(paste(type, "function not implemented."))
+  }
+
+  # betareg
+  if (is.betareg(fam_name)) {
+    if (type == "d") {
+      fun <- function(x, par) {
+        alpha <- par[["mu"]] * par[["phi"]]
+        beta <- (1 - par[["mu"]]) * par[["phi"]]
+        return(dbeta(x, alpha, beta))
+      }
+    }
+    if (type == "p") {
+      fun <- function(x, par) {
+        alpha <- par[["mu"]] * par[["phi"]]
+        beta <- (1 - par[["mu"]]) * par[["phi"]]
+        return(pbeta(x, alpha, beta))
+      }
+    }
+    if (type == "q") { # here we need to use p as argument in order to match everything correctly
+      fun <- function(p, par) {
+        alpha <- par[["mu"]] * par[["phi"]]
+        beta <- (1 - par[["mu"]]) * par[["phi"]]
+        return(qbeta(p, alpha, beta))
+      }
+    }
   }
 
   # Return the function

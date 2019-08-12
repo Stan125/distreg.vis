@@ -12,7 +12,7 @@
 #'   "newdata", including the variable of interest, which will be ignored in
 #'   later processing.
 #' @param model A fitted model on which the plots are based.
-#' @param palette See \code{\link{plot_dist}}
+#' @param palette See \code{\link{plot_dist}}.
 #' @param ex_fun An external function \code{function(par) {...}} which
 #'   calculates a measure, whose dependency from a certain variable is of
 #'   interest. Has to be specified in character form.
@@ -23,6 +23,9 @@
 #' @param uncertainty If \code{TRUE}, displays uncertainty measures about the
 #'   covariate influences. Can only be \code{TRUE} if samples is also
 #'   \code{TRUE}.
+#' @param vary_by Variable name in character form over which to vary the
+#'   mean/reference values of explanatory variables. It is passed to
+#'   \link{set_mean}. See that documentation for further details.
 #' @importFrom magrittr %>% extract inset set_colnames set_rownames
 #' @importFrom viridis scale_fill_viridis scale_colour_viridis
 #' @import ggplot2
@@ -51,7 +54,7 @@
 
 plot_moments <- function(model, int_var, pred_data = NULL,
                          rug = FALSE, samples = FALSE, uncertainty = FALSE,
-                         ex_fun = NULL, palette = "viridis") {
+                         ex_fun = NULL, palette = "viridis", vary_by = NULL) {
 
   # Are the moments even implemented?
   if (!has.moments(fam_obtainer(model)))
@@ -77,9 +80,7 @@ plot_moments <- function(model, int_var, pred_data = NULL,
   ## Set the original variables to their mean/reference category ##
   ## if pred_data is not provided ##
   if (is.null(pred_data))
-    pred_data <- set_mean(
-      model_data(model)
-    )
+    pred_data <- set_mean(model_data(model), vary_by = vary_by)
 
   # Make a range of the variable
   if (coltype == "num") {

@@ -4,10 +4,12 @@
 \alias{set_mean}
 \title{Obtain mean values and reference categories of variables in a data.frame}
 \usage{
-set_mean(input)
+set_mean(input, vary_by = NULL)
 }
 \arguments{
 \item{input}{A \code{data.frame} object}
+
+\item{vary_by}{A character string with the name of a variable over which the output dataframe should vary.}
 }
 \value{
 A \code{data.frame} object with one row
@@ -17,4 +19,3 @@ This function purely exists for the \code{set_mean} argument of
 \code{\link{plot_moments}}. It takes a data.frame and obtains the mean values
 (numeric variables) and reference categories (categorical covariates).
 }
-\keyword{internal}

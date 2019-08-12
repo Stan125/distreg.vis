@@ -166,8 +166,8 @@ palette_getter <- function(name = "default") {
 #' @export
 fam_obtainer <- function(model) {
   # Check whether model is gamlss or bamlss
-  if (!any(class(model) %in% c("gamlss", "bamlss")))
-    stop("Cannot deal with model class if not bamlss or gamlss")
+  if (!any(class(model) %in% c("gamlss", "bamlss", "betareg")))
+    stop("Cannot deal with model class if not bamlss, gamlss or betareg")
 
   # gamlss families
   if (any(class(model) == "gamlss"))
@@ -176,6 +176,10 @@ fam_obtainer <- function(model) {
   # bamlss families
   if (any(class(model) == "bamlss"))
     fam <- model$family$family
+
+  # betareg
+  if (any(class(model) == "betareg"))
+    fam <- "betareg"
 
   # Return it
   return(fam)

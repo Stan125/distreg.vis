@@ -7,11 +7,12 @@
 model_data(model, dep = FALSE, varname = NULL)
 }
 \arguments{
-\item{model}{A gamlss or bamlss object}
+\item{model}{A gamlss or bamlss object.}
 
-\item{dep}{If TRUE, then only the dependent variable is returned}
+\item{dep}{If TRUE, then only the dependent variable is returned.}
+
+\item{varname}{Variable name in character form that should be returned.}
 }
 \description{
 Get the data from the models
 }
-\keyword{internal}

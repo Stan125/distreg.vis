@@ -2,7 +2,7 @@
 % Please edit documentation in R/misc.R
 \name{fam_fun_getter}
 \alias{fam_fun_getter}
-\title{Obtain d&p&q&r functions}
+\title{Obtain d&p&q functions}
 \usage{
 fam_fun_getter(fam_name, type)
 }

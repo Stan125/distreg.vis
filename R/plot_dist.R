@@ -4,17 +4,21 @@
 #' through \code{\link{preds}}) with ggplot2. You can use all implemented
 #' families in bamlss except the cox family.
 #'
-#' @param model A fitted distributional regression model object. Check \link{search_distreg} to see which classes are supported.
+#' @param model A fitted distributional regression model object. Check
+#'   \link{distreg_checker} to see which classes are supported.
 #' @param pred_params A data.frame with rows for every model prediction and
-#'   columns for every predicted parameter of the distribution. Is easily obtained
-#'   with the \code{distreg.vis} function \code{\link{preds}}.
+#'   columns for every predicted parameter of the distribution. Is easily
+#'   obtained with the \code{distreg.vis} function \code{\link{preds}}.
 #' @param palette The colour palette used for colouring the plot. You can use
-#'   any of the ones supplied in \code{\link[ggplot2]{scale_fill_brewer}} though I
-#'   suggest you use one of the qualitative ones: Accent, Dark2, etc. Since 0.5.0
-#'   \code{"viridis"} is included, to account for colour blindness.
-#' @param type Do you want the probability distribution function ("pdf") or
-#'   the cumulative distribution function ("cdf")?
+#'   any of the ones supplied in \code{\link[ggplot2]{scale_fill_brewer}} though
+#'   I suggest you use one of the qualitative ones: Accent, Dark2, etc. Since
+#'   0.5.0 \code{"viridis"} is included, to account for colour blindness.
+#' @param type Do you want the probability distribution function ("pdf") or the
+#'   cumulative distribution function ("cdf")?
 #' @param rug If TRUE, creates a rug plot
+#' @param vary_by Variable name in character form over which to vary the
+#'   mean/reference values of explanatory variables. It is passed to
+#'   \link{set_mean}. See that documentation for further details.
 #' @return A ggplot2 object.
 #' @examples
 #' # Generating data
@@ -30,12 +34,16 @@
 #' plot_dist(beta_model, param_preds, rug = TRUE)
 #' @export
 
-plot_dist <- function(model, pred_params, palette = "viridis", type = "pdf",
-                      rug = FALSE) {
+plot_dist <- function(model, pred_params = NULL, palette = "viridis",
+                      type = "pdf", rug = FALSE, vary_by = NULL) {
 
   # Check whether the function is even applied to the right classes
-  if (!any(class(model) %in% c("bamlss", "gamlss")))
+  if (!distreg_checker(model))
     stop("This tool only works for bamlss/gamlss classes")
+
+  # Compute mean values of expl variables if no pred_params is provided
+  if (is.null(pred_params))
+    pred_params <- preds(model, vary_by = vary_by)
 
   # Get right family
   fam_name <- fam_obtainer(model)

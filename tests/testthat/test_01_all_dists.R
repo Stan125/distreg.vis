@@ -15,6 +15,7 @@ library("gamlss")
 library("testthat")
 library("ggplot2")
 library("gridExtra")
+library("betareg")
 
 ## Delete everything
 rm(list = ls())
@@ -53,6 +54,11 @@ test_core <- function(fam_name) {
     form <- as.formula(paste0(fam_name, "~ norm2 + binomial1"))
     model <- gamlss(form, sigma.formula = ~ .,
                     data = art_data, family = fam_name, trace = FALSE)
+  }
+
+  if (distreg.vis:::is.betareg(fam_name)) {
+    model <- betareg(betareg ~ norm2 + binomial1 | norm2 + binomial1,
+                     data = art_data)
   }
 
   ########   ---    plot_dist()   ---    ########

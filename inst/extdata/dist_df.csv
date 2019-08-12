@@ -123,3 +123,4 @@ multinomial;bamlss;TRUE;TRUE;cat_limits;NA;NA;Categorical
 mvnorm;bamlss;FALSE;FALSE;no_limits;NA;NA;Continuous
 poisson;bamlss;TRUE;TRUE;one_limit;0;NA;Discrete
 quant;bamlss;FALSE;FALSE;NA;NA;NA;NA
+betareg;betareg;TRUE;TRUE;both_limits;0;1;Continuous

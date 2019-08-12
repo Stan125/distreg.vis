@@ -4,25 +4,30 @@
 \alias{plot_dist}
 \title{Plot predicted distributional regression models}
 \usage{
-plot_dist(model, pred_params, palette = "viridis", type = "pdf",
-  rug = FALSE)
+plot_dist(model, pred_params = NULL, palette = "viridis",
+  type = "pdf", rug = FALSE, vary_by = NULL)
 }
 \arguments{
-\item{model}{A fitted bamlss object.}
+\item{model}{A fitted distributional regression model object. Check
+\link{distreg_checker} to see which classes are supported.}
 
 \item{pred_params}{A data.frame with rows for every model prediction and
-columns for every predicted parameter of the distribution. Is easily obtained
-with the \code{distreg.vis} function \code{\link{preds}}.}
+columns for every predicted parameter of the distribution. Is easily
+obtained with the \code{distreg.vis} function \code{\link{preds}}.}
 
 \item{palette}{The colour palette used for colouring the plot. You can use
-any of the ones supplied in \code{\link[ggplot2]{scale_fill_brewer}} though I
-suggest you use one of the qualitative ones: Accent, Dark2, etc. Since 0.5.0
-\code{"viridis"} is included, to account for colour blindness.}
+any of the ones supplied in \code{\link[ggplot2]{scale_fill_brewer}} though
+I suggest you use one of the qualitative ones: Accent, Dark2, etc. Since
+0.5.0 \code{"viridis"} is included, to account for colour blindness.}
 
-\item{type}{Do you want the probability distribution function ("pdf") or
-the cumulative distribution function ("cdf")?}
+\item{type}{Do you want the probability distribution function ("pdf") or the
+cumulative distribution function ("cdf")?}
 
 \item{rug}{If TRUE, creates a rug plot}
+
+\item{vary_by}{Variable name in character form over which to vary the
+mean/reference values of explanatory variables. It is passed to
+\link{set_mean}. See that documentation for further details.}
 }
 \value{
 A ggplot2 object.

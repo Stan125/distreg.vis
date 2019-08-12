@@ -4,7 +4,7 @@
 \alias{preds}
 \title{Predict distributional parameters of a bamlss family with a bamlss model}
 \usage{
-preds(model, newdata, what = "mean")
+preds(model, newdata = NULL, what = "mean", vary_by = NULL)
 }
 \arguments{
 \item{model}{A fitted bamlss model object, created with \code{\link{bamlss}}.}
@@ -12,12 +12,17 @@ preds(model, newdata, what = "mean")
 \item{newdata}{A data.frame with explanatory variables as columns, and rows
 with the combinations you want to do predictions for. Furthermore, whether
 or not to include the intercept has to be specified via a logical variable
-\code{intercept}.}
+\code{intercept}. If omitted, the average of the explanatory variables is
+used (see \link{set_mean}).}
 
-\item{what}{One of \code{"mean"} or \code{"samples"}. The
-default for bamlss models is "samples", while the default for gamlss models
-is "mean". This argument changes how the mean of the parameter is
-calculated. See details for details.}
+\item{what}{One of \code{"mean"} or \code{"samples"}. The default for bamlss
+models is "samples", while the default for gamlss models is "mean". This
+argument changes how the mean of the parameter is calculated. See details
+for details.}
+
+\item{vary_by}{Variable name in character form over which to vary the
+mean/reference values of explanatory variables. It is passed to
+\link{set_mean}. See that documentation for further details.}
 }
 \value{
 A data.frame with one column for every distributional parameter and a
