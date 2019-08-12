@@ -126,9 +126,16 @@ fam_fun_getter <- function(fam_name, type) {
   # GAMLSS
   if (is.gamlss(fam_name)) {
     raw_name <- paste0(type, fam_name)
-    fun <- function(x, par)
-      return(do.call(get(force(raw_name), envir = as.environment("package:gamlss.dist")),
-                     c(list(x), par))) # why does it preserve d_raw_name even if this function is used outside of this environment? http://adv-r.had.co.nz/Functions.html
+
+    if (type %in% c("d", "p")) {# this is necessary because of argument matching
+      fun <- function(x, par)
+        return(do.call(get(force(raw_name), envir = as.environment("package:gamlss.dist")),
+                       c(list(x), par))) # why does it preserve d_raw_name even if this function is used outside of this environment? http://adv-r.had.co.nz/Functions.html
+    } else if (type == "q") {
+      fun <- function(p, par)
+        return(do.call(get(force(raw_name), envir = as.environment("package:gamlss.dist")),
+                       c(list(p), par)))
+    }
   }
 
   # BAMLSS
