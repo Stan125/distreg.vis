@@ -26,5 +26,7 @@ calculates a measure, whose dependency from a certain variable is of
 special interest.}
 }
 \description{
-This is basically a wrapper for pred.bamlss and pred.gamlss with the added ability to compute special figures that are functions of parameters as well
+This is basically a wrapper for the distreg classes' specific predict
+functions (pred.gamlss, pred.bamlss, ...) with the added ability to compute
+special figures that are functions of parameters as well
 }

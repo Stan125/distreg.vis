@@ -1,7 +1,9 @@
 #' Return expected first two moments of a distribution, given the predicted
 #' parameters
 #'
-#' This is basically a wrapper for pred.bamlss and pred.gamlss with the added ability to compute special figures that are functions of parameters as well
+#' This is basically a wrapper for the distreg classes' specific predict
+#' functions (pred.gamlss, pred.bamlss, ...) with the added ability to compute
+#' special figures that are functions of parameters as well
 #'
 #' @importFrom stats pnorm dnorm quantile
 #' @param par Parameters of the modeled distribution in a data.frame form. Can
@@ -22,9 +24,13 @@
 
 moments <- function(par, fam_name, what = "mean", ex_fun = NULL) {
 
+  # If ex_fun is not specified in character form please do so
+  if (!is.null(ex_fun) & !is.character(ex_fun))
+    stop("Please specify ex_fun in character form.")
+
   # Stop if neither gamlss nor bamlss
-  if (!is.gamlss(fam_name) && !is.bamlss(fam_name))
-    stop("This function only works for bamlss/gamlss models")
+  if (!is.distreg.fam(fam_name))
+    stop("This function only works for selected distributional family models.")
 
   # This checks whether we have samples (list format) or not (data.frame format)
   if (is.list(par) && !is.data.frame(par))
@@ -32,7 +38,7 @@ moments <- function(par, fam_name, what = "mean", ex_fun = NULL) {
   else if (is.data.frame(par))
     samples <- FALSE
   else
-    stop("par has to be either a data.frame or a list")
+    stop("par has to be either a data.frame or a list.")
 
   # What to do if ex_fun is an empty string - this is for easier shiny app handling
   if (!is.null(ex_fun)) {
@@ -209,6 +215,40 @@ moments <- function(par, fam_name, what = "mean", ex_fun = NULL) {
         moms <- do.call("rbind", args = comp_res)
       }
     }
+  }
+
+  # betareg moments
+  if (is.betareg(fam_name)) {
+
+    # Error catcher
+    if (what != "mean")
+      stop("In betareg/gamlss models only possible option for argument 'what' is 'mean'.")
+
+    # If we didnt specify external function
+    if (!funworks) {
+      moms_raw <- apply(par, 1, FUN = function(x) {
+        ex <- x[["mu"]]
+        vx <- x[["mu"]] * (1 - x[["mu"]]) / (1 + x[["phi"]])
+        return_vec <- c(Expected_Value = ex, Variance = vx)
+        return(return_vec)
+      })
+    }
+
+    # If we did specify external function
+    if (funworks) {
+      moms_raw <- apply(par, 1, FUN = function(x) {
+        ex <- x[["mu"]]
+        vx <- x[["mu"]] * (1 - x[["mu"]]) / (1 + x[["phi"]])
+        ex_fun_vals <- fun(as.list(x))
+        return_vec <- c(Expected_Value = ex,
+                        Variance = vx,
+                        ex_fun = ex_fun_vals)
+        names(return_vec)[names(return_vec) == "ex_fun"] <- ex_fun
+      })
+    }
+
+    # Make into nice format
+    moms <- as.data.frame(t(moms_raw), row.names = rnames) # lots of reshaping here... no me gusta
   }
 
   if (exists("moms"))

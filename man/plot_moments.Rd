@@ -6,7 +6,7 @@
 \usage{
 plot_moments(model, int_var, pred_data = NULL, rug = FALSE,
   samples = FALSE, uncertainty = FALSE, ex_fun = NULL,
-  palette = "viridis")
+  palette = "viridis", vary_by = NULL)
 }
 \arguments{
 \item{model}{A fitted model on which the plots are based.}
@@ -33,6 +33,10 @@ calculates a measure, whose dependency from a certain variable is of
 interest. Has to be specified in character form.}
 
 \item{palette}{See \code{\link{plot_dist}}.}
+
+\item{vary_by}{Variable name in character form over which to vary the
+mean/reference values of explanatory variables. It is passed to
+\link{set_mean}. See that documentation for further details.}
 }
 \description{
 This function takes a dataframe of predictions with one row per prediction

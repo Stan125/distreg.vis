@@ -24,6 +24,10 @@ I suggest you use one of the qualitative ones: Accent, Dark2, etc. Since
 cumulative distribution function ("cdf")?}
 
 \item{rug}{If TRUE, creates a rug plot}
+
+\item{vary_by}{Variable name in character form over which to vary the
+mean/reference values of explanatory variables. It is passed to
+\link{set_mean}. See that documentation for further details.}
 }
 \value{
 A ggplot2 object.

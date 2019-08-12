@@ -16,7 +16,9 @@
 #' @param type Do you want the probability distribution function ("pdf") or the
 #'   cumulative distribution function ("cdf")?
 #' @param rug If TRUE, creates a rug plot
-#' @param vary_by
+#' @param vary_by Variable name in character form over which to vary the
+#'   mean/reference values of explanatory variables. It is passed to
+#'   \link{set_mean}. See that documentation for further details.
 #' @return A ggplot2 object.
 #' @examples
 #' # Generating data

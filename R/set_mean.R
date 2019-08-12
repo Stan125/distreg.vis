@@ -14,6 +14,11 @@ set_mean <- function(input, vary_by = NULL) {
   if (!is(input, "data.frame"))
     stop("Argument `input` needs to be a data.frame object")
 
+  # Stop if vary_by is not part of df
+  if (!is.null(vary_by))
+    if (!(vary_by %in% colnames(input)))
+      stop("Argument vary_by has to be a variable name that is part of the utilized model dataset")
+
   # Do the operations
   new_df <- lapply(names(input), FUN = function(x) {
 
