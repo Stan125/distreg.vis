@@ -7,8 +7,9 @@
 \title{distreg.vis: Interactively visualizing distributional regression models}
 \description{
 The package \code{distreg.vis} is a framework for the visualization of
-distributional regression models estimated with the R packages \code{bamlss}
-and \code{gamlss}.
+distributional regression models estimated with the R packages \code{bamlss},
+\code{gamlss} and \code{betareg}. Current supported model classes can be
+found under \link{distreg_checker}.
 }
 \details{
 The main functions are:
@@ -42,8 +43,6 @@ components of each displayed graph. After a successful analysis, the user can
 quickly obtain the R code needed to reproduce all displayed plots, without
 having to start the application again.
 
-Maintainer:
-\itemize{
-\item Stanislaus Stadlmann, \email{stadlmann@uni-goettingen.de}
-}
+Maintainer: \itemize{ \item Stanislaus Stadlmann,
+\email{stadlmann@uni-goettingen.de} }
 }

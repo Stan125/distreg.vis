@@ -6,6 +6,7 @@
 #' (min-max). Then, the constant variables with the varied interest variables
 #' are predicted and plotted against the expected value and the variance of the
 #' underlying distribution.
+#'
 #' @param int_var The variable for which influences of the moments shall be
 #'   graphically displayed. Has to be in character form.
 #' @param pred_data Combinations of covariate data, sometimes also known as

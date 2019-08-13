@@ -34,19 +34,32 @@ A ggplot2 object.
 }
 \description{
 This function plots the parameters of a predicted distribution (e.g. obtained
-through \code{\link{preds}}) with ggplot2. You can use all implemented
-families in bamlss except the cox family.
+through \code{\link{preds}}) with ggplot2. You can use all supported
+distributional regression model classes (check details of
+\link{distreg_checker}) as well as all supported distributional families
+(available at \link{dists}).
 }
 \examples{
 # Generating data
 data_fam <- model_fam_data(fam_name = "BE")
+
 # Fit model
 library("gamlss")
 beta_model <- gamlss(BE ~ norm2 + binomial1,
   data = data_fam, family = BE())
-# Get 3 predictions
-pred_df <- data_fam[sample(1:nrow(data_fam), 3), c("norm2", "binomial1")]
-param_preds <- preds(beta_model, pred_df)
+
+# Obtains all explanatory variables and set them to the mean, varying by binomial1
+# (do this if you do not want to specify ndata of preds by yourself)
+ndata <- set_mean(model_data(beta_model), vary_by = "binomial1")
+
+# Obtain predicted parameters
+param_preds <- preds(beta_model, newdata = ndata)
+
 # Create pdf, cdf plots
 plot_dist(beta_model, param_preds, rug = TRUE)
+plot_dist(beta_model, param_preds, type = "cdf")
+plot_dist(beta_model, param_preds, palette = 'default')
+
+# You can also let plot_dist do the step of predicting parameters of the mean explanatory variables:
+plot_dist(beta_model, pred_params = NULL, vary_by = 'binomial1')
 }

@@ -1,11 +1,11 @@
 #' distreg.vis: Interactively visualizing distributional regression models
 #'
 #' The package \code{distreg.vis} is a framework for the visualization of
-#' distributional regression models estimated with the R packages \code{bamlss}
-#' and \code{gamlss}.
+#' distributional regression models estimated with the R packages \code{bamlss},
+#' \code{gamlss} and \code{betareg}. Current supported model classes can be
+#' found under \link{distreg_checker}.
 #'
-#' @details
-#' The main functions are:
+#' @details The main functions are:
 #'
 #' \itemize{ \item \code{vis()}: Starts the Graphical User Interface. \item
 #' \code{moments()}: Obtain predicted moments of the target distribution based
@@ -36,10 +36,8 @@
 #' quickly obtain the R code needed to reproduce all displayed plots, without
 #' having to start the application again.
 #'
-#' Maintainer:
-#' \itemize{
-#' \item Stanislaus Stadlmann, \email{stadlmann@@uni-goettingen.de}
-#' }
+#' Maintainer: \itemize{ \item Stanislaus Stadlmann,
+#' \email{stadlmann@@uni-goettingen.de} }
 #' @docType package
 #' @name distreg.vis
 NULL
