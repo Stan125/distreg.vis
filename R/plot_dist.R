@@ -6,6 +6,38 @@
 #' \link{distreg_checker}) as well as all supported distributional families
 #' (available at \link{dists}).
 #'
+#' @details To get a feel for the predicted distributions and their differences,
+#'   it is best to visualize them. In combination with the obtained parameters
+#'   from \link{preds}, the function \code{plot_dist()} looks for the necessary
+#'   distribution functions (probability density function or cumulative
+#'   distribution function) from the respective packages and then displays them
+#'   graphically.
+#'
+#'   After \code{plot_dist()} has received all necessary arguments, it executes
+#'   validity checks to ensure the argument's correct specification. This
+#'   includes controlling for the correct \code{model} class, checking whether
+#'   the distributional family can be used safely and whether cdf or pdf
+#'   functions for the modeled distribution are present and ready to be
+#'   graphically displayed. If this is the case, the internal
+#'   \link{fam_fun_getter} is used to create a list with two functions pointing
+#'   to the correct pdf and cdf functions in either the \link{gamlss} or
+#'   \link{bamlss} namespace. The functions for \link{betareg} are stored in
+#'   \link{distreg.vis}.
+#'
+#'   Following a successful calculation of the plot limits, the graph itself can
+#'   be created. Internally, \link{distreg.vis} divides between continuous,
+#'   discrete and categorical distributions. Continuous distributions are
+#'   displayed as filled line plots, while discrete and categorical
+#'   distributions take bar graph shapes.
+#'
+#'   For plotting, \link{distreg.vis} relies on the \link{ggplot2} package
+#'   (Wickham 2016). After an empty graph is constructed, the previously
+#'   obtained cdf or pdf functions are evaluated for each predicted parameter
+#'   combination and all values inside the calculated plot limits.
+#'
+#' @references Wickham H (2016). ggplot2: Elegant Graphics for Data Analysis.
+#'   Springer-Verlag New York. ISBN 978-3-319-24277-4. \url{http://ggplot2.org}.
+#'
 #' @param model A fitted distributional regression model object. Check
 #'   \link{distreg_checker} to see which classes are supported.
 #' @param pred_params A data.frame with rows for every model prediction and

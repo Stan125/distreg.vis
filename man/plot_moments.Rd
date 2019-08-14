@@ -30,7 +30,8 @@ covariate influences. Can only be \code{TRUE} if samples is also
 
 \item{ex_fun}{An external function \code{function(par) {...}} which
 calculates a measure, whose dependency from a certain variable is of
-interest. Has to be specified in character form.}
+interest. Has to be specified in character form. See examples for an
+example.}
 
 \item{palette}{See \code{\link{plot_dist}}.}
 
@@ -46,25 +47,71 @@ held constant while one specific variable is varied over it's whole range
 are predicted and plotted against the expected value and the variance of the
 underlying distribution.
 }
+\details{
+The target of this function is to display the influence of a selected effect
+on the predicted moments of the modeled distribution. The motivation for
+computing influences on the moments of a distribution is its
+interpretability: In most cases, the parameters of a distribution do not
+equate the moments and as such are only indirectly location, scale or shape
+properties, making the computed effects hard to understand.
+
+Navigating through the disarray of link functions, non-parametric effects and
+transformations to moments, \code{plot_moments()} supports a wide range of
+target distributions. See \link{dists} for details.
+
+Whether a distribution is supported or not depends on whether the underlying
+\code{R} object possesses functions to calculate the moments of the
+distribution from the predicted parameters. To achieve this for as many
+distributional families as possible, we worked together with both the authors
+of \link{gamlss} (Rigby and Stasinopoulos 2005) and \link{bamlss} (Umlauf et
+al. 2018) and implemented the moment functions for almost all available
+distributions in the respective packages. The \link{betareg} family was
+implemented in \link{distreg.vis} as well.
+}
 \examples{
-library("gamlss")
+
+# Generating some data
 dat <- model_fam_data(fam_name = "LOGNO")
+
+# Estimating the model
+library("gamlss")
 model <- gamlss(LOGNO ~ ps(norm2) + binomial1,
                 ~ ps(norm2) + binomial1,
                 data = dat, family = "LOGNO")
-ndata <- dat[1:5, c("norm2", "binomial1")]
 
-# Normal plot with and without specifying a newdata
+# Get newdata by either specifying an own data.frame, or using set_mean()
+# for obtaining mean vals of explanatory variables
+ndata_user <- dat[1:5, c("norm2", "binomial1")]
+ndata_auto <- set_mean(model_data(model))
+
+# Influence graphs
+plot_moments(model, int_var = "norm2", pred_data = ndata_user) # cont. var
+plot_moments(model, int_var = "binomial1", pred_data = ndata_user) # discrete var
+plot_moments(model, int_var = "norm2", pred_data = ndata_auto) # with new ndata
+
+# If pred_data argument is omitted plot_moments uses mean explanatory
+# variables for prediction (using set_mean)
 plot_moments(model, int_var = "norm2")
-plot_moments(model, int_var = "norm2", pred_data = ndata)
 
 # Rug Plot
-plot_moments(model, int_var = "norm2", pred_data = ndata, rug = TRUE)
+plot_moments(model, int_var = "norm2", rug = TRUE)
+
+# Different colour palette
+plot_moments(model, int_var = "binomial1", palette = "Dark2")
 
 # Using an external function
 ineq <- function(par) {
   2 * pnorm((par[["sigma"]] / 2) * sqrt(2)) - 1
 }
-plot_moments(model, int_var = "norm2", pred_data = ndata, ex_fun = "ineq")
+plot_moments(model, int_var = "norm2", pred_data = ndata_user, ex_fun = "ineq")
 
+}
+\references{
+Rigby RA, Stasinopoulos DM (2005). "Generalized Additive Models
+  for Location, Scale and Shape." Journal of the Royal Statistical Society C,
+  54(3), 507-554.
+
+  Umlauf, N, Klein N, Zeileis A (2018). "BAMLSS: Bayesian
+  Additive Models for Location, Scale and Shape (and Beyond)." Journal of
+  Computational and Graphical Statistics, 27(3), 612-627.
 }
