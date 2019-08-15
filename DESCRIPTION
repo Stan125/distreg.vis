@@ -18,7 +18,6 @@ Imports:
         rhandsontable (>= 0.3.4),
         magrittr (>= 1.5),
         viridis (>= 0.4.0),
-        RColorBrewer (>= 1.1-2),
         formatR (>= 1.5),
         betareg (>= 3.1-2)
 Suggests: testthat, gridExtra, glogis
