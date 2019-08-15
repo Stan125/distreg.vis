@@ -1,12 +1,16 @@
 #' Model data getter
 #'
-#' Get the data from the models
+#' Get the data with which the distributional regression model of interest was
+#' estimated (see \link{distreg_checker} for a list of supported object
+#' classes). By default, only explanatory variables are returned.
 #' @importFrom methods is
 #' @importFrom stats model.frame
 #' @param model A gamlss or bamlss object.
 #' @param dep If TRUE, then only the dependent variable is returned.
-#' @param varname Variable name in character form that should be returned.
-#'
+#' @param varname Variable name in character form that should be returned. If
+#'   this is specified, only the desired variable is returned.
+#' @return A data.frame object if dep or varname is not specified, otherwise a
+#'   vector.
 #' @export
 model_data <- function(model, dep = FALSE, varname = NULL) {
 

@@ -2,7 +2,9 @@
 #'
 #' This function takes a fitted model and a dataframe with explanatory variables
 #' and a column for the intercept to compute predicted parameters for the
-#' specified distribution.
+#' specified distribution. Without worrying about class-specific function
+#' arguments, \code{preds()} offers a consistent way of obtaining predictions
+#' based on specific covariate combinations.
 #'
 #' @param model A fitted bamlss model object, created with \code{\link{bamlss}}.
 #' @param newdata A data.frame with explanatory variables as columns, and rows
@@ -20,13 +22,20 @@
 #' @examples
 #' # Generating data
 #' data_fam <- model_fam_data(fam_name = "BE")
+#'
 #' # Fit model
 #' library("gamlss")
 #' beta_model <- gamlss(BE ~ norm2 + binomial1,
 #'   data = data_fam, family = BE())
+#'
 #' # Get 3 predictions
-#' pred_df <- data_fam[sample(1:nrow(data_fam), 3), c("binomial1", "norm2")]
-#' param_preds <- preds(beta_model, pred_df)
+#' ndata <- data_fam[sample(1:nrow(data_fam), 3), c("binomial1", "norm2")]
+#' preds(model = beta_model, newdata = ndata)
+#'
+#' # If newdata argument is omitted preds uses the means of the explanatory variables
+#' preds(model = beta_model, newdata = NULL) # this and ...
+#' preds(model = beta_model, newdata = set_mean(model_data(beta_model))) # ... this give the same results
+#'
 #' @return A data.frame with one column for every distributional parameter and a
 #'   row for every covariate combination that should be predicted.
 #' @importFrom stats na.omit predict
