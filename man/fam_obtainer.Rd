@@ -16,6 +16,6 @@ data_fam <- model_fam_data(fam_name = "BE")
 library("gamlss")
 beta_model <- gamlss(BE ~ norm2 + binomial1,
   data = data_fam, family = BE())
-fam_obtainer(model = beta_model)
+distreg.vis:::fam_obtainer(model = beta_model)
 }
 \keyword{internal}

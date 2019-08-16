@@ -150,7 +150,7 @@ disc_trans <- function(pred_params, fam_name, type, model, lims) {
 #' library("gamlss")
 #' beta_model <- gamlss(BE ~ norm2 + binomial1,
 #'   data = data_fam, family = BE())
-#' fam_obtainer(model = beta_model)
+#' distreg.vis:::fam_obtainer(model = beta_model)
 fam_obtainer <- function(model) {
   # Check whether model is gamlss or bamlss
   if (!any(class(model) %in% c("gamlss", "bamlss", "betareg")))
