@@ -2,7 +2,7 @@
 % Please edit documentation in R/preds.R
 \name{preds}
 \alias{preds}
-\title{Predict distributional parameters of a bamlss family with a bamlss model}
+\title{Predict parameters of a distreg models' target distribution}
 \usage{
 preds(model, newdata = NULL, what = "mean", vary_by = NULL)
 }

@@ -38,9 +38,12 @@ search_funs <- function() {
     return("NO FUNCTION")
 }
 
-#' Check if object is a distributional regression object
+#' Check if model class is supported
 #'
-#' @keywords internal
+#' This function is a quick way to find out whether a specific model class is supported.
+#'
+#' @export
+#' @param x Model object or model object in quoted form, e.g. "mymodel"
 #' @details At the moment, the following classes are supported:
 #' \itemize{
 #' \item gamlss

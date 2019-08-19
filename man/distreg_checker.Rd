@@ -2,12 +2,15 @@
 % Please edit documentation in R/misc.R
 \name{distreg_checker}
 \alias{distreg_checker}
-\title{Check if object is a distributional regression object}
+\title{Check if model class is supported}
 \usage{
 distreg_checker(x)
 }
+\arguments{
+\item{x}{Model object or model object in quoted form, e.g. "mymodel"}
+}
 \description{
-Check if object is a distributional regression object
+This function is a quick way to find out whether a specific model class is supported.
 }
 \details{
 At the moment, the following classes are supported:
@@ -17,4 +20,3 @@ At the moment, the following classes are supported:
 \item betareg
 }
 }
-\keyword{internal}

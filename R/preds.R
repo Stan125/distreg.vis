@@ -1,4 +1,4 @@
-#' Predict distributional parameters of a bamlss family with a bamlss model
+#' Predict parameters of a distreg models' target distribution
 #'
 #' This function takes a fitted model and a dataframe with explanatory variables
 #' and a column for the intercept to compute predicted parameters for the
@@ -107,7 +107,8 @@ preds <- function(model, newdata = NULL, what = "mean", vary_by = NULL) {
 
 
   } else {
-    stop("Class is neither bamlss nor gamlss, so can't make predictions!")
+    stop("Model class is not supported, so can't make predictions. \n
+         See ?distreg_checker for supported models")
   }
 
   # Return it here
