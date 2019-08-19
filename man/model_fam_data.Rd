@@ -2,7 +2,7 @@
 % Please edit documentation in R/model_fam_data.R
 \name{model_fam_data}
 \alias{model_fam_data}
-\title{Create a dataset to fit models with all possible families in bamlss}
+\title{Create a dataset to fit models with all possible families in distreg packages}
 \usage{
 model_fam_data(nrow = 500, seed = 1408, fam_name = "NO")
 }
@@ -18,7 +18,7 @@ dimension of the uniform distribution should be transformed to.}
 A data.frame with columns for differently distributed data.
 }
 \description{
-Create a dataset to fit models with all possible families in bamlss
+Create a dataset to fit models with all possible families in distreg packages
 }
 \details{
 This function creates a 3-dimensional uniform distribution (with

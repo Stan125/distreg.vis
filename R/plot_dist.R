@@ -84,7 +84,7 @@ plot_dist <- function(model, pred_params = NULL, palette = "viridis",
 
   # Check whether the function is even applied to the right classes
   if (!distreg_checker(model))
-    stop("This tool only works for bamlss/gamlss classes")
+    stop("This tool only works for model certain classes. \n Execute ?distreg_checker to find out which ones are currently supported")
 
   # Compute mean values of expl variables if no pred_params is provided
   if (is.null(pred_params))

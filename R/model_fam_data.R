@@ -1,4 +1,4 @@
-#' Create a dataset to fit models with all possible families in bamlss
+#' Create a dataset to fit models with all possible families in distreg packages
 #'
 #' @details This function creates a 3-dimensional uniform distribution (with
 #'   support from 0 to 1) which has a cross-correlation of 0.5. Then the first

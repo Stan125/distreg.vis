@@ -40,16 +40,18 @@ search_funs <- function() {
 
 #' Check if model class is supported
 #'
-#' This function is a quick way to find out whether a specific model class is supported.
+#' This function is a quick way to find out whether a specific model class is
+#' supported.
+#'
+#' This function is one of the cornerstones of \link{distreg.vis}. It decides
+#' which models are supported. All core functions of this package call
+#' \code{distreg_checker} multiple times. So, if a model class is support here,
+#' it is supported in the whole package.
 #'
 #' @export
 #' @param x Model object or model object in quoted form, e.g. "mymodel"
-#' @details At the moment, the following classes are supported:
-#' \itemize{
-#' \item gamlss
-#' \item bamlss
-#' \item betareg
-#' }
+#' @details At the moment, the following classes are supported: \itemize{ \item
+#'   gamlss \item bamlss \item betareg }
 
 distreg_checker <- function(x) {
   if (is.character(x))

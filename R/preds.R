@@ -6,7 +6,8 @@
 #' arguments, \code{preds()} offers a consistent way of obtaining predictions
 #' based on specific covariate combinations.
 #'
-#' @param model A fitted bamlss model object, created with \code{\link{bamlss}}.
+#' @param model A fitted distributional regression model object. Check supported
+#'   classes at \link{distreg_checker}.
 #' @param newdata A data.frame with explanatory variables as columns, and rows
 #'   with the combinations you want to do predictions for. Furthermore, whether
 #'   or not to include the intercept has to be specified via a logical variable

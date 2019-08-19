@@ -7,7 +7,8 @@
 preds(model, newdata = NULL, what = "mean", vary_by = NULL)
 }
 \arguments{
-\item{model}{A fitted bamlss model object, created with \code{\link{bamlss}}.}
+\item{model}{A fitted distributional regression model object. Check supported
+classes at \link{distreg_checker}.}
 
 \item{newdata}{A data.frame with explanatory variables as columns, and rows
 with the combinations you want to do predictions for. Furthermore, whether
