@@ -36,7 +36,8 @@
 #'   combination and all values inside the calculated plot limits.
 #'
 #' @references Wickham H (2016). ggplot2: Elegant Graphics for Data Analysis.
-#'   Springer-Verlag New York. ISBN 978-3-319-24277-4. \url{http://ggplot2.org}.
+#'   Springer-Verlag New York. ISBN 978-3-319-24277-4.
+#'   \url{https://ggplot2.tidyverse.org}.
 #'
 #' @param model A fitted distributional regression model object. Check
 #'   \link{distreg_checker} to see which classes are supported.

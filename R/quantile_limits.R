@@ -11,8 +11,8 @@ quants <- function(fam_name, pred_params) {
   qfun <- fam_fun_getter(fam_name, "q")
 
   # Evaluate cdf at 0.001 and 0.999 quantile
-  lower <- apply(pred_params, 1, function(x) qfun(p = 0.001, par = as.list(x)))
-  upper <- apply(pred_params, 1, function(x) qfun(p = 0.999, par = as.list(x)))
+  lower <- apply(pred_params, 1, function(x) qfun(0.001, par = as.list(x)))
+  upper <- apply(pred_params, 1, function(x) qfun(0.999, par = as.list(x)))
 
   # Return results
   return(list(lower = lower, upper = upper))

@@ -170,10 +170,10 @@ fam_fun_getter <- function(fam_name, type) {
       }
     }
     if (type == "q") { # here we need to use p as argument in order to match everything correctly
-      fun <- function(p, par) {
+      fun <- function(x, par) {
         alpha <- par[["mu"]] * par[["phi"]]
         beta <- (1 - par[["mu"]]) * par[["phi"]]
-        return(qbeta(p, alpha, beta))
+        return(qbeta(x, alpha, beta))
       }
     }
   }
