@@ -296,6 +296,7 @@ plot_multinom_exp <- function(model, int_var, pred_data, m_data, palette, coltyp
               idvar = c(int_var, "prediction")) %>% # because classes start with second column
       set_colnames(c(int_var, "prediction", "class", "value")) %>%
       set_rownames(seq_len(nrow(.)))
+    preds$class <- factor(preds$class, levels = levels(m_data[, 1]))
 
     # Numerical influence plot
     if (coltype == "num") {
