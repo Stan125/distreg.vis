@@ -34,8 +34,8 @@
 #' preds(model = beta_model, newdata = ndata)
 #'
 #' # If newdata argument is omitted preds uses the means of the explanatory variables
-#' preds(model = beta_model, newdata = NULL) # this and ...
-#' preds(model = beta_model, newdata = set_mean(model_data(beta_model))) # ... this give the same results
+#' preds(model = beta_model, newdata = NULL) # this gives the same results as ...
+#' preds(model = beta_model, newdata = set_mean(model_data(beta_model))) # ...this
 #'
 #' @return A data.frame with one column for every distributional parameter and a
 #'   row for every covariate combination that should be predicted.
@@ -100,8 +100,8 @@ preds <- function(model, newdata = NULL, what = "mean", vary_by = NULL) {
   } else if (is(model, "betareg")) {
     if (what == "mean") {
       pred_par <- data.frame(
-        mu = betareg:::predict.betareg(model, newdata = newdata, type = "response"),
-        phi = betareg:::predict.betareg(model, newdata = newdata, type = "precision"))
+        mu = stats::predict(model, newdata = newdata, type = "response"),
+        phi = stats::predict(model, newdata = newdata, type = "precision"))
     } else if (what != "mean") {
       stop("betareg uses ML, so no samples available.")
     }

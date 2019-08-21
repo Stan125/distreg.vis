@@ -50,7 +50,7 @@ ndata <- data_fam[sample(1:nrow(data_fam), 3), c("binomial1", "norm2")]
 preds(model = beta_model, newdata = ndata)
 
 # If newdata argument is omitted preds uses the means of the explanatory variables
-preds(model = beta_model, newdata = NULL) # this and ...
-preds(model = beta_model, newdata = set_mean(model_data(beta_model))) # ... this give the same results
+preds(model = beta_model, newdata = NULL) # this gives the same results as ...
+preds(model = beta_model, newdata = set_mean(model_data(beta_model))) # ...this
 
 }
