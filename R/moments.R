@@ -278,7 +278,7 @@ moments <- function(par, fam_name, what = "mean", ex_fun = NULL) {
 
     # Error catcher
     if (what != "mean")
-      stop("In betareg/gamlss models only possible option for argument 'what' is 'mean'.")
+      stop("In betareg models only option for argument 'what' is 'mean'.")
 
     # If we didnt specify external function
     if (!funworks) {
