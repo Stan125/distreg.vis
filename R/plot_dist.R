@@ -80,15 +80,19 @@
 #' @export
 
 plot_dist <- function(model, pred_params = NULL, palette = "viridis",
-                      type = "pdf", rug = FALSE, vary_by = NULL) {
+                      type = "pdf", rug = FALSE, vary_by = NULL,
+                      newdata = NULL) {
 
   # Check whether the function is even applied to the right classes
   if (!distreg_checker(model))
     stop("This tool only works for model certain classes. \n Execute ?distreg_checker to find out which ones are currently supported")
 
   # Compute mean values of expl variables if no pred_params is provided
-  if (is.null(pred_params))
+  if (is.null(pred_params) && is.null(newdata))
     pred_params <- preds(model, vary_by = vary_by)
+
+  if (is.null(pred_params) && !is.null(newdata))
+    pred_params <- preds(model, newdata = newdata, vary_by = vary_by)
 
   # Get right family
   fam_name <- fam_obtainer(model)
