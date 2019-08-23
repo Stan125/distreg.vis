@@ -18,7 +18,7 @@ model_data <- function(model, dep = FALSE, varname = NULL) {
   if (!distreg_checker(model))
     stop("Specified model is not a supported distributional regression object. \nSee ?distreg_checker for details")
 
-  if (dep & varname)
+  if (dep & !is.null(varname))
     stop("Combination dep = TRUE and a specified varname is not possible.")
 
   # GAMLSS
