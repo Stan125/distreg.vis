@@ -40,7 +40,6 @@
 #' @return A data.frame with one column for every distributional parameter and a
 #'   row for every covariate combination that should be predicted.
 #' @importFrom stats na.omit predict
-#' @importFrom stats predict
 #' @importFrom gamlss predictAll
 #' @export
 
@@ -97,7 +96,7 @@ preds <- function(model, newdata = NULL, what = "mean", vary_by = NULL) {
       pred_par <- preds_transformer(samples_raw, newdata = newdata)
     }
 
-  } else if (is(model, "betareg")) {
+  } else if (is(model, "betareg") | is(model, "betatree")) {
     if (what == "mean") {
       pred_par <- data.frame(
         mu = stats::predict(model, newdata = newdata, type = "response"),

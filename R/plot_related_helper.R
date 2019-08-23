@@ -143,6 +143,7 @@ disc_trans <- function(pred_params, fam_name, type, model, lims) {
 #'
 #' Gets the right family (in characters) from a given model
 #' @keywords internal
+#' @importFrom methods is
 #' @examples
 #' # Generating data
 #' data_fam <- model_fam_data(fam_name = "BE")
@@ -152,20 +153,22 @@ disc_trans <- function(pred_params, fam_name, type, model, lims) {
 #'   data = data_fam, family = BE())
 #' distreg.vis:::fam_obtainer(model = beta_model)
 fam_obtainer <- function(model) {
+
   # Check whether model is gamlss or bamlss
-  if (!any(class(model) %in% c("gamlss", "bamlss", "betareg")))
-    stop("Cannot deal with model class if not bamlss, gamlss or betareg")
+  if (!distreg_checker(model))
+    stop("Unsupported model class provided. \n
+         Check ?distreg_checker for supported model classes")
 
   # gamlss families
-  if (any(class(model) == "gamlss"))
+  if (is(model, "gamlss"))
     fam <- model$family[1]
 
   # bamlss families
-  if (any(class(model) == "bamlss"))
+  if (is(model, "bamlss"))
     fam <- model$family$family
 
   # betareg
-  if (any(class(model) == "betareg"))
+  if (is(model, "betareg") | is(model, "betatree"))
     fam <- "betareg"
 
   # Return it

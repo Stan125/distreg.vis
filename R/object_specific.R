@@ -59,9 +59,9 @@ model_data <- function(model, dep = FALSE, varname = NULL) {
       return_object <- return_object[[varname]]
   }
 
-  # Betareg
-  if (is(model, "betareg")) {
-    return_object <- model[["model"]]
+  # Betareg / Betatree
+  if (is(model, "betareg") | is(model, "betatree")) {
+    return_object <- model.frame(model)
 
     # Return dependent variable if wanted
     if (dep & is.null(varname))

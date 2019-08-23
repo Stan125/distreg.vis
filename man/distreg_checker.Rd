@@ -19,6 +19,8 @@ which models are supported. All core functions of this package call
 \code{distreg_checker} multiple times. So, if a model class is support here,
 it is supported in the whole package.
 
-At the moment, the following classes are supported: \itemize{ \item
-  gamlss \item bamlss \item betareg }
+At the moment, the following model classes are supported: \itemize{
+  \item \link[gamlss]{gamlss} \item \link[bamlss]{bamlss} \item
+  \link[betareg]{betareg} from \code{betareg} \item \link[betareg]{betatree}
+  from \code{betareg}}
 }

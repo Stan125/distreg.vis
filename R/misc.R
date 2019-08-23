@@ -50,8 +50,10 @@ search_funs <- function() {
 #'
 #' @export
 #' @param x Model object or model object in quoted form, e.g. "mymodel"
-#' @details At the moment, the following classes are supported: \itemize{ \item
-#'   gamlss \item bamlss \item betareg }
+#' @details At the moment, the following model classes are supported: \itemize{
+#'   \item \link[gamlss]{gamlss} \item \link[bamlss]{bamlss} \item
+#'   \link[betareg]{betareg} from \code{betareg} \item \link[betareg]{betatree}
+#'   from \code{betareg}}
 
 distreg_checker <- function(x) {
   if (is.character(x))
@@ -63,6 +65,8 @@ distreg_checker <- function(x) {
   else if (is(obj, "gamlss"))
     return(TRUE)
   else if (is(obj, "betareg"))
+    return(TRUE)
+  else if (is(obj, "betatree"))
     return(TRUE)
   else
     return(FALSE)
