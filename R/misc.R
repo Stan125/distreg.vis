@@ -64,9 +64,7 @@ distreg_checker <- function(x) {
     return(TRUE)
   else if (is(obj, "gamlss"))
     return(TRUE)
-  else if (is(obj, "betareg"))
-    return(TRUE)
-  else if (is(obj, "betatree"))
+  else if (is(obj, "betareg") | is(obj, "betatree"))
     return(TRUE)
   else
     return(FALSE)
