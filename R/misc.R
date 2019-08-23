@@ -137,9 +137,9 @@ fam_fun_getter <- function(fam_name, type) {
         return(do.call(get(force(raw_name), envir = as.environment("package:gamlss.dist")),
                        c(list(x), par))) # why does it preserve d_raw_name even if this function is used outside of this environment? http://adv-r.had.co.nz/Functions.html
     } else if (type == "q") {
-      fun <- function(p, par)
+      fun <- function(x, par)
         return(do.call(get(force(raw_name), envir = as.environment("package:gamlss.dist")),
-                       c(list(p), par)))
+                       c(list(x), par)))
     }
   }
 
