@@ -32,6 +32,8 @@ set_mean <- function(input, vary_by = NULL) {
                             na.rm = TRUE)
       } else {
         def_var <- mean(var, na.rm = TRUE)
+        if (is.integer(var))
+          def_var <- round(def_var)
       }
     }
 
