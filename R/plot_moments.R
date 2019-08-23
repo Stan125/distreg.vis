@@ -276,60 +276,65 @@ plot_moments <- function(model, int_var, pred_data = NULL,
 #'   multinomial family
 #'
 #' @import ggplot2
+#' @importFrom stats model.frame
 #' @importFrom magrittr %>% inset extract set_rownames set_colnames
 #' @importFrom viridis scale_fill_viridis scale_colour_viridis
 #' @keywords internal
 
 plot_multinom_exp <- function(model, int_var, pred_data, m_data, palette, coltype) {
-    # Get predictions for each class dep on int_var
-    preds <- pred_data[, !colnames(pred_data) %in% c("id", "prediction")] %>%
-      preds(model, newdata = .) %>%
-      mult_trans(., model) %>%
-      inset("id", value = row.names(.))
-    classes <- as.character(unique(m_data[, 1]))
-    preds <- preds %>%
-      merge(y = pred_data, by.x = "id") %>%
-      extract(, c(int_var, classes, "prediction")) %>%
-      set_colnames(c(int_var, paste0("c.", classes), "prediction")) %>%
-      reshape(., direction = "long",
-              varying = seq_len(length(classes)) + 1,
-              idvar = c(int_var, "prediction")) %>% # because classes start with second column
-      set_colnames(c(int_var, "prediction", "class", "value")) %>%
-      set_rownames(seq_len(nrow(.)))
-    preds$class <- factor(preds$class, levels = levels(m_data[, 1]))
 
-    # Numerical influence plot
-    if (coltype == "num") {
-      ground <- ggplot(preds, aes_string(x = int_var, y = "value", fill = "class")) +
-        geom_area() +
-        facet_wrap(~prediction) +
-        labs(y = "Expected value of class") +
-        ggtitle(paste("Influence of", int_var,
-                      "on expected values of every class' pi_i")) +
-        theme_bw()
-    }
-    # Categorical influence plot
-    if (coltype == "cat") {
-      ground <- ggplot(preds, aes_string(x = int_var, y = "value", fill = "class")) +
-        geom_bar(stat = "identity", position = position_dodge()) +
-        facet_wrap(~prediction) +
-        labs(y = "Expected value of class") +
-        ggtitle(paste("Influence of", int_var,
-                      "on expected values of every class' pi_i")) +
-        theme_bw()
-    }
+  # Special case of multinomial requires m_data attached with dependent variable
+  m_data <- model.frame(model)
 
-    # Palettes
-    if (palette == "viridis") {
-      ground <- ground +
-        scale_fill_viridis(discrete = TRUE) +
-        scale_colour_viridis(discrete = TRUE)
-    } else if (palette != "default") {
-      ground <- ground +
-        scale_fill_brewer(palette = palette) +
-        scale_colour_brewer(palette = palette)
-    }
-    return(ground)
+  # Get predictions for each class dep on int_var
+  preds <- pred_data[, !colnames(pred_data) %in% c("id", "prediction")] %>%
+    preds(model, newdata = .) %>%
+    mult_trans(., model) %>%
+    inset("id", value = row.names(.))
+  classes <- as.character(unique(m_data[, 1]))
+  preds <- preds %>%
+    merge(y = pred_data, by.x = "id") %>%
+    extract(, c(int_var, classes, "prediction")) %>%
+    set_colnames(c(int_var, paste0("c.", classes), "prediction")) %>%
+    reshape(., direction = "long",
+            varying = seq_len(length(classes)) + 1,
+            idvar = c(int_var, "prediction")) %>% # because classes start with second column
+    set_colnames(c(int_var, "prediction", "class", "value")) %>%
+    set_rownames(seq_len(nrow(.)))
+  preds$class <- factor(preds$class, levels = levels(m_data[, 1]))
+
+  # Numerical influence plot
+  if (coltype == "num") {
+    ground <- ggplot(preds, aes_string(x = int_var, y = "value", fill = "class")) +
+      geom_area() +
+      facet_wrap(~prediction) +
+      labs(y = "Expected value of class") +
+      ggtitle(paste("Influence of", int_var,
+                    "on expected values of every class' pi_i")) +
+      theme_bw()
+  }
+  # Categorical influence plot
+  if (coltype == "cat") {
+    ground <- ggplot(preds, aes_string(x = int_var, y = "value", fill = "class")) +
+      geom_bar(stat = "identity", position = position_dodge()) +
+      facet_wrap(~prediction) +
+      labs(y = "Expected value of class") +
+      ggtitle(paste("Influence of", int_var,
+                    "on expected values of every class' pi_i")) +
+      theme_bw()
+  }
+
+  # Palettes
+  if (palette == "viridis") {
+    ground <- ground +
+      scale_fill_viridis(discrete = TRUE) +
+      scale_colour_viridis(discrete = TRUE)
+  } else if (palette != "default") {
+    ground <- ground +
+      scale_fill_brewer(palette = palette) +
+      scale_colour_brewer(palette = palette)
+  }
+  return(ground)
 }
 
 #' Internal: Reshape into Long Format
