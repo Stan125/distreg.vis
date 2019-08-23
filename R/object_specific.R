@@ -16,8 +16,10 @@ model_data <- function(model, dep = FALSE, varname = NULL) {
 
   # Check first if supported distributional regression model
   if (!distreg_checker(model))
-    stop("Specified model is not a supported distributional regression object. \n
-         See ?distreg_checker for details")
+    stop("Specified model is not a supported distributional regression object. \nSee ?distreg_checker for details")
+
+  if (dep & varname)
+    stop("Combination dep = TRUE and a specified varname is not possible.")
 
   # GAMLSS
   if (is(model, "gamlss")) {
@@ -44,6 +46,10 @@ model_data <- function(model, dep = FALSE, varname = NULL) {
     if (!dep & !is.null(varname))
       return_object <- return_object[[varname]]
 
+    # If no varname but no dep then don't return with dep
+    if (!dep & is.null(varname))
+      return_object <- return_object[, !colnames(return_object) %in% dep_name]
+
   }
 
   # BAMLSS
@@ -57,6 +63,11 @@ model_data <- function(model, dep = FALSE, varname = NULL) {
     # Return a specific variable
     if (!dep & !is.null(varname))
       return_object <- return_object[[varname]]
+
+    # If dep is true but varname not specified then return without dep
+    if (!dep & is.null(varname))
+      return_object <- return_object[, -1]
+
   }
 
   # Betareg / Betatree
