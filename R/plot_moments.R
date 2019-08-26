@@ -55,7 +55,6 @@
 #'   mean/reference values of explanatory variables. It is passed to
 #'   \link{set_mean}. See that documentation for further details.
 #' @importFrom magrittr %>% extract inset set_colnames set_rownames
-#' @importFrom viridis scale_fill_viridis scale_colour_viridis
 #' @import ggplot2
 #' @examples
 #'
@@ -212,8 +211,8 @@ plot_moments <- function(model, int_var, pred_data = NULL,
   # Palettes
   if (palette == "viridis") {
     ground <- ground +
-      scale_fill_viridis(discrete = TRUE) +
-      scale_colour_viridis(discrete = TRUE)
+      scale_fill_viridis_d() +
+      scale_colour_viridis_d()
   } else if (palette != "default") {
     ground <- ground +
       scale_fill_brewer(palette = palette) +
@@ -277,7 +276,6 @@ plot_moments <- function(model, int_var, pred_data = NULL,
 #'
 #' @import ggplot2
 #' @importFrom magrittr %>% inset extract set_rownames set_colnames
-#' @importFrom viridis scale_fill_viridis scale_colour_viridis
 #' @keywords internal
 
 plot_multinom_exp <- function(model, int_var, pred_data, m_data, palette, coltype) {
@@ -322,8 +320,8 @@ plot_multinom_exp <- function(model, int_var, pred_data, m_data, palette, coltyp
     # Palettes
     if (palette == "viridis") {
       ground <- ground +
-        scale_fill_viridis(discrete = TRUE) +
-        scale_colour_viridis(discrete = TRUE)
+        scale_fill_viridis_d() +
+        scale_colour_viridis_d()
     } else if (palette != "default") {
       ground <- ground +
         scale_fill_brewer(palette = palette) +

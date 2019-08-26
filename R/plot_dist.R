@@ -178,8 +178,8 @@ pdfcdf_continuous <- function(lims, funs, type, p_m, palette, depvar) {
   # Colour Palettes - if not default or viridis
   if (palette == "viridis") {
     ground <- ground +
-      scale_fill_viridis(discrete = TRUE) +
-      scale_colour_viridis(discrete = TRUE)
+      scale_fill_viridis_d() +
+      scale_colour_viridis_d()
   } else if (palette != "default") {
     ground <- ground +
       scale_fill_brewer(palette = palette) +
@@ -232,8 +232,8 @@ pdfcdf_discrete <- function(pred_params, palette, fam_name, type, model, lims, d
     # Palettes
     if (palette == "viridis") {
       ground <- ground +
-        scale_fill_viridis(discrete = TRUE) +
-        scale_colour_viridis(discrete = TRUE)
+        scale_fill_viridis_d() +
+        scale_colour_viridis_d()
     } else if (palette != "default") {
       ground <- ground +
         scale_fill_brewer(palette = palette) +
@@ -273,8 +273,8 @@ pdfcdf_discrete <- function(pred_params, palette, fam_name, type, model, lims, d
     # Palette
     if (palette == "viridis") {
       ground <- ground +
-        scale_fill_viridis(discrete = TRUE) +
-        scale_colour_viridis(discrete = TRUE)
+        scale_fill_viridis_d() +
+        scale_colour_viridis_d()
     } else if (palette != "default") {
       ground <- ground +
         scale_fill_brewer(palette = palette) +
