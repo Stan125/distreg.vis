@@ -138,7 +138,6 @@ plot_dist <- function(model, pred_params = NULL, palette = "viridis",
 #'
 #' Returns a plot
 #' @import ggplot2
-#' @importFrom viridis scale_fill_viridis scale_colour_viridis
 #' @keywords internal
 
 pdfcdf_continuous <- function(lims, funs, type, p_m, palette, depvar) {
@@ -211,7 +210,6 @@ pdfcdf_continuous <- function(lims, funs, type, p_m, palette, depvar) {
 #'
 #' Returns a plot
 #' @import ggplot2
-#' @importFrom viridis scale_fill_viridis scale_colour_viridis
 #' @keywords internal
 
 pdfcdf_discrete <- function(pred_params, palette, fam_name, type, model, lims, depvar) {
