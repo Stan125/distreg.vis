@@ -15,6 +15,7 @@
 #'   dimension of the uniform distribution should be transformed to.
 #' @import bamlss
 #' @import gamlss.dist
+#' @importFrom betareg betareg
 #' @importFrom stats rmultinom qbeta qbinom qgamma runif qpois qnorm qlnorm
 #' @examples
 #' # Beta distributed random values
