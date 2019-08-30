@@ -23,3 +23,15 @@ Get the data with which the distributional regression model of interest was
 estimated (see \link{distreg_checker} for a list of supported object
 classes). By default, only explanatory variables are returned.
 }
+\examples{
+library("betareg")
+
+# Get some data
+beta_dat <- model_fam_fata(fam_name = "betareg")
+
+# Estimate model
+betamod <- betareg(betareg ~ ., data = beta_dat)
+
+# Get data
+model_data(betamod)
+}

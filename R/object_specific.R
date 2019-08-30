@@ -11,6 +11,17 @@
 #'   this is specified, only the desired variable is returned.
 #' @return A data.frame object if dep or varname is not specified, otherwise a
 #'   vector.
+#' @examples
+#' library("betareg")
+#'
+#' # Get some data
+#' beta_dat <- model_fam_fata(fam_name = "betareg")
+#'
+#' # Estimate model
+#' betamod <- betareg(betareg ~ ., data = beta_dat)
+#'
+#' # Get data
+#' model_data(betamod)
 #' @export
 model_data <- function(model, dep = FALSE, varname = NULL) {
 

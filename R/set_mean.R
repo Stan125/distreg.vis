@@ -7,6 +7,19 @@
 #' @param input A \code{data.frame} object
 #' @param vary_by A character string with the name of a variable over which the output dataframe should vary.
 #' @return A \code{data.frame} object with one row
+#' @examples
+#'
+#' library("betareg")
+#'
+#' # Get some data
+#' beta_dat <- model_fam_fata(fam_name = "betareg")
+#'
+#' # Estimate model
+#' betamod <- betareg(betareg ~ ., data = beta_dat)
+#'
+#' # Obtain explanatory variables and set to mean
+#' set_mean(model_data(betamod))
+#' set_mean(model_data(betamod), vary_by = "binomial1")
 #' @export
 
 set_mean <- function(input, vary_by = NULL) {
