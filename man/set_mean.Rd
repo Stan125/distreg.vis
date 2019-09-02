@@ -24,7 +24,7 @@ This function purely exists for the \code{set_mean} argument of
 library("betareg")
 
 # Get some data
-beta_dat <- model_fam_fata(fam_name = "betareg")
+beta_dat <- model_fam_data(fam_name = "betareg")
 
 # Estimate model
 betamod <- betareg(betareg ~ ., data = beta_dat)
