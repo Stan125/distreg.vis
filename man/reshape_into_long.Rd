@@ -4,8 +4,14 @@
 \alias{reshape_into_long}
 \title{Internal: Reshape into Long Format}
 \usage{
-reshape_into_long(preds_intvar, pred_data, int_var, int_params, samples,
-  coltype)
+reshape_into_long(
+  preds_intvar,
+  pred_data,
+  int_var,
+  int_params,
+  samples,
+  coltype
+)
 }
 \arguments{
 \item{pred_intvar}{A data.frame with the moments as columns and the splitted

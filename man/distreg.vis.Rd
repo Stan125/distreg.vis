@@ -3,7 +3,6 @@
 \docType{package}
 \name{distreg.vis}
 \alias{distreg.vis}
-\alias{distreg.vis-package}
 \title{distreg.vis: Interactively visualizing distributional regression models}
 \description{
 The package \code{distreg.vis} is a framework for the visualization of

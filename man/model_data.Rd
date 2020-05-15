@@ -4,7 +4,7 @@
 \alias{model_data}
 \title{Model data getter}
 \usage{
-model_data(model, dep = FALSE, varname = NULL)
+model_data(model, dep = FALSE, varname = NULL, incl_dep = FALSE)
 }
 \arguments{
 \item{model}{A gamlss or bamlss object.}
@@ -13,6 +13,8 @@ model_data(model, dep = FALSE, varname = NULL)
 
 \item{varname}{Variable name in character form that should be returned. If
 this is specified, only the desired variable is returned.}
+
+\item{incl_dep}{Should the dependent variable be included?}
 }
 \value{
 A data.frame object if dep or varname is not specified, otherwise a

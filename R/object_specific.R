@@ -9,6 +9,7 @@
 #' @param dep If TRUE, then only the dependent variable is returned.
 #' @param varname Variable name in character form that should be returned. If
 #'   this is specified, only the desired variable is returned.
+#' @param incl_dep Should the dependent variable be included?
 #' @return A data.frame object if dep or varname is not specified, otherwise a
 #'   vector.
 #' @examples
@@ -23,7 +24,7 @@
 #' # Get data
 #' model_data(betamod)
 #' @export
-model_data <- function(model, dep = FALSE, varname = NULL) {
+model_data <- function(model, dep = FALSE, varname = NULL, incl_dep = FALSE) {
 
   # Check first if supported distributional regression model
   if (!distreg_checker(model))
@@ -58,9 +59,14 @@ model_data <- function(model, dep = FALSE, varname = NULL) {
       return_object <- return_object[[varname]]
 
     # If no varname but no dep then don't return with dep
-    if (!dep & is.null(varname))
-      return_object <- return_object[, !colnames(return_object) %in% dep_name]
-
+    if (!dep & is.null(varname)) {
+      if (!incl_dep) {
+        return_object <- return_object[, !colnames(return_object) %in% dep_name]
+      }
+      if (incl_dep) {
+        return_object <- return_object[, ] # return everything
+      }
+    }
   }
 
   # BAMLSS
@@ -76,8 +82,14 @@ model_data <- function(model, dep = FALSE, varname = NULL) {
       return_object <- return_object[[varname]]
 
     # If dep is true but varname not specified then return without dep
-    if (!dep & is.null(varname))
-      return_object <- return_object[, -1]
+    if (!dep & is.null(varname)) {
+      if (!incl_dep) {
+        return_object <- return_object[, -1]
+      }
+      if (incl_dep) {
+        return_object <- return_object[, ] # don't do anything if dep should be included
+      }
+    }
 
   }
 
@@ -92,8 +104,15 @@ model_data <- function(model, dep = FALSE, varname = NULL) {
     if (!dep) {
       if (!is.null(varname))
         return_object <- return_object[[varname]]
-      else if (is.null(varname))
-        return_object <- return_object[, c(-1)]
+      else if (is.null(varname)) {
+        if (!incl_dep) {
+          return_object <- return_object[, c(-1)]
+        }
+        if (incl_dep) {
+          return_object <- return_object[, ]
+        }
+
+      }
     }
   }
   return(return_object)

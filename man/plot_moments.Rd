@@ -4,9 +4,17 @@
 \alias{plot_moments}
 \title{Plot function: Display the influence of a covariate}
 \usage{
-plot_moments(model, int_var, pred_data = NULL, rug = FALSE,
-  samples = FALSE, uncertainty = FALSE, ex_fun = NULL,
-  palette = "viridis", vary_by = NULL)
+plot_moments(
+  model,
+  int_var,
+  pred_data = NULL,
+  rug = FALSE,
+  samples = FALSE,
+  uncertainty = FALSE,
+  ex_fun = NULL,
+  palette = "viridis",
+  vary_by = NULL
+)
 }
 \arguments{
 \item{model}{A fitted model on which the plots are based.}
