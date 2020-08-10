@@ -134,6 +134,6 @@ m2 <-
     data = dat,
     family = GA
   )
-preds(m1, newdata = data.frame(binomial1 = "yes", norma = 50))
-preds(m2, newdata = data.frame(binomial1 = "yes", lognorma = log(50)))
+expect_error(preds(m1, newdata = data.frame(binomial1 = "yes", norma = 50)))
+expect_error(preds(m2, newdata = data.frame(binomial1 = "yes", lognorma = log(50))))
 

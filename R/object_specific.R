@@ -28,7 +28,8 @@ model_data <- function(model, dep = FALSE, varname = NULL, incl_dep = FALSE) {
 
   # Check first if supported distributional regression model
   if (!distreg_checker(model))
-    stop("Specified model is not a supported distributional regression object. \nSee ?distreg_checker for details")
+    stop("Specified model is not a supported distributional regression object.
+See ?distreg_checker for details")
 
   if (dep & !is.null(varname))
     stop("Combination dep = TRUE and a specified varname is not possible.")
@@ -38,7 +39,7 @@ model_data <- function(model, dep = FALSE, varname = NULL, incl_dep = FALSE) {
 
     # Check all formulas for function evaluations inside model formula and stop if yes - this is due to weird behaviour of gamlss
     form_evals <- sapply(model[grepl("formula", names(model))], FUN = function(x) {
-      return(any(grepl("[factor(|log(]", as.character(x))))
+      return(any(grepl("factor\\(|log\\(", as.character(x))))
     })
     if (any(form_evals))
       stop("Please don't use any function evaluations like log() or
