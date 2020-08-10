@@ -73,8 +73,9 @@ preds <- function(model, newdata = NULL, what = "mean", vary_by = NULL) {
     # Predicted parameters - gamlss
     pred_par <-
       as.data.frame(predictAll(model, newdata = newdata,
-                               output = "matrix", type = "response"),
-                    row.names = rnames)
+                               output = "matrix", type = "response",
+                               data = model_data(model, incl_dep = TRUE)),
+                               row.names = rnames)
     pred_par <- pred_par[, !colnames(pred_par) %in% "y", drop = FALSE] # goddamn
 
   } else if (is(model, "bamlss")) {

@@ -36,6 +36,15 @@ model_data <- function(model, dep = FALSE, varname = NULL, incl_dep = FALSE) {
   # GAMLSS
   if (is(model, "gamlss")) {
 
+    # Check all formulas for function evaluations inside model formula and stop if yes - this is due to weird behaviour of gamlss
+    form_evals <- sapply(model[grepl("formula", names(model))], FUN = function(x) {
+      return(any(grepl("[factor(|log(]", as.character(x))))
+    })
+    if (any(form_evals))
+      stop("Please don't use any function evaluations like log() or
+factor() inside the model formula. It messes with lots of
+things in gamlss and distreg.vis.")
+
     # Put all together
     data_model <- model.frame(model)
 
