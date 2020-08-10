@@ -12,7 +12,7 @@ library("distreg.vis")
 library("bamlss")
 library("testthat")
 
-### -- Mult_trans --- ###
+### --- Mult_trans --- ###
 
 # Transform predictions of multinomial data
 # multinomial_p1 <- multinomial_p %>%
@@ -111,3 +111,29 @@ ba_mom_samples_1_ul <-
   moments(ba_pred_samples_1, fam_name = "gaussian", what = "upperlimit")
 ba_mom_mean_5_ul <-
   moments(ba_pred_mean_5, fam_name = "gaussian", what = "mean")
+
+## --- Test for error message when supplied with transformed variables --- ##
+dat <- model_fam_data(fam_name = "GA")
+dat$norma <- dat$norm2 - min(dat$norm2) + 0.01
+dat$lognorma <- log(dat$norma)
+m1 <-
+  gamlss(
+    GA ~ factor(binomial1) + log(norma),
+    sigma.fo =  ~ factor(binomial1),
+    nu.fo =  ~ log(norma),
+    tau.fo =  ~ factor(binomial1) + log(norma),
+    data = dat,
+    family = GA
+  )
+m2 <-
+  gamlss(
+    GA ~ factor(binomial1) + lognorma,
+    sigma.fo =  ~ factor(binomial1),
+    nu.fo =  ~ lognorma,
+    tau.fo =  ~ factor(binomial1) + lognorma,
+    data = dat,
+    family = GA
+  )
+expect_equal(preds(m1, newdata = data.frame(binomial1 = "yes", norma = 50)),
+             preds(m2, newdata = data.frame(binomial1 = "yes", lognorma = log(50))))
+

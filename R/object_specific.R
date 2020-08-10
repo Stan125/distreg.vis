@@ -44,7 +44,7 @@ model_data <- function(model, dep = FALSE, varname = NULL, incl_dep = FALSE) {
     dep_name <- as.character(model$mu.formula)[2] # this works, because in gamlss we do not have multivariate responses
     colnames(all_data)[1] <- dep_name
 
-    # Here we check wether we have splines or identical columns
+    # Here we check whether we have splines or identical columns
     all_data <- gamlss_data_cleaner(all_data)
 
     # Make data.frame out of this
