@@ -324,7 +324,7 @@ vis <- function() {
           selectInput("pal_choices", label = "Colour Palette",
                       choices = c("default", "viridis", "Accent", "Dark2",
                                   "Pastel1", "Pastel2", "Set1", "Set2",
-                                  "Paired", "Set3"))
+                                  "Paired", "Set3", "Blues"))
 
         # Rug Plot
         ui_list[[length(ui_list) + 1]] <-
@@ -353,7 +353,6 @@ vis <- function() {
                                 newdata = quote(covariate_data))
           c_predictions <- paste0("pred_data <- ", deparse(c_predictions))
           c_predictions <- tidy_c(c_predictions) # tidying
-
 
           # Third line of code
           c_plot <- call("plot_dist", model = as.name(input$model),

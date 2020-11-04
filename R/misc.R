@@ -112,7 +112,7 @@ fac_check <- function(DF) {
 #' @importFrom formatR tidy_source
 
 tidy_c <- function(x)
-  return(tidy_source(text = x, output = FALSE, width.cutoff = 45))$text.tidy
+  return(tidy_source(text = x, output = FALSE, width.cutoff = 45)$text.tidy)
 
 
 #' Obtain d&p&q functions
