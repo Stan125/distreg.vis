@@ -37,9 +37,9 @@ mean/reference values of explanatory variables. It is passed to
 \link{set_mean}. See that documentation for further details.}
 
 \item{newdata}{A data.frame object being passed onto \link{preds}. You can do
-this if you don't want to specify the argument \code{pred_data} directly.
+this if you don't want to specify the argument \code{pred_params} directly.
 If you specify \code{newdata}, then \code{preds(model, newdata = newdata)}
-is going to be executed to be used as \code{pred_data}.}
+is going to be executed to be used as \code{pred_params}.}
 }
 \value{
 A ggplot2 object.

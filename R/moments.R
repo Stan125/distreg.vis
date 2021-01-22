@@ -258,7 +258,7 @@ moments <- function(par, fam_name, what = "mean", ex_fun = NULL) {
       # Lower Limit
       if (what == "lowerlimit") {
         comp_res <- lapply(moms_raw, FUN = function(listparts) {
-          apply(listparts, 2, FUN = quantile, probs = 0.05, na.rm = TRUE)
+          apply(listparts, 2, FUN = quantile, probs = 0.025, na.rm = TRUE)
         })
         moms <- do.call("rbind", args = comp_res)
       }
@@ -266,7 +266,7 @@ moments <- function(par, fam_name, what = "mean", ex_fun = NULL) {
       # Upper Limit
       if (what == "upperlimit") {
         comp_res <- lapply(moms_raw, FUN = function(listparts) {
-          apply(listparts, 2, FUN = quantile, probs = 0.95, na.rm = TRUE)
+          apply(listparts, 2, FUN = quantile, probs = 0.975, na.rm = TRUE)
         })
         moms <- do.call("rbind", args = comp_res)
       }
