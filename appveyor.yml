@@ -26,7 +26,7 @@ environment:
     GCC_PATH: mingw_32
 
 build_script:
-  - Rscript -e install.packages('utf8',type = 'source', repos='https://cran.rstudio.com')
+  - Rscript -e "install.packages('utf8',type = 'source', repos='https://cran.rstudio.com')"
   - travis-tool.sh install_deps
   - travis-tool.sh install_r glogis
   - travis-tool.sh install_r bamlss
