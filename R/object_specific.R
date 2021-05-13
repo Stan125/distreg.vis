@@ -46,8 +46,9 @@ See ?distreg_checker for details")
 factor() inside the model formula. It messes with lots of
 things in gamlss and distreg.vis.")
 
-    # Put all together
-    data_model <- model.frame(model)
+    # This gets unique variables from all parameters
+    data_model <- lapply(model$parameters, FUN = model.frame, formula = model)
+    data_model <- do.call("cbind", args = data_model)
 
     # Put dep variable in
     all_data <- cbind(model$y, data_model)
