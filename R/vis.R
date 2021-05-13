@@ -157,7 +157,7 @@ vis <- function() {
       if (!is.null(m())) {
 
         # Create slider UI elements
-        m_indep <- expl_vars(m())
+        m_indep <- model_data(m())
         cnames <- colnames(m_indep)
         ui_list <- list()
 
@@ -182,11 +182,11 @@ vis <- function() {
                                             max = round(max(m_indep[, i]), 2),
                                             value = round(mean(m_indep[, i]), 2),
                                             sep = "")
-          } else if (any(is.factor(m_indep[, i]))) {
+          } else if (any(is.factor(m_indep[, i])) | any(is.character(m_indep[, i]))) {
             ui_list[[i + 4]] <- selectInput(inputId = paste0("var", i),
                                             label = cnames[i],
-                                            choices = levels(m_indep[, i]),
-                                            selected = levels(m_indep[, i])[1])
+                                            choices = unique(m_indep[, i]),
+                                            selected = unique(m_indep[, i])[1])
           }
         }
 
@@ -200,7 +200,7 @@ vis <- function() {
     # This function catches the current expl variables data from the model
     current_data <- reactive({
       if (!is.null(m())) {
-        indep <- expl_vars(m())
+        indep <- model_data(m())
 
         # Create empty dataframe
         dat <- indep[NULL, , drop = FALSE]
@@ -272,7 +272,7 @@ vis <- function() {
         DF$rownames <- NULL          # assign the user-specified rownames to the actual rownames
 
         # Check whether newdata is in old data's range
-        combs <- range_checker(expl_vars(m()), DF)
+        combs <- range_checker(model_data(m()), DF)
         if (!is.null(combs)) { # if not NULL then we have bad combs
           warn_message <- bad_range_warning(combs)
           showNotification(warn_message, type = "warning", duration = 10)
@@ -407,7 +407,7 @@ vis <- function() {
         # Interested Variable
         infl_sidebar[[length(infl_sidebar) + 1]] <-
           selectInput(inputId = "infl_int_var",
-                      choices = colnames(expl_vars(m())),
+                      choices = colnames(model_data(m())),
                       label = "Expl. variable for plotting influence")
 
         # Colour Palette

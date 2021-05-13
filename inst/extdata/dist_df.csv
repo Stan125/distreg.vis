@@ -70,7 +70,7 @@ SHASH;gamlss;TRUE;FALSE;no_limits;NA;NA;Continuous
 SHASHo;gamlss;TRUE;TRUE;no_limits;NA;NA;Continuous
 SHASHo2;gamlss;TRUE;FALSE;no_limits;NA;NA;Continuous
 SI;gamlss;FALSE;FALSE;one_limit;0;NA;Discrete
-SICHEL;gamlss;TRUE;TRUE;one_limit;0;NA;Discrete
+SICHEL;gamlss;TRUE;TRUE;one_limit;0;NA;Continuous
 SN1;gamlss;TRUE;TRUE;no_limits;NA;NA;Continuous
 SN2;gamlss;TRUE;TRUE;no_limits;NA;NA;Continuous
 SST;gamlss;TRUE;TRUE;no_limits;NA;NA;Continuous

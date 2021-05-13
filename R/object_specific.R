@@ -135,27 +135,6 @@ things in gamlss and distreg.vis.")
   return(return_object)
 }
 
-#' Internal: Function to obtain all explanatory variables used to fit
-#'   a model, without the dependent variables
-#' @importFrom methods is
-#' @keywords internal
-expl_vars <- function(model) {
-  all_data <- model_data(model)
-
-  # GAMLSS
-  if (is(model, "gamlss")) {
-    dep_name <- as.character(model$mu.formula)[2]
-    expl_vars <- all_data[, !colnames(all_data) %in% dep_name, drop = FALSE]
-  }
-
-  # BAMLSS
-  if (is(model, "bamlss")) {
-    dep_name <- colnames(model$y)
-    expl_vars <- all_data[, !colnames(all_data) %in% dep_name, drop = FALSE]
-  }
-  return(expl_vars)
-}
-
 #' GAMLSS expl_data cleaner
 #'
 #' This checks whether we have spline column names and/or duplicate columns
@@ -177,7 +156,7 @@ gamlss_data_cleaner <- function(temp_df) {
   colnames(new_df) <- new_cnames
 
   # Only retain unique columns
-  new_df <- new_df[, unique(new_cnames)]
+  new_df <- new_df[, !duplicated(new_cnames)]
 
   # Return it
   return(new_df)
