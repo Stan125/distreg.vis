@@ -49,7 +49,7 @@
 #' @examples
 #'
 #' # Get some artificial data
-#' gamma_data <- model_fam_data(fam_name = "gamma")
+#' gamma_data <- model_fam_data(fam_name = "gamma", nrow = 100)
 #'
 #' # Estimate model
 #' library("bamlss")
