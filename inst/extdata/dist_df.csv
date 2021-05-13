@@ -10,7 +10,7 @@ BE;gamlss;TRUE;TRUE;both_limits;0;1;Continuous
 BEINF;gamlss;TRUE;FALSE;both_limits;0;1;Mixed
 BEINF0;gamlss;TRUE;FALSE;both_limits;0;1;Mixed
 BEINF1;gamlss;TRUE;FALSE;both_limits;0;1;Mixed
-BEo;gamlss;TRUE;TRUE;both_limits;0;1;Continuous
+BEo;gamlss;FALSE;FALSE;both_limits;0;1;Continuous
 BEOI;gamlss;TRUE;FALSE;both_limits;0;1;Mixed
 BEZI;gamlss;TRUE;FALSE;both_limits;0;1;Mixed
 BI;gamlss;TRUE;FALSE;both_limits;0;1;Discrete
