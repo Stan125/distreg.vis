@@ -57,6 +57,12 @@ things in gamlss and distreg.vis.")
     # Here we check whether we have splines or identical columns
     all_data <- gamlss_data_cleaner(all_data)
 
+    # Here we replace the variables we have with ones from the OG data.frame
+    # this is really really annoying but necessary because gamlss doesn't store
+    # data well when they are included as some kind of splines.
+    og_df <- get(as.character(model$call$data), envir = environment(model$mu.terms))
+    all_data <- og_df[, colnames(all_data)]
+
     # Make data.frame out of this
     return_object <- as.data.frame(all_data)
 
