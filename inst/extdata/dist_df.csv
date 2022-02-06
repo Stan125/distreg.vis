@@ -7,7 +7,7 @@ BCPEo;gamlss;TRUE;FALSE;one_limit;0;NA;Continuous
 BCT;gamlss;TRUE;FALSE;one_limit;0;NA;Continuous
 BCTo;gamlss;TRUE;FALSE;one_limit;0;NA;Continuous
 BE;gamlss;TRUE;TRUE;both_limits;0;1;Continuous
-BEINF;gamlss;TRUE;FALSE;both_limits;0;1;Mixed
+BEINF;gamlss;TRUE;TRUE;both_limits;0;1;Mixed
 BEINF0;gamlss;TRUE;FALSE;both_limits;0;1;Mixed
 BEINF1;gamlss;TRUE;FALSE;both_limits;0;1;Mixed
 BEo;gamlss;FALSE;FALSE;both_limits;0;1;Continuous
