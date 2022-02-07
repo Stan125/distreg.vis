@@ -75,7 +75,7 @@ expect_false("ordered" %in% unlist(sapply(DF, class)))
 
 ## --- Test for correct calculation of preds() function --- ##
 
-fam_name <- "GA"
+fam_name <<- "GA"
 
 # Data
 art_data <- model_fam_data(fam_name = fam_name)
