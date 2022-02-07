@@ -12,6 +12,7 @@ testthat::skip_on_cran()
 library("distreg.vis")
 library("bamlss")
 library("gamlss")
+library("gamlss.dist")
 library("testthat")
 library("ggplot2")
 library("gridExtra")
@@ -25,6 +26,9 @@ testthat::context("Test all dists")
 
 ##### Complete function #####
 test_core <- function(fam_name) {
+
+  ## Global environment, due to GAMLSS
+  fam_name <<- fam_name
 
   ## Cat
   cat(paste0("Distribution Name: ", fam_name, "\n"))
@@ -53,7 +57,7 @@ test_core <- function(fam_name) {
   if (distreg.vis:::is.gamlss(fam_name)) {
     form <- as.formula(paste0(fam_name, "~ norm2 + binomial1"))
     model <- gamlss(form, sigma.formula = ~ .,
-                    data = art_data, family = fam_name, trace = FALSE)
+                    data = art_data, family = eval(fam_name), trace = FALSE)
   }
 
   if (distreg.vis:::is.betareg(fam_name)) {
@@ -175,7 +179,7 @@ test_core <- function(fam_name) {
 ## Now test the function with all implemented distributions
 families <- dists[dists$implemented, "dist_name"]
 for (fam in families)
-  test_core(fam)
+  test_core(fam_name = fam)
 
 ## Delete empty Rplots.pdf file if exists
 if (file.exists("Rplots.pdf"))
