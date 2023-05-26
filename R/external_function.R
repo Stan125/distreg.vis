@@ -8,7 +8,7 @@
 ex_f <- function(pred_params, unquotedfun) {
 
   # Stop if not function
-  if (class(unquotedfun) != "function")
+  if (is(unquotedfun, "function"))
     stop("Argument 'ex-fun' has to be a function!")
 
   # Try out whether function works
