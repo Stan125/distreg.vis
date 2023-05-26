@@ -103,6 +103,14 @@ plot_moments <- function(model, int_var, pred_data = NULL,
   if (!has.moments(fam_obtainer(model)))
     stop("The modeled distribution does not have implemented moment functions.")
 
+  # Convert NULL to FALSE
+  if (is.null(rug))
+    rug <- FALSE
+  if (is.null(uncertainty))
+    uncertainty <- FALSE
+  if (is.null(samples))
+    samples <- FALSE
+
   # Get model data
   m_data <- model_data(model)
 

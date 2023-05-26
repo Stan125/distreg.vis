@@ -422,7 +422,7 @@ vis <- function() {
           checkboxInput("infl_rug", label = "Rug Plot?", value = FALSE)
 
         # If we analyze a bamlss model there is the ability to compute estimate based on samples
-        if (is.bamlss(fam())) {
+        if (is(m(), "bamlss")) {
           # Samples
           infl_sidebar[[length(infl_sidebar) + 1]] <-
             checkboxInput("infl_samples",
@@ -500,10 +500,12 @@ vis <- function() {
         infl_c_plot[["ex_fun"]] <- input$infl_exfun
       if (input$infl_rug)
         infl_c_plot[["rug"]] <- TRUE
-      if (input$infl_samples)
-        infl_c_plot[["samples"]] <- TRUE
-      if (input$infl_samples && input$infl_uncertainty) # only when both are true we should have samples
-        infl_c_plot[["uncertainty"]] <- TRUE
+      if (!is.null(input$infl_samples))
+        if (input$infl_samples)
+          infl_c_plot[["samples"]] <- TRUE
+      if (!is.null(input$samples) & !is.null(input$uncertainty))
+        if (input$infl_samples && input$infl_uncertainty) # only when both are true we should have samples
+          infl_c_plot[["uncertainty"]] <- TRUE
       infl_c_plot <- deparse(infl_c_plot, width.cutoff = 100) # Make call into character
       infl_c_plot <- tidy_c(infl_c_plot)
 
