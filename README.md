@@ -5,6 +5,8 @@
 [![CRAN
 Version](https://www.r-pkg.org/badges/version/distreg.vis)](https://cran.r-project.org/package=distreg.vis)
 [![](https://cranlogs.r-pkg.org/badges/distreg.vis)](https://cran.r-project.org/package=distreg.vis)
+![R CMD
+CHECK](https://github.com/Stan125/distreg.vis/actions/workflows/check-standard.yaml/badge.svg)
 
 ### What is `distreg.vis`?
 
