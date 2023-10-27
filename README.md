@@ -1,15 +1,10 @@
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-distreg.vis
-===========
+# distreg.vis
 
 [![CRAN
 Version](https://www.r-pkg.org/badges/version/distreg.vis)](https://cran.r-project.org/package=distreg.vis)
 [![](https://cranlogs.r-pkg.org/badges/distreg.vis)](https://cran.r-project.org/package=distreg.vis)
-[![Build
-Status](https://api.travis-ci.org/Stan125/distreg.vis.svg?branch=master)](https://travis-ci.org/Stan125/distreg.vis)
-[![AppVeyor Build
-Status](https://ci.appveyor.com/api/projects/status/github/Stan125/distreg.vis?branch=master&svg=true)](https://ci.appveyor.com/project/Stan125/distreg.vis)
 
 ### What is `distreg.vis`?
 
@@ -56,7 +51,7 @@ dists_char <- dists %>%
 
 # GAMLSS Families
 dists_char[dists_char$class == "gamlss", "dist_name"]
-#>  [1] "BE"       "BEo"      "BNB"      "DEL"      "EGB2"     "exGAUS"  
+#>  [1] "BE"       "BEINF"    "BNB"      "DEL"      "EGB2"     "exGAUS"  
 #>  [7] "EXP"      "GA"       "GB2"      "GEOM"     "GEOMo"    "GG"      
 #> [13] "GIG"      "GPO"      "GT"       "GU"       "IG"       "IGAMMA"  
 #> [19] "JSU"      "JSUo"     "LG"       "LO"       "LOGNO"    "NBF"     
