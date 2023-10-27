@@ -1,9 +1,8 @@
 ^.*\.Rproj$
 ^\.Rproj\.user$
 ^images$
-^\.travis\.yml$
 ^\.httr-oauth$
 ^data-raw$
 ^README\.Rmd$
 ^README\.md$
-^appveyor\.yml$
+^.github$
