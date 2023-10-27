@@ -14,7 +14,7 @@ reshape_into_long(
 )
 }
 \arguments{
-\item{pred_intvar}{A data.frame with the moments as columns and the splitted
+\item{preds_intvar}{A data.frame with the moments as columns and the splitted
 \code{int_var} as rows (default 100 values from min to max). There are
 three ways which this data.frame can look like. First, as the mean of the
 moments. secondly, as the upper and thirdly as the lower quantiles of the

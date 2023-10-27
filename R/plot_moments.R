@@ -345,7 +345,7 @@ plot_multinom_exp <- function(model, int_var, pred_data, m_data, palette, coltyp
 
 #' Internal: Reshape into Long Format
 #'
-#' @param pred_intvar A data.frame with the moments as columns and the splitted
+#' @param preds_intvar A data.frame with the moments as columns and the splitted
 #'   \code{int_var} as rows (default 100 values from min to max). There are
 #'   three ways which this data.frame can look like. First, as the mean of the
 #'   moments. secondly, as the upper and thirdly as the lower quantiles of the
